@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  abcsxl:
+    image: ${DOCKER_REGISTRY-}abcsxl
+    build:
+      context: .
+      dockerfile: src/Web/abcsxl/Dockerfile
