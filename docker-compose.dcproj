@@ -4,10 +4,10 @@
     <ProjectVersion>2.1</ProjectVersion>
     <DockerTargetOS>Linux</DockerTargetOS>
     <DockerPublishLocally>False</DockerPublishLocally>
-    <ProjectGuid>9f90ea1f-f241-446f-99b2-5b0a0d53ba86</ProjectGuid>
-  </PropertyGroup>
-  <PropertyGroup>
+    <ProjectGuid>90ec6856-4d6d-4918-ac38-d7e172387da1</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
+    <DockerServiceUrl>{Scheme}://localhost:{ServicePort}</DockerServiceUrl>
+    <DockerServiceName>abcsxl</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>
     <None Include="docker-compose.override.yml">
