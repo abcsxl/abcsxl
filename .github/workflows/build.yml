@@ -27,6 +27,6 @@ jobs:
         ls -la
         dotnet restore abcsxl.sln
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build abcsxl.sln --no-restore
     - name: Test
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet test abcsxl.sln --no-build --verbosity normal
