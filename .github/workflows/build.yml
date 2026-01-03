@@ -22,10 +22,7 @@ jobs:
       with:
         dotnet-version: 8.0.x
     - name: Restore dependencies
-      run: |
-        pwd
-        ls -la
-        dotnet restore abcsxl.sln
+      run: dotnet restore abcsxl.sln
     - name: Build
       run: dotnet build abcsxl.sln --no-restore
     - name: Test
