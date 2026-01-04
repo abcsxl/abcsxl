@@ -5,9 +5,14 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: checkout
+        uses: actions/checkout@v4
+      - name: pwd && tree
+        run: |          
+          tree
+          pwd
       - name: Build image
-        run: docker build -t ghcr.io/${{ github.repository_owner }}/abcsxl:test .
+        run: docker build -t ghcr.io/${{ github.repository_owner }}/abcsxl:test ./src/Web/abcsxl
       - name: Login to GHCR
         uses: docker/login-action@v3
         with:
