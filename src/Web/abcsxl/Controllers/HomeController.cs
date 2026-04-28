@@ -34,7 +34,7 @@ public class HomeController : Controller
             {
                 Id = p.Id,
                 Title = p.Title,
-                Excerpt = p.GetExcerpt(200),
+                Excerpt = p.GetExcerpt(100),
                 Author = p.Author.Username,
                 PublishedAt = DateTimeHelper.ToChinaStandardTime(p.PublishedAt ?? p.CreatedAt)
             })
