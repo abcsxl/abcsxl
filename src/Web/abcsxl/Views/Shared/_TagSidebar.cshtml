@@ -1,0 +1,27 @@
+﻿@model TagSidebarViewModel
+
+<!-- 热门标签 -->
+<div class="sidebar-widget mt-4">
+    <h4 class="sidebar-heading">
+        <i class="fas fa-tags mr-2"></i>热门标签
+    </h4>
+    @if (Model != null && Model.Tags != null && Model.Tags.Any())
+    {
+        <div class="post-tags">
+            @foreach (var item in Model.Tags)
+            {
+                <a class="badge"
+                   asp-area=""
+                   asp-controller="Post"
+                   asp-action="Index"
+                   asp-route-tag="@item.Name">
+                    @Html.DisplayFor(modelItem => item.Name)
+                </a>
+            }
+        </div>
+    }
+    else
+    {
+        <p class="text-muted">暂无标签</p>
+    }
+</div>

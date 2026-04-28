@@ -1,18 +1,21 @@
-/*html {
-  font-size: 14px;
-}
-
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-html {
-  position: relative;
-  min-height: 100%;
-}
-
-body {
-  margin-bottom: 60px;
+/*:root {
+    --bs-body-font-family: "Source Han Serif SC", "Source Han Serif CN", "Source Han Serif", "Noto Serif CJK SC", "Noto Serif CJK", "Songti SC", "STSong", "SimSun", serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --bs-headings-font-family: "Source Han Sans SC", "Source Han Sans CN", "Source Han Sans", "Noto Sans CJK SC", "Noto Sans CJK", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", "STHeiti", "SimHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }*/
+
+/* Clean Blog 页脚链接颜色修复 */
+footer a {
+    color: var(--bs-dark) !important;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+footer a:hover {
+    color: var(--bs-primary) !important;
+    text-decoration: underline;
+}
+
+/* 可选：特别调整社交图标的悬停效果 */
+footer .list-line a:hover {
+    text-decoration: none; /* 社交图标可能不需要下划线 */
+}

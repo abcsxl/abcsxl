@@ -1,0 +1,115 @@
+﻿@model abcsxl.Areas.Admin.Models.ViewModels.Dashboard.IndexPageViewModel
+
+@{
+    ViewData["Title"] = "仪表盘";
+}
+
+<div class="container mt-4">
+    <h2>📊 仪表盘</h2>
+    <p class="text-muted">欢迎回来，这里是你的博客管理概览。</p>
+
+    <!-- 统计卡片 -->
+    <div class="row mb-4">
+        <div class="col-md-2">
+            <div class="card text-center bg-primary text-white">
+                <div class="card-body">
+                    <h5>@Model.TotalPosts</h5>
+                    <small>总文章</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="card text-center bg-success text-white">
+                <div class="card-body">
+                    <h5>@Model.PublishedPosts</h5>
+                    <small>已发布</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="card text-center bg-info text-white">
+                <div class="card-body">
+                    <h5>@Model.TotalCategories</h5>
+                    <small>分类</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="card text-center bg-warning text-white">
+                <div class="card-body">
+                    <h5>@Model.TotalTags</h5>
+                    <small>标签</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="card text-center bg-secondary text-white">
+                <div class="card-body">
+                    <h5>@Model.TotalUsers</h5>
+                    <small>用户</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="card text-center bg-danger text-white">
+                <div class="card-body">
+                    <h5>@Model.TotalComments</h5>
+                    <small>评论</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 最新文章 -->
+    <div class="card">
+        <div class="card-header">
+            <h5>📝 最新文章</h5>
+        </div>
+        <div class="card-body">
+            @if (Model.RecentPosts.Any())
+            {
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>标题</th>
+                            <th>作者</th>
+                            <th>发布时间</th>
+                            <th>状态</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var post in Model.RecentPosts)
+                        {
+                            <tr>
+                                <td>@post.Title</td>
+                                <td>@post.AuthorName</td>
+                                <td>
+                                    @(post.PublishedAt?.ToString("yyyy-MM-dd") ?? "未发布")
+                                </td>
+                                <td>
+                                    @if (post.IsPublished)
+                                    {
+                                        <span class="badge bg-success">已发布</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-secondary">草稿</span>
+                                    }
+                                </td>
+                                <td>
+                                    <a asp-area="Admin" asp-controller="Post" asp-action="Edit" asp-route-id="@post.Id" class="btn btn-sm btn-outline-primary">编辑</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <p class="text-muted">暂无文章。</p>
+            }
+            <a asp-area="Admin" asp-controller="Post" asp-action="Create" class="btn btn-primary">+ 新建文章</a>
+        </div>
+    </div>
+</div>

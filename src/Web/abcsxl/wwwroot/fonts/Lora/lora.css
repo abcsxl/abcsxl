@@ -1,0 +1,33 @@
+﻿/* wwwroot/fonts/lora.css */
+
+/* 400 normal */
+@font-face {
+    font-family: 'Lora';
+    font-style: normal;
+    font-weight: 400;
+    src: url('./Lora-Regular.woff2') format('woff2'), url('./Lora-Regular.woff') format('woff');
+}
+
+/* 400 italic */
+@font-face {
+    font-family: 'Lora';
+    font-style: italic;
+    font-weight: 400;
+    src: url('./Lora-Italic.woff2') format('woff2'), url('./Lora-Italic.woff') format('woff');
+}
+
+/* 700 normal */
+@font-face {
+    font-family: 'Lora';
+    font-style: normal;
+    font-weight: 700;
+    src: url('./Lora-Bold.woff2') format('woff2'), url('./Lora-Bold.woff') format('woff');
+}
+
+/* 700 italic */
+@font-face {
+    font-family: 'Lora';
+    font-style: italic;
+    font-weight: 700;
+    src: url('./Lora-BoldItalic.woff2') format('woff2'), url('./Lora-BoldItalic.woff') format('woff');
+}

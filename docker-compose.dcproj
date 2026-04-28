@@ -3,8 +3,7 @@
   <PropertyGroup Label="Globals">
     <ProjectVersion>2.1</ProjectVersion>
     <DockerTargetOS>Linux</DockerTargetOS>
-    <DockerPublishLocally>False</DockerPublishLocally>
-    <ProjectGuid>90ec6856-4d6d-4918-ac38-d7e172387da1</ProjectGuid>
+    <ProjectGuid>81dded9d-158b-e303-5f62-77a2896d2a5a</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
     <DockerServiceUrl>{Scheme}://localhost:{ServicePort}</DockerServiceUrl>
     <DockerServiceName>abcsxl</DockerServiceName>

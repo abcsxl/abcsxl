@@ -1,0 +1,105 @@
+﻿@{
+    ViewData["Title"] = "Search Results";
+}
+
+@section Styles
+{
+    <link rel="stylesheet" href="~/css/page-specific-results.css" />
+}
+
+<!-- Page Header-->
+<header class="masthead" style="background-image: url('../images/results-bg.webp')">
+    <div class="container position-relative px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-9 col-xl-8">
+                <div class="site-heading">
+                    <h1>@ViewData["Title"]</h1>
+                    <span class="subheading">
+                        @*To undertake the endeavors of life with the awareness of its impermanence,
+                        To live an optimistic life with a contemplative acceptance of its sorrows. *@
+                        以无生之觉悟为有生之事业，以悲观之心情过乐观之生活。
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Main Content-->
+<div class="container px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+        <div class="col-md-10 col-lg-9 col-xl-8">
+
+            <!-- 搜索区域 -->
+            <section class="search-section">
+                <div class="container">
+                    <div class="search-box-container">
+                        <input type="text" class="search-box" placeholder="输入搜索关键词..." value="viewmodel">
+                        <button class="search-button">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </section>
+            <!-- 结果统计和标签 -->
+            <div class="results-header">
+                <div class="results-count">共找到 1,795 条关于 "viewmodel" 的结果</div>
+                <div class="results-tabs" id="resultsTabs">
+                    <div class="tab active" data-tab="all">全部</div>
+                    <div class="tab" data-tab="post">文章</div>
+                    <div class="tab" data-tab="category">分类</div>
+                    <div class="tab" data-tab="tag">标签</div>
+                </div>
+            </div>
+
+            <!-- 搜索结果列表 -->
+            <div class="results-container" id="resultsContainer">
+                <!-- 结果项 1 -->
+                <div class="result-item">
+                    <span class="result-category">文章</span>
+                    <a href="#" class="result-title">模型-视图-ViewModel - .NET</a>
+                    <p class="result-description">模型-视图-ViewModel (MVVM) 提示：此内容摘自电子书《使用 .NET MAUI 的企业应用程序模式》，可在 .NET Docs 上获取，也可以免费下载 PDF 离线阅读。MVVM 模式在 MVVM 模式中有三个核心组件：模型、视图和视图模型。在高级别上，视图"知道"视图模型，视图模型"知道"模型，但模型不知道视图模型，视图模型不知道视图。</p>
+                </div>
+
+                <!-- 结果项 2 -->
+                <div class="result-item">
+                    <span class="result-category">文章</span>
+                    <a href="#" class="result-title">ASP.NET Core MVC 中的视图</a>
+                    <p class="result-description">在 ASP.NET Core MVC 中，视图负责呈现用户界面 (UI)。它们通常使用 Razor 语法将 HTML 标记与 C# 代码混合。视图是 .cshtml 文件，它们使用模型来生成动态内容。本主题介绍视图的工作原理以及如何在 MVC 应用程序中创建和使用它们。</p>
+                </div>
+
+                <!-- 结果项 3 -->
+                <div class="result-item">
+                    <span class="result-category">分类</span>
+                    <a href="#" class="result-title">MVVM 模式</a>
+                </div>
+
+                <!-- 结果项 4 -->
+                <div class="result-item">
+                    <span class="result-category">标签</span>
+                    <a href="#" class="result-title">ViewModel</a>
+                </div>
+
+                <!-- 结果项 5 -->
+                <div class="result-item">
+                    <span class="result-category">标签</span>
+                    <a href="#" class="result-title">ViewModel</a>
+                </div>
+            </div>
+
+            <!-- 分页 -->
+            <div class="pagination" id="pagination">
+                <a href="#" class="prev"><i class="fas fa-chevron-left"></i></a>
+                <a href="#" class="active">1</a>
+                <a href="#">2</a>
+                <a href="#">3</a>
+                <a href="#">4</a>
+                <a href="#">5</a>
+                <span class="pagination-ellipsis">...</span>
+                <a href="#">10</a>
+                <a href="#" class="next"><i class="fas fa-chevron-right"></i></a>
+            </div>
+
+        </div>
+    </div>
+</div>

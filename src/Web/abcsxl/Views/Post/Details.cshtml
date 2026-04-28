@@ -1,0 +1,152 @@
+﻿@model abcsxl.Models.ViewModels.Post.DetailPageViewModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+@section Styles
+{
+    <link rel="stylesheet" href="https://unpkg.com/vditor@3.11.2/dist/index.css"
+          asp-fallback-href="~/lib/vditor/index.min.css"
+          asp-fallback-test-class="vditor"
+          asp-fallback-test-property="position"
+          asp-fallback-test-value="relative" />
+    <link rel="stylesheet" href="~/css/page-specific-post.css" />
+}
+
+<header class="masthead" style="background-image: url('../images/post-bg.webp')">
+    <div class="container position-relative px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-9 col-xl-8">
+                <div class="post-heading">
+                    <h1>@Model.Post.Title</h1>
+                    <h2 class="subheading">@Model.Post.Excerpt</h2>
+                    <span class="meta">
+                        Posted by
+                        <a href="#!">@Model.Post.Author.Name</a>
+                        on 
+                        @Model.Post.PublishedAt
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content-->
+<article class="mb-4">
+    <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-9 col-xl-8">
+                <div id="vditor-content" class="vditor-clean-blog"></div>
+            </div>
+        </div>
+    </div>
+</article>
+@section Scripts
+{
+    <script src="https://unpkg.com/vditor@3.11.2/dist/index.min.js"
+            asp-fallback-src="~/lib/vditor/index.min.js"
+            asp-fallback-test="window.Vditor"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 使用 data 属性避免转义问题
+            const contentElement = document.getElementById('vditor-content');
+            const markdownContent = `@Html.Raw(Json.Serialize(Model.Post.Content))`;
+            
+            // 配置 Vditor 预览
+            Vditor.preview(contentElement, markdownContent, {
+                mode: 'light',
+                anchor: 1, // 显示标题锚点
+                
+                // 代码高亮配置
+                hljs: {
+                    enable: true,
+                    lineNumber: true,
+                    style: 'github' // 使用 GitHub 风格，与 Clean Blog 更配
+                },
+                
+                // Markdown 扩展
+                markdown: {
+                    // 图表支持
+                    mermaid: true,
+                    chart: true,
+                    plantuml: {
+                        enable: true,
+                        server: 'https://www.plantuml.com/plantuml/svg/'
+                    },
+                    flowchart: true,
+                    sequence: true,
+                    mindmap: true,
+                    
+                    // 启用脚注
+                    footnote: true,
+                    
+                    // 启用目录
+                    toc: true
+                },
+                
+                // 数学公式
+                math: {
+                    engine: 'KaTeX',
+                    inlineDigit: true
+                },
+                
+                // 渲染完成后添加 Clean Blog 的特殊样式
+                after: function() {
+                    console.log('Vditor 内容已渲染');
+                    
+                    // 为图片添加 Clean Blog 的 caption 样式
+                    contentElement.querySelectorAll('img').forEach(img => {
+                        const nextSibling = img.nextElementSibling;
+                        if (nextSibling && nextSibling.tagName === 'EM') {
+                            nextSibling.className = 'caption text-muted';
+                        }
+                    });
+                    
+                    // 为所有链接添加 target="_blank"
+                    contentElement.querySelectorAll('a').forEach(link => {
+                        if (link.href && !link.href.startsWith('#')) {
+                            link.target = '_blank';
+                            link.rel = 'noopener noreferrer';
+                        }
+                    });
+                    
+                    // 为代码块添加语言标识
+                    contentElement.querySelectorAll('pre code').forEach(codeBlock => {
+                        const language = codeBlock.className.match(/language-(\w+)/);
+                        if (language) {
+                            const langSpan = document.createElement('span');
+                            langSpan.className = 'code-language';
+                            langSpan.textContent = language[1];
+                            langSpan.style.cssText = `
+                                position: absolute;
+                                top: 0;
+                                right: 0;
+                                background: #e9ecef;
+                                padding: 2px 8px;
+                                font-size: 0.75rem;
+                                color: #6c757d;
+                                border-bottom-left-radius: 4px;
+                            `;
+                            codeBlock.parentNode.style.position = 'relative';
+                            codeBlock.parentNode.appendChild(langSpan);
+                        }
+                    });
+                }
+            });
+        });
+        
+        // JavaScript 字符串编码辅助函数
+        function JavaScriptStringEncode(str) {
+            if (!str) return '';
+            return str
+                .replace(/\\/g, '\\\\')
+                .replace(/`/g, '\\`')
+                .replace(/\$/g, '\\$')
+                .replace(/\n/g, '\\n')
+                .replace(/\r/g, '\\r');
+        }
+    </script>
+}

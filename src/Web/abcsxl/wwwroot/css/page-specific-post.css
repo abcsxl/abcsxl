@@ -1,0 +1,220 @@
+﻿/* 重置 Vditor 样式以适配 Clean Blog */
+.vditor-clean-blog {
+    font-family: 'Lora', 'Times New Roman', serif;
+    font-size: 1.25rem;
+    line-height: 1.8;
+    color: #212529;
+}
+
+    /* 标题样式 - 匹配 Clean Blog */
+    .vditor-clean-blog h1 {
+        font-size: 2.5rem;
+        margin-top: 2.5rem;
+        margin-bottom: 1rem;
+        font-weight: 800;
+        line-height: 1.2;
+        font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    }
+
+    .vditor-clean-blog h2 {
+        font-size: 2rem;
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+        font-weight: 700;
+        line-height: 1.3;
+        font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        color: #212529;
+    }
+
+    .vditor-clean-blog h3 {
+        font-size: 1.75rem;
+        margin-top: 1.75rem;
+        margin-bottom: 1rem;
+        font-weight: 600;
+        font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    }
+
+    /* 段落样式 */
+    .vditor-clean-blog p {
+        margin-bottom: 1.5rem;
+    }
+
+    /* 引用块样式 - 匹配 Clean Blog 的 blockquote */
+    .vditor-clean-blog blockquote {
+        font-style: italic;
+        color: #6c757d;
+        border-left: 4px solid #dee2e6;
+        padding-left: 1.5rem;
+        margin: 2rem 0;
+        font-size: 1.5rem;
+        line-height: 1.6;
+    }
+
+    /* 代码块样式 */
+    .vditor-clean-blog pre {
+        background-color: #f8f9fa;
+        border: 1px solid #e9ecef;
+        border-radius: 0.375rem;
+        padding: 1.25rem;
+        margin: 1.5rem 0;
+        overflow: auto;
+        font-family: 'SFMono-Regular', Menlo, Monaco, Consolas, monospace;
+        font-size: 0.875em;
+    }
+
+    .vditor-clean-blog code {
+        font-family: 'SFMono-Regular', Menlo, Monaco, Consolas, monospace;
+        font-size: 0.875em;
+        color: #e83e8c;
+        background-color: #f8f9fa;
+        padding: 0.2em 0.4em;
+        border-radius: 0.25rem;
+    }
+
+    /* 链接样式 */
+    .vditor-clean-blog a {
+        color: #0085A1;
+        text-decoration: none;
+    }
+
+        .vditor-clean-blog a:hover {
+            color: #0056b3;
+            text-decoration: underline;
+        }
+
+    /* 列表样式 */
+    .vditor-clean-blog ul,
+    .vditor-clean-blog ol {
+        margin-bottom: 1.5rem;
+        padding-left: 2rem;
+    }
+
+    .vditor-clean-blog li {
+        margin-bottom: 0.5rem;
+    }
+
+    /* 表格样式 */
+    .vditor-clean-blog table {
+        width: 100%;
+        margin-bottom: 1.5rem;
+        border-collapse: collapse;
+    }
+
+        .vditor-clean-blog table th,
+        .vditor-clean-blog table td {
+            padding: 0.75rem;
+            border: 1px solid #dee2e6;
+        }
+
+        .vditor-clean-blog table th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+        }
+
+    /* 图片样式 - 匹配 Clean Blog */
+    .vditor-clean-blog img {
+        max-width: 100%;
+        height: auto;
+        margin: 2rem 0;
+        border-radius: 0.375rem;
+    }
+
+    .vditor-clean-blog .img-fluid {
+        max-width: 100%;
+        height: auto;
+    }
+
+    /* 图片说明文字 */
+    .vditor-clean-blog .caption {
+        display: block;
+        margin-top: 0.5rem;
+        color: #6c757d;
+        font-style: italic;
+        text-align: center;
+        font-size: 0.875rem;
+    }
+
+    /* 水平线 */
+    .vditor-clean-blog hr {
+        margin: 2rem 0;
+        border: 0;
+        border-top: 1px solid rgba(0,0,0,0.1);
+    }
+
+    /* 图表容器样式 */
+    .vditor-clean-blog .language-mermaid,
+    .vditor-clean-blog .language-plantuml,
+    .vditor-clean-blog .mermaid,
+    .vditor-clean-blog .plantuml {
+        text-align: center;
+        background: #f8f9fa;
+        padding: 1.5rem;
+        margin: 2rem 0;
+        border-radius: 0.375rem;
+        border: 1px solid #e9ecef;
+        overflow-x: auto;
+    }
+
+    /* 数学公式 */
+    .vditor-clean-blog .katex {
+        font-size: 1.1em;
+    }
+
+    /* 行内代码特殊处理 */
+    .vditor-clean-blog p code,
+    .vditor-clean-blog li code {
+        background-color: rgba(27,31,35,0.05);
+        border-radius: 3px;
+        padding: 0.2em 0.4em;
+        font-size: 85%;
+    }
+
+/* 适配移动端 */
+@media (max-width: 768px) {
+    .vditor-clean-blog {
+        font-size: 1.1rem;
+        line-height: 1.7;
+    }
+
+        .vditor-clean-blog h1 {
+            font-size: 2rem;
+        }
+
+        .vditor-clean-blog h2 {
+            font-size: 1.75rem;
+        }
+
+        .vditor-clean-blog h3 {
+            font-size: 1.5rem;
+        }
+
+        .vditor-clean-blog blockquote {
+            font-size: 1.25rem;
+            padding-left: 1rem;
+        }
+
+        /* 图表在移动端需要水平滚动 */
+        .vditor-clean-blog .language-mermaid,
+        .vditor-clean-blog .language-plantuml {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+}
+
+/* 打印样式 */
+@media print {
+    .vditor-clean-blog {
+        font-size: 12pt;
+        line-height: 1.6;
+    }
+
+        .vditor-clean-blog a {
+            color: #000;
+            text-decoration: underline;
+        }
+
+        .vditor-clean-blog pre {
+            background-color: #fff;
+            border: 1px solid #ddd;
+        }
+}
