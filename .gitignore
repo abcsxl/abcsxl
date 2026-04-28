@@ -366,3 +366,7 @@ src/Web/abcsxl/Data/sqlite.db-wal
 /src/Web/abcsxl/Data/sqlite.db
 /src/Web/abcsxl/Data/sqlite.db-shm
 /src/Web/abcsxl/Data/sqlite.db-wal
+/src/Web/abcsxl/Data/sqlite.db-shm
+/src/Web/abcsxl/Data/sqlite.db-wal
+/src/Web/abcsxl/Data/sqlite.db-wal
+/src/Web/abcsxl/Data/sqlite.db-shm
