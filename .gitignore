@@ -361,3 +361,8 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+src/Web/abcsxl/Data/sqlite.db-shm
+src/Web/abcsxl/Data/sqlite.db-wal
+/src/Web/abcsxl/Data/sqlite.db
+/src/Web/abcsxl/Data/sqlite.db-shm
+/src/Web/abcsxl/Data/sqlite.db-wal
