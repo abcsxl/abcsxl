@@ -2,6 +2,7 @@ using abcsxl.Data;
 using abcsxl.Extensions;
 using abcsxl.Helpers;
 using abcsxl.Models.Enums;
+using abcsxl.Models.Entities;
 using abcsxl.Models.ViewModels;
 using abcsxl.Models.ViewModels.Home;
 using Microsoft.AspNetCore.Mvc;
@@ -25,8 +26,8 @@ public class HomeController : Controller
 
     public IActionResult Index(int count = 4)
     {
-        // 获取最新count篇已发布文章
         var posts = _context.Posts
+            .Include(p => p.Author)
             .Where(p => p.Status == PostStatus.Published)
             .OrderByDescending(p => p.PublishedAt ?? p.CreatedAt)
             .Take(count)
@@ -49,9 +50,77 @@ public class HomeController : Controller
         return View(model);
     }
 
-    public IActionResult Results()
+    public IActionResult Results(string? q, string tab = "all")
     {
-        return View();
+        if (string.IsNullOrWhiteSpace(q))
+        {
+            return View(new SearchResultViewModel { ActiveTab = tab });
+        }
+
+        q = q.Trim();
+        var model = new SearchResultViewModel { Query = q, ActiveTab = tab };
+
+        if (tab == "all" || tab == "post")
+        {
+            var posts = _context.Posts
+                .Include(p => p.Author)
+                .Where(p => p.Status == PostStatus.Published)
+                .Where(p => p.Title.Contains(q) || p.Content.Contains(q) || (p.Excerpt != null && p.Excerpt.Contains(q)))
+                .OrderByDescending(p => p.PublishedAt ?? p.CreatedAt)
+                .Take(20)
+                .Select(p => new PostResultItem
+                {
+                    Id = p.Id,
+                    Title = p.Title,
+                    Excerpt = p.GetExcerpt(150),
+                    Author = p.Author.Username,
+                    PublishedAt = DateTimeHelper.ToChinaStandardTime(p.PublishedAt ?? p.CreatedAt),
+                    Url = Url.Action("Detail", "Post", new { id = p.Slug })
+                })
+                .ToList();
+            model.Posts = posts;
+            model.TotalCount = posts.Count;
+        }
+
+        if (tab == "all" || tab == "category")
+        {
+            var categories = _context.Categories
+                .Where(c => c.Name.Contains(q) || (c.Description != null && c.Description.Contains(q)))
+                .OrderByDescending(c => c.Name)
+                .Take(10)
+                .Select(c => new CategoryResultItem
+                {
+                    Id = c.Id,
+                    Name = c.Name,
+                    Slug = c.Slug,
+                    PostCount = c.Posts.Count,
+                    Url = Url.Action("Detail", "Category", new { slug = c.Slug })
+                })
+                .ToList();
+            model.Categories = categories;
+            model.TotalCount += categories.Count;
+        }
+
+        if (tab == "all" || tab == "tag")
+        {
+            var tags = _context.Tags
+                .Where(t => t.Name.Contains(q))
+                .OrderByDescending(t => t.Name)
+                .Take(10)
+                .Select(t => new TagResultItem
+                {
+                    Id = t.Id,
+                    Name = t.Name,
+                    Slug = t.Slug,
+                    PostCount = t.Posts.Count,
+                    Url = Url.Action("Detail", "Tag", new { slug = t.Slug })
+                })
+                .ToList();
+            model.Tags = tags;
+            model.TotalCount += tags.Count;
+        }
+
+        return View(model);
     }
 
     public IActionResult About()

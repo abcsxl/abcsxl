@@ -1,4 +1,4 @@
-﻿/* 侧边栏 */
+/* 侧边栏 */
 .sidebar-widget {
     margin-top: 3rem;
     padding: 2rem;
@@ -88,13 +88,16 @@
     margin-bottom: 0.5rem;
     font-size: 0.875rem;
     text-decoration: none;
+    transition: all 0.3s ease;
 }
 
-    .post-tags .badge:hover {
-        background: #e9ecef;
-        color: var(--bs-dark);
-        text-decoration: none;
-    }
+.post-tags .badge:hover {
+    background: var(--bs-primary);
+    color: white;
+    text-decoration: none;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
 
 /* 响应式调整 */
 @media (max-width: 992px) {

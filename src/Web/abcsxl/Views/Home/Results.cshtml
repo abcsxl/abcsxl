@@ -1,5 +1,6 @@
-﻿@{
-    ViewData["Title"] = "Search Results";
+@model abcsxl.Models.ViewModels.Home.SearchResultViewModel
+@{
+    ViewData["Title"] = !string.IsNullOrEmpty(Model.Query) ? $"搜索结果 - {Model.Query}" : "搜索";
 }
 
 @section Styles
@@ -15,8 +16,6 @@
                 <div class="site-heading">
                     <h1>@ViewData["Title"]</h1>
                     <span class="subheading">
-                        @*To undertake the endeavors of life with the awareness of its impermanence,
-                        To live an optimistic life with a contemplative acceptance of its sorrows. *@
                         以无生之觉悟为有生之事业，以悲观之心情过乐观之生活。
                     </span>
                 </div>
@@ -30,75 +29,85 @@
     <div class="row gx-4 gx-lg-5 justify-content-center">
         <div class="col-md-10 col-lg-9 col-xl-8">
 
-            <!-- 搜索区域 -->
-            <section class="search-section">
+            <!-- 搜索框 -->
+            <div class="search-section">
                 <div class="container">
-                    <div class="search-box-container">
-                        <input type="text" class="search-box" placeholder="输入搜索关键词..." value="viewmodel">
-                        <button class="search-button">
+                    <form method="get" class="search-box-container">
+                        <input type="text" name="q" class="search-box" placeholder="输入搜索关键词..." value="@Model.Query">
+                        <input type="hidden" name="tab" value="@Model.ActiveTab" />
+                        <button type="submit" class="search-button">
                             <i class="fas fa-search"></i>
                         </button>
+                    </form>
+                </div>
+            </div>
+
+            @if (!string.IsNullOrEmpty(Model.Query))
+            {
+                <!-- 结果统计和筛选 -->
+                <div class="results-header">
+                    <div class="results-count">共找到 @Model.TotalCount 条关于 "@Model.Query" 的结果</div>
+                    <div class="results-tabs" id="resultsTabs">
+                        <a href="@Url.Action("Results", "Home", new { q = Model.Query, tab = "all" })" class="tab @(Model.ActiveTab == "all" ? "active" : "")">全部</a>
+                        <a href="@Url.Action("Results", "Home", new { q = Model.Query, tab = "post" })" class="tab @(Model.ActiveTab == "post" ? "active" : "")">文章</a>
+                        <a href="@Url.Action("Results", "Home", new { q = Model.Query, tab = "category" })" class="tab @(Model.ActiveTab == "category" ? "active" : "")">分类</a>
+                        <a href="@Url.Action("Results", "Home", new { q = Model.Query, tab = "tag" })" class="tab @(Model.ActiveTab == "tag" ? "active" : "")">标签</a>
                     </div>
                 </div>
-            </section>
-            <!-- 结果统计和标签 -->
-            <div class="results-header">
-                <div class="results-count">共找到 1,795 条关于 "viewmodel" 的结果</div>
-                <div class="results-tabs" id="resultsTabs">
-                    <div class="tab active" data-tab="all">全部</div>
-                    <div class="tab" data-tab="post">文章</div>
-                    <div class="tab" data-tab="category">分类</div>
-                    <div class="tab" data-tab="tag">标签</div>
-                </div>
-            </div>
 
-            <!-- 搜索结果列表 -->
-            <div class="results-container" id="resultsContainer">
-                <!-- 结果项 1 -->
-                <div class="result-item">
-                    <span class="result-category">文章</span>
-                    <a href="#" class="result-title">模型-视图-ViewModel - .NET</a>
-                    <p class="result-description">模型-视图-ViewModel (MVVM) 提示：此内容摘自电子书《使用 .NET MAUI 的企业应用程序模式》，可在 .NET Docs 上获取，也可以免费下载 PDF 离线阅读。MVVM 模式在 MVVM 模式中有三个核心组件：模型、视图和视图模型。在高级别上，视图"知道"视图模型，视图模型"知道"模型，但模型不知道视图模型，视图模型不知道视图。</p>
-                </div>
+                <!-- 结果列表 -->
+                <div class="results-container" id="resultsContainer">
+                    @if (Model.ActiveTab == "all" || Model.ActiveTab == "post")
+                    {
+                        @foreach (var post in Model.Posts)
+                        {
+                            <div class="result-item">
+                                <span class="result-category">文章</span>
+                                <a href="@post.Url" class="result-title">@post.Title</a>
+                                <p class="result-description">@post.Excerpt</p>
+                                <small class="text-muted">@post.Author · @post.PublishedAt.ToString("yyyy-MM-dd")</small>
+                            </div>
+                        }
+                    }
 
-                <!-- 结果项 2 -->
-                <div class="result-item">
-                    <span class="result-category">文章</span>
-                    <a href="#" class="result-title">ASP.NET Core MVC 中的视图</a>
-                    <p class="result-description">在 ASP.NET Core MVC 中，视图负责呈现用户界面 (UI)。它们通常使用 Razor 语法将 HTML 标记与 C# 代码混合。视图是 .cshtml 文件，它们使用模型来生成动态内容。本主题介绍视图的工作原理以及如何在 MVC 应用程序中创建和使用它们。</p>
-                </div>
+                    @if (Model.ActiveTab == "all" || Model.ActiveTab == "category")
+                    {
+                        @foreach (var category in Model.Categories)
+                        {
+                            <div class="result-item">
+                                <span class="result-category">分类</span>
+                                <a href="@category.Url" class="result-title">@category.Name</a>
+                                <small class="text-muted">@category.PostCount 篇文章</small>
+                            </div>
+                        }
+                    }
 
-                <!-- 结果项 3 -->
-                <div class="result-item">
-                    <span class="result-category">分类</span>
-                    <a href="#" class="result-title">MVVM 模式</a>
-                </div>
+                    @if (Model.ActiveTab == "all" || Model.ActiveTab == "tag")
+                    {
+                        @foreach (var tag in Model.Tags)
+                        {
+                            <div class="result-item">
+                                <span class="result-category">标签</span>
+                                <a href="@tag.Url" class="result-title">@tag.Name</a>
+                                <small class="text-muted">@tag.PostCount 篇文章</small>
+                            </div>
+                        }
+                    }
 
-                <!-- 结果项 4 -->
-                <div class="result-item">
-                    <span class="result-category">标签</span>
-                    <a href="#" class="result-title">ViewModel</a>
+                    @if (Model.TotalCount == 0)
+                    {
+                        <div class="text-center py-5">
+                            <p class="text-muted">未找到相关内容，请尝试其他关键词。</p>
+                        </div>
+                    }
                 </div>
-
-                <!-- 结果项 5 -->
-                <div class="result-item">
-                    <span class="result-category">标签</span>
-                    <a href="#" class="result-title">ViewModel</a>
+            }
+            else
+            {
+                <div class="text-center py-5">
+                    <p class="text-muted">请输入搜索关键词。</p>
                 </div>
-            </div>
-
-            <!-- 分页 -->
-            <div class="pagination" id="pagination">
-                <a href="#" class="prev"><i class="fas fa-chevron-left"></i></a>
-                <a href="#" class="active">1</a>
-                <a href="#">2</a>
-                <a href="#">3</a>
-                <a href="#">4</a>
-                <a href="#">5</a>
-                <span class="pagination-ellipsis">...</span>
-                <a href="#">10</a>
-                <a href="#" class="next"><i class="fas fa-chevron-right"></i></a>
-            </div>
+            }
 
         </div>
     </div>

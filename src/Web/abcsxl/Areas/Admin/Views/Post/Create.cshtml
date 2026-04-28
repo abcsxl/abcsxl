@@ -1,4 +1,4 @@
-﻿@using abcsxl.Areas.Admin.Models.ViewModels.Post
+@using abcsxl.Areas.Admin.Models.ViewModels.Post
 @model PostCreateViewModel
 @{
     var isEditMode = Model?.Id != null &&
@@ -324,9 +324,9 @@
             <div class="d-flex align-items-center mt-3 text-muted small">
                 <i class="bi bi-link-45deg me-1"></i>
                 <span>别名：</span>
-                <span class="slug-preview ms-2 me-2" id="slugPreview">@(Model.Slug ?? "将根据标题自动生成")</span>
+                <span class="slug-preview ms-2 me-2" id="slugPreview">@(!string.IsNullOrEmpty(Model.Slug) ? Model.Slug : "将根据标题自动生成")</span>
                 <input type="hidden" asp-for="Slug" id="slugInput" value="@Model.Slug" />
-                <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill px-3" id="editSlugBtn">
+                <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill px-3" id="editSlugBtn" onclick="editSlug()">
                     <i class="bi bi-pencil"></i> 编辑
                 </button>
             </div>
@@ -497,6 +497,18 @@
             .substring(0, 100);
     }
 
+    // 编辑别名
+    function editSlug() {
+        var currentSlug = document.getElementById('slugInput').value || document.getElementById('slugPreview').textContent;
+        var displaySlug = currentSlug === '将根据标题自动生成' ? '' : currentSlug;
+        var newSlug = prompt('编辑别名', displaySlug);
+        if (newSlug && newSlug.trim() !== '') {
+            var slug = generateSlug(newSlug);
+            document.getElementById('slugInput').value = slug;
+            document.getElementById('slugPreview').textContent = slug;
+        }
+    }
+
     // 添加标签
     function addTag(tag) {
         const input = document.getElementById('tagsInput');
@@ -537,6 +549,8 @@
             document.querySelector('textarea[name="Excerpt"]').value = '';
             document.getElementById('tagsInput').value = '';
             document.querySelector('select[name="CategoryId"]').value = '';
+            // 清除 Vditor 缓存
+            localStorage.removeItem('vditor');
         }
     }
 
@@ -556,6 +570,7 @@
             mode: 'ir',
             lang: 'zh_CN',
             outline: { enable: true, position: 'left' },
+            cache: { enable: false },
             toolbar: [
                 'emoji', 'headings', 'bold', 'italic', 'strike', '|',
                 'list', 'ordered-list', 'check', '|',
@@ -612,16 +627,16 @@
             }, 500);
         });
 
-        // 编辑别名
-        document.getElementById('editSlugBtn')?.addEventListener('click', function() {
-            const currentSlug = slugInput.value || slugPreview.textContent;
-            const newSlug = prompt('编辑别名', currentSlug);
+        function editSlug() {
+            const currentSlug = document.getElementById('slugInput').value || document.getElementById('slugPreview').textContent;
+            const displaySlug = currentSlug === '将根据标题自动生成' ? '' : currentSlug;
+            const newSlug = prompt('编辑别名', displaySlug);
             if (newSlug && newSlug.trim() !== '') {
-                const cleanSlug = generateSlug(newSlug);
-                slugInput.value = cleanSlug;
-                slugPreview.textContent = cleanSlug || '将根据标题自动生成';
+                const slug = generateSlug(newSlug);
+                document.getElementById('slugInput').value = slug;
+                document.getElementById('slugPreview').textContent = slug;
             }
-        });
+        }
 
         // 定时发布切换
         const statusSelect = document.querySelector('select[name="Status"]');

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -21,6 +21,7 @@ namespace abcsxl.Data
         public DbSet<User> Users { get; set; } = default!;
         public DbSet<Comment> Comments { get; set; } = default!;
         public DbSet<VisitLog> VisitLogs { get; set; } = default!;
+        public DbSet<Setting> Settings { get; set; } = default!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

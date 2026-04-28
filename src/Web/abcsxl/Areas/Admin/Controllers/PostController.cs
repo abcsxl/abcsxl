@@ -20,10 +20,35 @@ namespace abcsxl.Areas.Admin.Controllers
         }
 
         // GET: Admin/Post
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string? search, string? status, int page = 1, int pageSize = 10)
         {
-            var applicationDbContext = _context.Posts.Include(p => p.Author);
-            return View(await applicationDbContext.ToListAsync());
+            var query = _context.Posts.Include(p => p.Author).AsQueryable();
+
+            if (!string.IsNullOrEmpty(search))
+            {
+                query = query.Where(p => p.Title.Contains(search) || p.Content.Contains(search));
+            }
+
+            if (!string.IsNullOrEmpty(status) && Enum.TryParse<PostStatus>(status, out var postStatus))
+            {
+                query = query.Where(p => p.Status == postStatus);
+            }
+
+            var totalCount = await query.CountAsync();
+            var posts = await query
+                .OrderByDescending(p => p.CreatedAt)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            ViewBag.CurrentPage = page;
+            ViewBag.PageSize = pageSize;
+            ViewBag.TotalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
+            ViewBag.TotalCount = totalCount;
+            ViewBag.Search = search;
+            ViewBag.Status = status;
+
+            return View(posts);
         }
 
         // GET: Admin/Post/Details/5
@@ -67,20 +92,13 @@ namespace abcsxl.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(PostCreateViewModel model, string saveType)
         {
-            // 手动验证
-            if (string.IsNullOrWhiteSpace(model.Title))
+            // 验证标题
+            if (string.IsNullOrWhiteSpace(model.Title) || model.Title.Length < 2)
             {
-                ModelState.AddModelError("Title", "请输入文章标题");
-            }
-            else if (model.Title.Length < 2)
-            {
-                ModelState.AddModelError("Title", "标题长度不能少于2个字符");
-            }
-            else if (model.Title.Length > 200)
-            {
-                ModelState.AddModelError("Title", "标题长度不能超过200个字符");
+                ModelState.AddModelError("Title", "标题长度2-200个字符");
             }
 
+            // 验证内容
             if (string.IsNullOrWhiteSpace(model.Content))
             {
                 ModelState.AddModelError("Content", "文章内容不能为空");
@@ -93,7 +111,6 @@ namespace abcsxl.Areas.Admin.Controllers
                 return View(model);
             }
 
-            // ============ 保存文章逻辑（GUID版本）============
             // 自动生成别名
             if (string.IsNullOrWhiteSpace(model.Slug))
             {
@@ -173,6 +190,7 @@ namespace abcsxl.Areas.Admin.Controllers
         }
 
         // GET: Admin/Post/Edit/5
+        [HttpGet]
         public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
@@ -180,49 +198,135 @@ namespace abcsxl.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var post = await _context.Posts.FindAsync(id);
+            var post = await _context.Posts
+                .Include(p => p.Categories)
+                .Include(p => p.Tags)
+                .FirstOrDefaultAsync(p => p.Id == id);
+
             if (post == null)
             {
                 return NotFound();
             }
+
+            // 构建 ViewModel
+            var model = new PostCreateViewModel
+            {
+                Id = post.Id,
+                Title = post.Title,
+                Slug = post.Slug,
+                Content = post.Content,
+                Excerpt = post.Excerpt,
+                FeaturedImage = post.CoverImage,
+                Status = post.Status,
+                AllowComments = post.IsAllowComments,
+                IsPinned = post.IsFeatured,
+                PublishAt = post.PublishedAt,
+                
+                // 加载分类
+                CategoryId = post.Categories.FirstOrDefault()?.Id,
+                Categories = await GetCategoriesSelectList(post.Categories.FirstOrDefault()?.Id),
+                
+                // 加载标签
+                Tags = string.Join(", ", post.Tags.Select(t => t.Name)),
+                ExistingTags = await GetExistingTags()
+            };
+
             ViewData["AuthorId"] = new SelectList(_context.Users, "Id", "Username", post.AuthorId);
-            return View(post);
+            return View("Create", model);
         }
 
         // POST: Admin/Post/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Id,Title,Subtitle,Content,Slug,Excerpt,CoverImageThumb,CoverImage,MetaTitle,MetaDescription,MetaKeywords,ViewCount,LikeCount,ReadingMinutes,IsFeatured,IsAllowComments,CreatedAt,UpdatedAt,DeletedAt,PublishedAt,Status,AuthorId")] Post post)
+        public async Task<IActionResult> Edit(Guid id, PostCreateViewModel model, string saveType)
         {
-            if (id != post.Id)
+            if (id != model.Id)
             {
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(post);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!PostExists(post.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                model.Categories = await GetCategoriesSelectList(model.CategoryId);
+                model.ExistingTags = await GetExistingTags();
+                ViewData["AuthorId"] = new SelectList(_context.Users, "Id", "Username", model.AuthorId);
+                return View("Create", model);
             }
-            ViewData["AuthorId"] = new SelectList(_context.Users, "Id", "Username", post.AuthorId);
-            return View(post);
+
+            var post = await _context.Posts
+                .Include(p => p.Categories)
+                .Include(p => p.Tags)
+                .FirstOrDefaultAsync(p => p.Id == id);
+
+            if (post == null)
+            {
+                return NotFound();
+            }
+
+            // 更新文章基本信息
+            post.Title = model.Title;
+            post.Slug = string.IsNullOrWhiteSpace(model.Slug) ? GenerateSlug(model.Title) : model.Slug;
+            post.Content = model.Content;
+            post.Excerpt = string.IsNullOrEmpty(model.Excerpt) ? GenerateExcerpt(model.Content) : model.Excerpt;
+            post.CoverImage = model.FeaturedImage;
+            post.UpdatedAt = DateTime.Now;
+            post.IsAllowComments = model.AllowComments;
+            post.IsFeatured = model.IsPinned;
+
+            // 更新状态
+            if (saveType == "publish")
+            {
+                post.Status = PostStatus.Published;
+                if (post.PublishedAt == null)
+                {
+                    post.PublishedAt = model.PublishAt ?? DateTime.UtcNow;
+                }
+            }
+            else if (saveType == "draft")
+            {
+                post.Status = PostStatus.Draft;
+            }
+
+            // 更新分类
+            post.Categories.Clear();
+            if (model.CategoryId.HasValue && model.CategoryId != Guid.Empty)
+            {
+                var category = await _context.Categories.FindAsync(model.CategoryId.Value);
+                if (category != null)
+                {
+                    post.Categories.Add(category);
+                }
+            }
+
+            // 更新标签
+            post.Tags.Clear();
+            if (!string.IsNullOrWhiteSpace(model.Tags))
+            {
+                var tagNames = model.Tags.Split(',', StringSplitOptions.RemoveEmptyEntries)
+                    .Select(t => t.Trim())
+                    .Distinct();
+
+                foreach (var tagName in tagNames)
+                {
+                    var tag = await _context.Tags.FirstOrDefaultAsync(t => t.Name == tagName);
+                    if (tag == null)
+                    {
+                        tag = new Tag
+                        {
+                            Id = Guid.NewGuid(),
+                            Name = tagName,
+                            Slug = GenerateSlug(tagName),
+                            CreatedAt = DateTime.UtcNow
+                        };
+                        await _context.Tags.AddAsync(tag);
+                    }
+                    post.Tags.Add(tag);
+                }
+            }
+
+            await _context.SaveChangesAsync();
+            TempData["Success"] = "文章已更新！";
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Admin/Post/Delete/5

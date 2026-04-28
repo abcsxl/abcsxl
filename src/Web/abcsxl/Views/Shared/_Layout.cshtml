@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -45,9 +45,9 @@
                     <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" asp-area="" asp-controller="Home" asp-action="Index">Contact</a></li>
                 </ul>
                 <!-- 搜索框（导航栏内） -->
-                <form class="d-flex ms-3" style="max-width: 250px;" asp-area="" asp-controller="Home" asp-action="Results">
+                <form class="d-flex ms-3" style="max-width: 250px;" asp-area="" asp-controller="Home" asp-action="Results" method="get">
                     <div class="input-group">
-                        <input type="text" class="form-control form-control-sm" placeholder="Search..." aria-label="Search">
+                        <input type="text" name="q" class="form-control form-control-sm" placeholder="搜索..." aria-label="Search">
                         <button class="btn btn-outline-primary btn-sm" type="submit">
                             <i class="fas fa-search"></i>
                         </button>

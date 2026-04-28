@@ -1,30 +1,46 @@
-﻿using System.Text.RegularExpressions;
+using System.Text.RegularExpressions;
 
 namespace abcsxl.Helpers
 {
     public static class MarkdownHelper
     {
         /// <summary>
-        /// 从 Markdown 生成纯文本摘要（移除 HTML 标签、截断）
+        /// 从 Markdown 生成纯文本摘要（移除 Markdown 元素、表格、图片等）
         /// </summary>
-        public static string GenerateExcerptFromMarkdown(string markdown, int maxLength = 20)
+        public static string GenerateExcerptFromMarkdown(string markdown, int maxLength = 200)
         {
             if (string.IsNullOrWhiteSpace(markdown)) return string.Empty;
 
-            // 简单移除 Markdown 语法符号（粗略处理，足够用于摘要）
-            // 更严谨可用 Markdig 解析后取文本，但这里为轻量先用正则
-            //var plain = Regex.Replace(markdown, @"[*_~`#\\[\]()]|\!\[.*?\]\(.*?\)|\[.*?\]\(.*?\)", " ");
-            var plain = Markdig.Markdown.ToPlainText(markdown);
-
-            plain = Regex.Replace(plain, @"\s+", " ").Trim(); // 合并空白
-
-            if (plain.Length <= maxLength) return plain;
-
-            var excerpt = plain[..maxLength];
+            // 先移除表格语法 (| ... |)
+            var text = Regex.Replace(markdown, @"^\|.+\|$", "", RegexOptions.Multiline);
+            
+            // 移除图片语法 ![alt](url)
+            text = Regex.Replace(text, @"!\[.*?\]\(.*?\)", "");
+            
+            // 移除链接 [text](url) 保留文字
+            text = Regex.Replace(text, @"\[([^\]]+)\]\([^)]+\)", "$1");
+            
+            // 移除 HTML 标签
+            text = Regex.Replace(text, @"<[^>]+>", "");
+            
+            // 移除代码块
+            text = Regex.Replace(text, @"```[\s\S]*?```", "");
+            text = Regex.Replace(text, @"`[^`]+`", "");
+            
+            // 移除 Markdown 符号，保留中文、英文、数字
+            text = Regex.Replace(text, @"[*_~`#\\>()\[\]]", "");
+            
+            // 多空格合并
+            text = Regex.Replace(text, @"\s+", " ").Trim();
+            
+            // 截断
+            if (text.Length <= maxLength) return text;
+            
+            var excerpt = text[..maxLength];
             var lastSpace = excerpt.LastIndexOf(' ');
             if (lastSpace > maxLength / 2)
                 excerpt = excerpt[..lastSpace];
-
+            
             return excerpt + "...";
         }
 
