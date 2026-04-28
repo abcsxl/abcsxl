@@ -1,8 +1,21 @@
-﻿@using abcsxl.Helpers
+@using abcsxl.Helpers
 @model abcsxl.Models.ViewModels.Post.IndexPageViewModel
 
 @{
-    ViewData["Title"] = "全部文章";
+    // 动态标题
+    var pageTitle = "全部文章";
+    var breadcrumb2 = "";
+    if (!string.IsNullOrWhiteSpace(Model.SidebarCategories?.CurrentCategory))
+    {
+        pageTitle = Model.SidebarCategories.CurrentCategory + " 分类下的文章";
+        breadcrumb2 = Model.SidebarCategories.CurrentCategory;
+    }
+    else if (!string.IsNullOrWhiteSpace(Model.SidebarTags?.CurrentTag))
+    {
+        pageTitle = "标签：「" + Model.SidebarTags.CurrentTag + "」的文章";
+        breadcrumb2 = Model.SidebarTags.CurrentTag;
+    }
+    ViewData["Title"] = pageTitle;
 }
 
 @section Styles
@@ -17,12 +30,25 @@
         <div class="row gx-4 gx-lg-5 justify-content-center">
             <div class="col-md-10 col-lg-9 col-xl-8">
                 <div class="site-heading">
-                    <h1>@ViewData["Title"]</h1>
-                    <span class="subheading">
-                        @*To undertake the endeavors of life with the awareness of its impermanence,
-                        To live an optimistic life with a contemplative acceptance of its sorrows. *@
-                        以无生之觉悟为有生之事业，以悲观之心情过乐观之生活。
-                    </span>
+                    <h1>@pageTitle</h1>
+                    @if (!string.IsNullOrEmpty(breadcrumb2))
+                    {
+                        <span class="subheading text-white">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb d-inline-flex p-0 mb-0">
+                                    <li class="breadcrumb-item"><a href="/" class="text-white-50">首页</a></li>
+                                    <li class="breadcrumb-item"><a href="/Post" class="text-white-50">文章</a></li>
+                                    <li class="breadcrumb-item active text-white" aria-current="page">@breadcrumb2</li>
+                                </ol>
+                            </nav>
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="subheading">
+                            以无生之觉悟为有生之事业，以悲观之心情过乐观之生活。
+                        </span>
+                    }
                 </div>
             </div>
         </div>
@@ -53,9 +79,9 @@
                             @foreach (var c in item.Categories)
                             {
                                 <a class="badge bg-primary text-decoration-none category-card"
-                                   asp-action="Details"
-                                   asp-route-id="@c.Id">
-                                    @Html.DisplayFor(citem => c.Title)
+                                   asp-action="Index"
+                                   asp-route-category="@c.Name">
+                                    @Html.DisplayFor(citem => c.Name)
                                 </a>
                             }
                         }
@@ -65,8 +91,8 @@
                         {
                             @foreach (var t in item.Tags)
                             {
-                                <a href="#!" class="badge bg-light text-dark text-decoration-none me-1">
-                                    @Html.DisplayFor(tItem => t.Title)
+                                <a asp-action="Index" asp-route-tag="@t.Name" class="badge bg-light text-dark text-decoration-none me-1">
+                                    @Html.DisplayFor(tItem => t.Name)
                                 </a>
                             }
                         }

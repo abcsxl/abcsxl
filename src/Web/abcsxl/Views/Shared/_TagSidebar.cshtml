@@ -1,4 +1,4 @@
-﻿@model TagSidebarViewModel
+@model abcsxl.Models.ViewModels.Tag.TagSidebarViewModel
 
 <!-- 热门标签 -->
 <div class="sidebar-widget mt-4">
@@ -10,7 +10,7 @@
         <div class="post-tags">
             @foreach (var item in Model.Tags)
             {
-                <a class="badge"
+                <a class="badge @(Model.CurrentTag == item.Name ? "bg-primary text-white" : "bg-light text-dark")"
                    asp-area=""
                    asp-controller="Post"
                    asp-action="Index"

@@ -1,4 +1,4 @@
-﻿using abcsxl.Areas.Admin.Models.ViewModels.Post;
+using abcsxl.Areas.Admin.Models.ViewModels.Post;
 using abcsxl.Data;
 using abcsxl.Models.Entities;
 using abcsxl.Models.Enums;
@@ -119,22 +119,28 @@ namespace abcsxl.Areas.Admin.Controllers
                 Slug = model.Slug,
                 Content = model.Content,
                 Excerpt = string.IsNullOrEmpty(model.Excerpt) ? GenerateExcerpt(model.Content) : model.Excerpt,
-                //CategoryId = model.CategoryId,  // 假设 CategoryId 也是 Guid?
-                //FeaturedImage = model.FeaturedImage,
                 Status = model.Status,
-                //AllowComments = model.AllowComments,
-                //IsPinned = model.IsPinned,
                 PublishedAt = model.Status == PostStatus.Published ? (model.PublishAt ?? DateTime.UtcNow) : null,
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now,
-                AuthorId = GetCurrentUserId()  // 假设 AuthorId 是 Guid
+                AuthorId = GetCurrentUserId()
             };
 
-            // 保存到数据库
+            // 保存文章到数据库，获取 Id
             await _context.Posts.AddAsync(post);
             await _context.SaveChangesAsync();
 
-            // 处理标签
+            // 处理分类（一对多：只保存一个分类）
+            if (model.CategoryId.HasValue && model.CategoryId != Guid.Empty)
+            {
+                var category = await _context.Categories.FindAsync(model.CategoryId.Value);
+                if (category != null)
+                {
+                    post.Categories.Add(category);
+                }
+            }
+
+            // 处理标签（多对多）
             if (!string.IsNullOrWhiteSpace(model.Tags))
             {
                 var tagNames = model.Tags.Split(',', StringSplitOptions.RemoveEmptyEntries)
@@ -148,30 +154,19 @@ namespace abcsxl.Areas.Admin.Controllers
                     {
                         tag = new Tag
                         {
-                            Id = Guid.NewGuid(),  // GUID 主键
+                            Id = Guid.NewGuid(),
                             Name = tagName,
                             Slug = GenerateSlug(tagName),
                             CreatedAt = DateTime.UtcNow
                         };
                         await _context.Tags.AddAsync(tag);
-                        await _context.SaveChangesAsync();
                     }
 
-                    //// 更新标签文章计数
-                    //tag.PostCount++;
-                    //_context.Tags.Update(tag);
-
-                    //var postTag = new PostTag
-                    //{
-                    //    PostId = post.Id,
-                    //    TagId = tag.Id
-                    //};
                     post.Tags.Add(tag);
-                    //await _context.PostTags.AddAsync(postTag);
                 }
-                await _context.SaveChangesAsync();
             }
-            // ============ 保存文章逻辑结束 ============
+
+            await _context.SaveChangesAsync();
 
 
             return RedirectToAction(nameof(Edit), new { id = post.Id });
@@ -190,7 +185,7 @@ namespace abcsxl.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            ViewData["AuthorId"] = new SelectList(_context.Users, "Id", "PasswordHash", post.AuthorId);
+            ViewData["AuthorId"] = new SelectList(_context.Users, "Id", "Username", post.AuthorId);
             return View(post);
         }
 
@@ -226,7 +221,7 @@ namespace abcsxl.Areas.Admin.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AuthorId"] = new SelectList(_context.Users, "Id", "PasswordHash", post.AuthorId);
+            ViewData["AuthorId"] = new SelectList(_context.Users, "Id", "Username", post.AuthorId);
             return View(post);
         }
 

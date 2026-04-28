@@ -11,10 +11,10 @@
 | 类别 | 技术选型 | 版本 |
 |------|----------|------|
 | 框架 | ASP.NET Core MVC | .NET 10.0 |
-| ORM | Entity Framework Core | 10.0.4 |
-| 数据库 | PostgreSQL / SQLite | 16 / 3.x |
+| ORM | Entity Framework Core | 10.0.7 |
+| 数据库 | SQLite (默认) | 3.x |
 | 密码加密 | BCrypt.Net-Next | 4.1.0 |
-| Markdown处理 | Markdig | 1.1.1 |
+| Markdown处理 | Markdig | 1.1.3 |
 | 图片处理 | SixLabors.ImageSharp | 3.1.12 |
 | 前端框架 | Bootstrap 5 + jQuery | 5.3.x / 3.7.x |
 | Markdown编辑器 | Vditor | 3.x |
@@ -23,27 +23,21 @@
 
 ```
 src/Web/abcsxl/
-├── Controllers/          # 控制器层
+├── Controllers/          # 前台控制器
 ├── Areas/Admin/         # 管理后台区域
 │   ├── Controllers/
-│   ├── Views/
-│   └── Models/
-├── Views/               # 前台视图
-│   ├── Home/
-│   ├── Post/
-│   ├── Account/
-│   └── Shared/
-├── Models/              # 数据模型
-│   ├── Entities/        # 实体类
-│   ├── Enums/           # 枚举定义
-│   └── ViewModels/      # 视图模型
-├── Data/               # 数据访问层
-│   ├── Migrations/     # 数据库迁移
+│   └── Views/
+├── Models/
+│   ├── Entities/      # 实体类
+│   ├── Enums/        # 枚举定义
+│   └── ViewModels/    # 视图模型
+├── Data/             # 数据访问层
+│   ├── Migrations/
 │   ├── ApplicationDbContext.cs
 │   └── SeedData.cs
-├── Helpers/             # 工具类
-├── Extensions/          # 扩展方法
-└── wwwroot/            # 静态资源
+├── Helpers/           # 工具类
+├── Extensions/       # 扩展方法
+└── wwwroot/          # 静态资源
 ```
 
 ---
@@ -60,8 +54,7 @@ src/Web/abcsxl/
   - 默认展示最新 `count` 篇文章 (默认4篇)
   - 按发布时间倒序排列
   - 显示文章标题、摘要、作者、发布时间
-- **页面**:
-  - `Views/Home/Index.cshtml` - 首页
+- **页面**: `Views/Home/Index.cshtml`
 
 #### 2.1.2 文章列表 (PostController)
 
@@ -75,8 +68,7 @@ src/Web/abcsxl/
 - **侧边栏**:
   - 分类目录树形结构
   - 标签云列表
-- **页面**:
-  - `Views/Post/Index.cshtml` - 文章列表页
+- **页面**: `Views/Post/Index.cshtml`
 
 #### 2.1.3 文章详情 (PostController)
 
@@ -92,9 +84,8 @@ src/Web/abcsxl/
   - 统计信息 (阅读数、点赞数)
 - **特性**:
   - 支持评论 (需开启)
-  - SEO元数据 (MetaTitle, MetaDescription, MetaKeywords)
-- **页面**:
-  - `Views/Post/Details.cshtml` - 文章详情页
+  - SEO元数据
+- **页面**: `Views/Post/Details.cshtml`
 
 #### 2.1.4 账户管理 (AccountController)
 
@@ -104,7 +95,7 @@ src/Web/abcsxl/
   - `/Account/Logout` - 登出
   - `/Account/Profile` - 个人资料
   - `/Account/ChangePassword` - 修改密码
-- **认证方式**: Cookie认证
+- **认证方式**: Cookie认证 (未配置)
 - **页面**:
   - `Views/Account/Login.cshtml`
   - `Views/Account/Profile.cshtml`
@@ -114,7 +105,6 @@ src/Web/abcsxl/
 
 - `/Home/About` - 关于页
 - `/Home/Privacy` - 隐私政策页
-- `/Home/Results` - 搜索结果页
 
 ---
 
@@ -130,7 +120,6 @@ src/Web/abcsxl/
   - 用户总数
   - 分类总数
   - 标签总数
-  - 最近发布的文章列表
 
 #### 2.2.2 文章管理 (PostController in Admin)
 
@@ -145,18 +134,19 @@ src/Web/abcsxl/
 - **支持功能**:
   - 标题、副标题
   - Markdown内容
-  - 封面图上传 (自动生成缩略图，WebP格式)
-  - 分���选择 (支持多选，设定主分类)
-  - 标签选择 (支持多选)
+  - 封面图上传
+  - 分类选择 (单选)
+  - 标签选择 (多选，逗号分隔)
   - 状态设置 (草稿/已发布/已归档)
-  - 评论开关
-  - 定时发布
-  - SEO元数据
+
+> **⚠️ 已知问题**:
+> - 创建文章时分类/标签关联未正确保存
+> - 编辑页面 SelectList 显示字段错误
 
 #### 2.2.3 分类管理
 
 - **功能**: 分类的层级管理
-- **路由**: `/Category` (前台), `/Admin/Category` (后台 - TODO)
+- **路由**: `/Admin/Category` (TODO - 未实现)
 - **特性**:
   - 树形层级结构
   - 软删除
@@ -166,7 +156,7 @@ src/Web/abcsxl/
 #### 2.2.4 标签管理
 
 - **功能**: 标签的CRUD操作
-- **路由**: `/Tag` (前台), `/Admin/Tag` (后台 - TODO)
+- **路由**: `/Admin/Tag` (TODO - 未实现)
 - **特性**:
   - 软删除
   - 使用统计
@@ -202,18 +192,13 @@ src/Web/abcsxl/
 | PasswordHash | string | NOT NULL | BCrypt加密密码 |
 | Email | string | UNIQUE | 邮箱 |
 | PhoneNumber | string | UNIQUE | 手机号 |
-| NationalId | string | UNIQUE | 身份证号 |
 | DisplayName | string | | 显示名称 |
 | Bio | string | | 个人简介 |
 | Avatar | string | | 头像URL |
-| Role | UserRole | NOT NULL | 角色 (User/Author/Admin) |
+| Role | UserRole | NOT NULL | 角色 |
 | IsActive | bool | NOT NULL | 账号是否激活 |
 | CreatedAt | DateTime | NOT NULL | 创建时间 |
 | LastLoginTime | DateTime | | 最后登录时间 |
-
-**关系**:
-- 1:N -> Post (文章)
-- 1:N -> Comment (评论)
 
 #### 3.1.2 Post (文章表)
 
@@ -233,7 +218,7 @@ src/Web/abcsxl/
 | LikeCount | int | DEFAULT 0 | 点赞数 |
 | ReadingMinutes | int | DEFAULT 0 | 预计阅读分钟 |
 | IsFeatured | bool | DEFAULT false | 置顶 |
-| IsAllowComments | bool | DEFAULT true | 允许评论 |
+| IsAllowComments | bool | DEFAULT false | 允许评论 |
 | MetaTitle | string | | SEO标题 |
 | MetaDescription | string | | SEO描述 |
 | MetaKeywords | string | | SEO关键词 |
@@ -241,11 +226,12 @@ src/Web/abcsxl/
 | UpdatedAt | DateTime | | 更新时间 |
 | PublishedAt | DateTime | | 发布时间 |
 | DeletedAt | DateTime | | 删除时间 |
+| Status | PostStatus | NOT NULL | 状态 |
 
-**关系**:
+**关系** (实际代码中使用直接导航属性):
 - N:1 -> User (作者)
-- N:N -> Category (通过PostCategory)
-- N:N -> Tag (通过PostTag)
+- 1:N -> Category (直接导航 `Categories`)
+- 1:N -> Tag (直接导航 `Tags`)
 - 1:N -> Comment
 - 1:N -> VisitLog
 
@@ -262,10 +248,10 @@ src/Web/abcsxl/
 | ParentId | GUID | FK | 父分类ID |
 | IsDeleted | bool | DEFAULT false | 软删除 |
 | IsVisible | bool | DEFAULT true | 显示 |
-| ShowInNav | bool | DEFAULT false | 导航栏显示 |
+| ShowInNav | bool | DEFAULT true | 导航栏显示 |
 | Order | int | DEFAULT 0 | 排序 |
 | PostCount | int | DEFAULT 0 | 文章数 |
-| CreatedAt | DateTime | NOT NULL | 创建时间 |
+| CreatedAt | DateTime | NOT NULL | ��建时间 |
 | UpdatedAt | DateTime | | 更新时间 |
 | DeletedAt | DateTime | | 删除时间 |
 
@@ -303,11 +289,6 @@ src/Web/abcsxl/
 | CreatedAt | DateTime | NOT NULL | 创建时间 |
 | UpdatedAt | DateTime | | 更新时间 |
 
-**关系**:
-- N:1 -> Post
-- N:1 -> User
-- 自引用: 1:N (嵌套回复)
-
 #### 3.1.6 PostCategory (文章分类关联表)
 
 | 字段 | 类型 | 约束 | 说明 |
@@ -317,9 +298,8 @@ src/Web/abcsxl/
 | IsPrimaryCategory | bool | DEFAULT false | 主分类 |
 | Order | int | DEFAULT 0 | 排序 |
 | CreatedAt | DateTime | NOT NULL | 创建时间 |
-| UpdatedAt | DateTime | | 更新时间 |
-| UpdateCount | int | DEFAULT 0 | 更新次数 |
-| UserId | GUID | FK | 添加人ID |
+
+> **注意**: 代码中实际使用 `Post.Categories` 直接导航属性，此关联表未被使用。
 
 #### 3.1.7 PostTag (文章标签关联表)
 
@@ -328,6 +308,8 @@ src/Web/abcsxl/
 | PostId | GUID | PK, FK | 文章ID |
 | TagId | GUID | PK, FK | 标签ID |
 | CreatedAt | DateTime | NOT NULL | 创建时间 |
+
+> **注意**: 代码中实际使用 `Post.Tags` 直接导航属性，此关联表未被使用。
 
 #### 3.1.8 VisitLog (访问日志表)
 
@@ -410,9 +392,9 @@ Infrastructure Layer (基础设施层)
 ```csharp
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
-
-builder.Services.AddScoped<ApplicationDbContext>();
 ```
+
+> **⚠️ 已知问题**: 未配置 `AddAuthentication()`
 
 ---
 
@@ -423,7 +405,6 @@ builder.Services.AddScoped<ApplicationDbContext>();
 #### DateTimeHelper
 - `ToChinaStandardTime()` - UTC转中国时区
 - `BeijingNow` - 获取当前中国时间
-- `ToTimeZone()` - 转换到指定时区
 
 #### MarkdownHelper
 - `GenerateExcerptFromMarkdown()` - 从Markdown生成纯文本摘要
@@ -441,26 +422,19 @@ builder.Services.AddScoped<ApplicationDbContext>();
 - `Publish()` - 发布文章
 - `Draft()` - 设为草稿
 - `SoftDelete()` - 软删除
-- `IncrementViewCount()` - 增加阅读数
-- `UpdateReadingMinutes()` - 更新阅读时间
 
 #### CategoryExtensions
 - `GetFullPath()` - 获取分类全路径
 - `GetLevel()` - 获取分类层级
-- `GetAllDescendantIds()` - 获取所有后代ID
-- `MoveTo()` - 移动分类
-- `SoftDelete()` / `Restore()` - 软删除/恢复
 
 #### TagExtensions
 - `IncrementUsage()` / `DecrementUsage()` - 使用次数增减
-- `SoftDelete()` / `Restore()` - 软删除/恢复
 
 ### 5.3 数据上下文 (ApplicationDbContext)
 
 - 配置所有实体关系
-- 配置唯一索引约束 (User的Username, Email, PhoneNumber, NationalId)
-- 配置全局查询过滤器 (Category, Tag的软删除过滤; Comment的删除文章评论过滤)
-- 配置级联删除策略
+- 配置唯一索引约束
+- 配置全局查询过滤器 (Category, Tag的软删除过滤)
 
 ---
 
@@ -468,84 +442,58 @@ builder.Services.AddScoped<ApplicationDbContext>();
 
 ### 6.1 认证授权
 
-- **认证方式**: Cookie Authentication
-- **登录机制**: 用户名密码验证，BCrypt加密存储
-- **角色权限**:
-  - Admin: 完全访问后台管理
-  - Author: 可管理自己的文章
-  - User: 基本访问权限
+> **⚠️ 严重问题**: 当前未正确实现
+
+- **认证方式**: Cookie Authentication (未配置)
+- **登录机制**: 硬编码凭证 `admin@example.com/123456`
+- **角色权限**: 预留但未实现
 
 ### 6.2 数据安全
 
-- 密码使用BCrypt加密存储
+- 密码使用BCrypt加密存储 (依赖已安装，未使用)
 - 使用`@Html.AntiForgeryToken()`防止CSRF攻击
 - 输入验证和模型验证
 - 防止SQL注入 (EF Core参数化查询)
 
-### 6.3 XSS防护
+---
 
-- Markdown内容在前端渲染时需注意XSS过滤
-- 使用Markdig的安全模式渲染
+## 七、已知问题汇总
+
+### 🔴 Critical (必须修复)
+
+| # | 问题 | 位置 |
+|---|------|------|
+| 1 | 后台无认证保护，任何人可访问 `/Admin` | Admin Controllers |
+| 2 | 认证服务未配置 | Program.cs |
+| 3 | 硬编码密码凭证 | AccountController:38 |
+| 4 | 创建文章未保存分类关联 | PostController.Create() |
+| 5 | 创建文章未保存标签关联 | PostController.Create() |
+| 6 | 编辑文章 SelectList 显示字段错误 | PostController:193,229 |
+
+### 🟠 High (重要)
+
+| # | 问题 | 位置 |
+|---|------|------|
+| 1 | 分类管理 Controller 不存在 | ��失文件 |
+| 2 | 标签管理 Controller 不存在 | 缺失文件 |
+| 3 | 评论管理 Controller 不存在 | 缺失文件 |
+| 4 | 侧边栏分类数量统计不正确 | PostController.Index |
+| 5 | 个人资料修改不保存 | AccountController |
+| 6 | 密码修改功能未实现 | AccountController |
 
 ---
 
-## 七、部署设计
+## 八、待完善功能
 
-### 7.1 Docker部署
-
-项目提供完整的Docker配置：
-
-```yaml
-# docker-compose.yml
-services:
-  web:
-    build: .
-    ports:
-      - "5000:5000"
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Production
-    depends_on:
-      - db
-
-  db:
-    image: postgres:16
-    environment:
-      POSTGRES_DB: db_abcsxl
-      POSTGRES_USER: u_abcsxl
-      POSTGRES_PASSWORD: password
-    volumes:
-      - pgdata:/var/lib/postgresql/data
-```
-
-### 7.2 数据库迁移
-
-```bash
-# 开发环境
-dotnet ef migrations add InitialCreate -o Data/Migrations
-dotnet ef database update
-
-# 生产环境
-dotnet ef database update -Production
-```
-
-### 7.3 环境配置
-
-- **Development**: SQLite本地数据库，详细日志
-- **Production**: PostgreSQL数据库，最小化日志
-
----
-
-## 八、待完善功能 (TODO)
-
-1. **用户管理**: 用户注册、个人资料编辑、头像上传
-2. **评论功能**: 评论列表、评论审核、回复功能
-3. **搜索功能**: 全文搜索支持
-4. **后台管理**: 分类、标签、用户的完整CRUD
-5. **访问统计**: 访问日志分析、报表展示
-6. **邮件通知**: 新评论通知、密码重置
-7. **API扩展**: RESTful API供移动端使用
-8. **缓存优化**: Redis缓存支持
-9. **性能优化**: 静态文件CDN、图片懒加载
+1. **用户注册系统**
+2. **完整认证授权**
+3. **评论系统**
+4. **搜索功能**
+5. **后台管理完整CRUD** (分类、标签、用户)
+6. **访问统计分析**
+7. **邮件通知**
+8. **API扩展**
+9. **缓存优化**
 
 ---
 
@@ -556,23 +504,15 @@ dotnet ef database update -Production
 - **控制器**: `{Entity}Controller.cs`
 - **视图**: 与控制器Action同名的.cshtml文件
 - **实体类**: PascalCase，如 `Post`, `User`
-- **枚举**: PascalCase，成员大写下划线分隔，如 `PostStatus`
-- **扩展方法**: 动词开头，如 `Publish()`, `SoftDelete()`
+- **枚举**: PascalCase
 
-### 9.2 代码风格
-
-- 使用C# 10+语法特性
-- 空引用检查启用
-- 使用文件顶部全局using
-- 避免不必要的注释（除非解释复杂逻辑）
-
-### 9.3 Git提交规范
+### 9.2 Git提交规范
 
 ```
 feat: 新功能
 fix: Bug修复
 docs: 文档更新
-style: 代码格式（不影响功能）
+style: 代码格式
 refactor: 重构
 perf: 性能优化
 test: 测试相关
