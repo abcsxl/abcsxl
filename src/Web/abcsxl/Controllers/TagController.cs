@@ -58,7 +58,7 @@ namespace abcsxl.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Description,IsDeleted,CreatedAt,DeletedAt")] Tag tag)
+        public async Task<IActionResult> Create([Bind("Id,Name,Description,Slug,Color,IsVisible")] Tag tag)
         {
             if (ModelState.IsValid)
             {
@@ -91,7 +91,7 @@ namespace abcsxl.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Id,Name,Description,IsDeleted,CreatedAt,DeletedAt")] Tag tag)
+        public async Task<IActionResult> Edit(Guid id, [Bind("Name,Description,Slug,Color,IsVisible")] Tag tag)
         {
             if (id != tag.Id)
             {

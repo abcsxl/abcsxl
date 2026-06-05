@@ -97,7 +97,7 @@ namespace abcsxl.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, Category category)
+        public async Task<IActionResult> Edit(Guid id, [Bind("Id,Name,Description,Slug,Icon,CoverImage,ParentId,Order,IsVisible,ShowInNav")] Category category)
         {
             if (id != category.Id)
             {

@@ -140,8 +140,8 @@ namespace abcsxl.Areas.Admin.Controllers
                 Excerpt = string.IsNullOrEmpty(model.Excerpt) ? GenerateExcerpt(model.Content) : model.Excerpt,
                 Status = model.Status,
                 PublishedAt = model.Status == PostStatus.Published ? (model.PublishAt ?? DateTime.UtcNow) : null,
-                CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now,
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow,
                 AuthorId = GetCurrentUserId()
             };
 
@@ -271,7 +271,7 @@ namespace abcsxl.Areas.Admin.Controllers
             post.Content = model.Content;
             post.Excerpt = string.IsNullOrEmpty(model.Excerpt) ? GenerateExcerpt(model.Content) : model.Excerpt;
             post.CoverImage = model.FeaturedImage;
-            post.UpdatedAt = DateTime.Now;
+            post.UpdatedAt = DateTime.UtcNow;
             post.IsAllowComments = model.AllowComments;
             post.IsFeatured = model.IsPinned;
 

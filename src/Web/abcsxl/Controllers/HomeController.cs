@@ -75,7 +75,7 @@ public class HomeController : Controller
                     Excerpt = p.GetExcerpt(150),
                     Author = p.Author.Username,
                     PublishedAt = DateTimeHelper.ToChinaStandardTime(p.PublishedAt ?? p.CreatedAt),
-                    Url = Url.Action("Detail", "Post", new { id = p.Slug })
+                    Url = Url.Action("Details", "Post", new { id = p.Slug })
                 })
                 .ToList();
             model.Posts = posts;
@@ -94,7 +94,7 @@ public class HomeController : Controller
                     Name = c.Name,
                     Slug = c.Slug,
                     PostCount = c.Posts.Count,
-                    Url = Url.Action("Detail", "Category", new { slug = c.Slug })
+                    Url = Url.Action("Details", "Category", new { slug = c.Slug })
                 })
                 .ToList();
             model.Categories = categories;
@@ -113,7 +113,7 @@ public class HomeController : Controller
                     Name = t.Name,
                     Slug = t.Slug,
                     PostCount = t.Posts.Count,
-                    Url = Url.Action("Detail", "Tag", new { slug = t.Slug })
+                    Url = Url.Action("Details", "Tag", new { slug = t.Slug })
                 })
                 .ToList();
             model.Tags = tags;
