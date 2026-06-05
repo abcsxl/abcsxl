@@ -1,11 +1,13 @@
 using abcsxl.Data;
 using abcsxl.Models.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace abcsxl.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin")]
     public class SettingController : Controller
     {
         private readonly ApplicationDbContext _context;

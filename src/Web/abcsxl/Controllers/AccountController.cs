@@ -1,18 +1,22 @@
 ﻿using abcsxl.Models.ViewModels.Account;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
+using abcsxl.Services.Authentication;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 
 namespace abcsxl.Controllers
 {
     public class AccountController : Controller
     {
+        private readonly IAuthenticationService _auth;
+
+        public AccountController(IAuthenticationService auth)
+        {
+            _auth = auth;
+        }
+
         // ===== 登录 =====
         [HttpGet]
-        public IActionResult Login(string returnUrl = null)
+        public IActionResult Login(string? returnUrl = null)
         {
-            // 已登录用户直接跳转
             if (User.Identity?.IsAuthenticated == true)
             {
                 return RedirectToAction("Index", "Dashboard");
@@ -24,7 +28,7 @@ namespace abcsxl.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(LoginViewModel model, string returnUrl = null)
+        public async Task<IActionResult> Login(LoginViewModel model, string? returnUrl = null)
         {
             ViewBag.ReturnUrl = returnUrl;
 
@@ -33,48 +37,27 @@ namespace abcsxl.Controllers
                 return View(model);
             }
 
-            // TODO: 验证用户名密码
-            // 示例代码，实际应从数据库验证
-            if (model.Email == "admin@example.com" && model.Password == "123456")
+            var result = await _auth.SignInAsync(HttpContext, model.Email, model.Password, model.RememberMe);
+
+            if (!result.Succeeded)
             {
-                var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.Name, model.Email),
-                new Claim(ClaimTypes.Email, model.Email),
-                new Claim(ClaimTypes.Role, "Admin")
-            };
-
-                var claimsIdentity = new ClaimsIdentity(
-                    claims, CookieAuthenticationDefaults.AuthenticationScheme);
-
-                var authProperties = new AuthenticationProperties
-                {
-                    IsPersistent = model.RememberMe,
-                    ExpiresUtc = DateTimeOffset.UtcNow.AddDays(7)
-                };
-
-                await HttpContext.SignInAsync(
-                    CookieAuthenticationDefaults.AuthenticationScheme,
-                    new ClaimsPrincipal(claimsIdentity),
-                    authProperties);
-
-                if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
-                {
-                    return Redirect(returnUrl);
-                }
-
-                return RedirectToAction("Index", "Dashboard");
+                ModelState.AddModelError(string.Empty, result.ErrorMessage ?? "登录失败");
+                return View(model);
             }
 
-            ModelState.AddModelError(string.Empty, "用户名或密码错误");
-            return View(model);
+            if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
+            {
+                return Redirect(returnUrl);
+            }
+
+            return RedirectToAction("Index", "Dashboard");
         }
 
         // ===== 退出登录 =====
         [HttpGet]
         public async Task<IActionResult> Logout()
         {
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            await _auth.SignOutAsync(HttpContext);
             return RedirectToAction("Login");
         }
 

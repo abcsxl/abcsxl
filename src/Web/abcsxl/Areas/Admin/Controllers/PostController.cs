@@ -2,6 +2,7 @@ using abcsxl.Areas.Admin.Models.ViewModels.Post;
 using abcsxl.Data;
 using abcsxl.Models.Entities;
 using abcsxl.Models.Enums;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ using System.Text.RegularExpressions;
 namespace abcsxl.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin")]
     public class PostController : Controller
     {
         private readonly ApplicationDbContext _context;
