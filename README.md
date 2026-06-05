@@ -1,64 +1,107 @@
-# abcsxl Blog Website
+# abcsxl Blog
 
-A simple blog website built with ASP.NET Core MVC, using PostgreSQL database.
+一个基于 ASP.NET Core MVC 的个人博客系统，Markdown 编辑与展示，支持文章/分类/标签/评论/访问统计等完整功能。
 
-![Build Status](https://travis-ci.org/user/repo.svg)
-![Coverage](https://codecov.io/gh/user/repo/branch/main/graph/badge.svg)
-![License](https://img.shields.io/badge/license-Six%20Labs%20Split-blue)
+## 技术栈
 
-## Features
+| 类别 | 技术 | 版本 |
+|------|------|------|
+| 框架 | ASP.NET Core MVC | .NET 10.0 |
+| ORM | Entity Framework Core | 10.0.7 |
+| 数据库 | SQLite (默认) / PostgreSQL (Docker) | - |
+| 密码加密 | BCrypt.Net-Next | 4.1.0 |
+| Markdown 渲染 | Markdig | 1.1.3 |
+| 图片处理 | SixLabors.ImageSharp | 3.1.12 |
+| 前端 UI | Bootstrap 5 + jQuery | 5.3.x / 3.7.x |
+| Markdown 编辑器 | Vditor | 3.11.2 |
 
-- Homepage displaying list of blog posts
-- Click to view details of each post
-- Admin panel for managing blog posts
-- Markdown support for blog content
-- Vditor editor for creating/editing posts
-- Client-side Markdown rendering using Marked.js
+## 快速开始
 
-## Prerequisites
-
+### 准备
 - .NET 10.0 SDK
-- PostgreSQL16 database
+- 可选：Docker（用于 PostgreSQL 部署）
 
-## Setup
-
-1. Clone the repository
-2. Update the connection string in `appsettings.json` to match your PostgreSQL database
-3. Run the application: `dotnet run`
-4. Navigate to `/Admin` to manage blog posts
-
-## Database
-
-The application uses Entity Framework Core with PostgreSQL.
+### 启动（SQLite 默认）
 
 ```bash
-docker run -d --name db_abcsxl -p 5432:5432 -e POSTGRES_DB=db_abcsxl -e POSTGRES_USER=u_abcsxl -e POSTGRES_PASSWORD=password -v pgdata_abcsxl:/var/lib/postgresql/data postgres:16
+dotnet run --project src/Web/abcsxl
 ```
 
-Update the connection string in `appsettings.json`:
+访问 `http://localhost:5145`（HTTP）或 `https://localhost:7066`（HTTPS）。
 
-```json
-"ConnectionStrings": {
-  "DefaultConnection": "Host=localhost;Database=db_abcsxl;Username=u_abcsxl;Password=password"
-}
-```
+首次启动会自动创建 SQLite 数据库并写入种子数据。
 
-To create and apply migrations:
+### 启动（PostgreSQL via Docker）
 
 ```bash
-dotnet ef migrations add InitialCreate -o Data/Migrations
-dotnet ef database update
+docker run -d --name pg_abcsxl -p 5432:5432 \
+  -e POSTGRES_DB=abcsxl \
+  -e POSTGRES_USER=abcsxl \
+  -e POSTGRES_PASSWORD=abcsxl \
+  -v pgdata_abcsxl:/var/lib/postgresql/data \
+  postgres:16
 ```
-or
+
+设置环境变量后启动：
+```bash
+export ConnectionStrings__DefaultConnection="Host=localhost;Database=abcsxl;Username=abcsxl;Password=abcsxl"
+dotnet run --project src/Web/abcsxl
+```
+
+## 目录结构
+
+```
+abcsxl/
+├── src/Web/abcsxl/              # 唯一 ASP.NET 项目
+│   ├── Controllers/             # 前台控制器
+│   ├── Areas/Admin/             # 后台管理区域
+│   │   ├── Controllers/
+│   │   ├── Models/ViewModels/
+│   │   └── Views/
+│   ├── Models/
+│   │   ├── Entities/            # EF Core 实体（主键均为 Guid）
+│   │   ├── Enums/               # 枚举
+│   │   └── ViewModels/          # 视图模型（按领域分子目录）
+│   ├── Data/                    # EF Core DbContext + SeedData + Migrations
+│   ├── Services/                # 业务服务（Authentication 等）
+│   ├── Helpers/                 # 工具类
+│   ├── Extensions/              # 扩展方法
+│   └── wwwroot/                 # 静态资源（libman 管理）
+├── doc/                         # 项目文档
+├── .github/workflows/           # CI/CD
+├── docker-compose.dcproj
+└── abcsxl.sln
+```
+
+## 核心功能
+
+- **前台**：首页文章列表、文章列表（分页+分类/标签筛选）、文章详情、搜索、登录
+- **后台**（`/Admin`）：仪表盘、文章 CRUD、分类层级管理、标签管理、系统设置
+- **API**：`POST /api/Upload/image`（图片上传，自动转 WebP）
+- **认证**：Cookie 认证，BCrypt 密码哈希
+
+## 常用命令
 
 ```bash
-Add-Migration InitialCreate -o Data/Migrations
-Update-Database
+# 构建
+dotnet build abcsxl.sln
+
+# EF Core 迁移
+dotnet ef migrations add <Name> -o Data/Migrations --project src/Web/abcsxl
+dotnet ef database update --project src/Web/abcsxl
+
+# Docker
+docker compose up -d
 ```
 
-## Usage
+## 文档
 
-- Visit the homepage to see all blog posts
-- Click "Read More" to view the full post with rendered Markdown
-- Go to `/Admin` to create new posts or edit existing ones
-- Use the Vditor editor to write Markdown content
+- [架构设计](doc/architecture.md)
+- [认证机制](doc/authentication.md)
+- [开发规范与 CI/CD](doc/development.md)
+- [变更日志](CHANGELOG.md)
+- [历史文档](doc/history/)
+
+## License
+
+本项目为个人博客系统，按原样提供。
