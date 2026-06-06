@@ -2,17 +2,16 @@
 @model abcsxl.Models.ViewModels.Post.IndexPageViewModel
 
 @{
-    // 动态标题
-    var pageTitle = "全部文章";
+    var pageTitle = T["TitleAll"].Value;
     var breadcrumb2 = "";
     if (!string.IsNullOrWhiteSpace(Model.SidebarCategories?.CurrentCategory))
     {
-        pageTitle = Model.SidebarCategories.CurrentCategory + " 分类下的文章";
+        pageTitle = T["TitleByCategory", Model.SidebarCategories.CurrentCategory].Value;
         breadcrumb2 = Model.SidebarCategories.CurrentCategory;
     }
     else if (!string.IsNullOrWhiteSpace(Model.SidebarTags?.CurrentTag))
     {
-        pageTitle = "标签：「" + Model.SidebarTags.CurrentTag + "」的文章";
+        pageTitle = T["TitleByTag", Model.SidebarTags.CurrentTag].Value;
         breadcrumb2 = Model.SidebarTags.CurrentTag;
     }
     ViewData["Title"] = pageTitle;
@@ -36,8 +35,8 @@
                         <span class="subheading text-white">
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb d-inline-flex p-0 mb-0">
-                                    <li class="breadcrumb-item"><a href="/" class="text-white-50">首页</a></li>
-                                    <li class="breadcrumb-item"><a href="/Post" class="text-white-50">文章</a></li>
+                                    <li class="breadcrumb-item"><a href="/" class="text-white-50">@T["BreadcrumbHome"]</a></li>
+                                    <li class="breadcrumb-item"><a href="/Post" class="text-white-50">@T["BreadcrumbPosts"]</a></li>
                                     <li class="breadcrumb-item active text-white" aria-current="page">@breadcrumb2</li>
                                 </ol>
                             </nav>
@@ -45,9 +44,7 @@
                     }
                     else
                     {
-                        <span class="subheading">
-                            以无生之觉悟为有生之事业，以悲观之心情过乐观之生活。
-                        </span>
+                        <span class="subheading">@T["Subtitle"]</span>
                     }
                 </div>
             </div>
@@ -69,10 +66,7 @@
                         <h3 class="post-subtitle">@Html.DisplayFor(modelItem => item.Excerpt)</h3>
                     </a>
                     <p class="post-meta">
-                        Posted by
-                        <a href="#!">@Html.DisplayFor(modelItem => item.Author.Name)</a>
-                        on
-                        @Html.DisplayFor(modelItem => item.PublishedTime)
+                        @T["PostedBy", item.Author.Name] @Html.DisplayFor(modelItem => item.PublishedTime)
                         @if (item.Categories != null && item.Categories.Any())
                         {
                             <span class="mx-2">•</span>
@@ -102,29 +96,28 @@
                 <hr class="my-4" />
             }
 
-            <!-- 分页 -->
             <div class="pagination-container d-flex justify-content-between align-items-center">
                 @{
                     var pagination = PaginationHelper.GetPaginationModel(Model.CurrentPage, Model.TotalPages);
                     var startItem = Model.CurrentPage == 0 ? Model.CurrentPage : (Model.CurrentPage - 1) * Model.PageSize + 1;
                     var endItem = Math.Min(Model.CurrentPage * Model.PageSize, Model.TotalCount);
                 }
-                <div class="text-muted">Showing @startItem-@endItem of @Model.TotalCount articles</div>
+                <div class="text-muted">@T["PaginationInfo", startItem, endItem, Model.TotalCount]</div>
 
                 @if (Model.TotalPages > 1)
                 {
-                    <nav aria-label="Page navigation">
+                    <nav aria-label="@T["PaginationAriaLabel"]">
                         <ul class="pagination mb-0">
                             <li class="page-item @(Model.HasPrevious ? "" : "disabled")">
                                 @if (Model.HasPrevious)
                                 {
-                                    <a class="page-link" asp-action="Index" asp-route-page="@(Model.CurrentPage - 1)" asp-route-pageSize="@Model.PageSize" aria-label="Previous">
+                                    <a class="page-link" asp-action="Index" asp-route-page="@(Model.CurrentPage - 1)" asp-route-pageSize="@Model.PageSize" aria-label="@T["PaginationPrevious"]">
                                         <span aria-hidden="true">&laquo;</span>
                                     </a>
                                 }
                                 else
                                 {
-                                    <a class="page-link" href="#" aria-label="Previous">
+                                    <a class="page-link" href="#" aria-label="@T["PaginationPrevious"]">
                                         <span aria-hidden="true">&laquo;</span>
                                     </a>
                                 }
@@ -165,13 +158,13 @@
                             <li class="page-item @(Model.HasNext ? "" : "disabled")">
                                 @if (Model.HasNext)
                                 {
-                                    <a class="page-link" asp-action="Index" asp-route-page="@(Model.CurrentPage + 1)" asp-route-pageSize="@Model.PageSize" aria-label="Next">
+                                    <a class="page-link" asp-action="Index" asp-route-page="@(Model.CurrentPage + 1)" asp-route-pageSize="@Model.PageSize" aria-label="@T["PaginationNext"]">
                                         <span aria-hidden="true">&raquo;</span>
                                     </a>
                                 }
                                 else
                                 {
-                                    <a class="page-link" href="#" aria-label="Next">
+                                    <a class="page-link" href="#" aria-label="@T["PaginationNext"]">
                                         <span aria-hidden="true">&raquo;</span>
                                     </a>
                                 }
@@ -181,7 +174,6 @@
                 }
             </div>
         </div>
-        <!-- 侧边栏（大屏幕显示） -->
         <div class="col-lg-3 d-none d-lg-block">
             @await Html.PartialAsync("_CategorySidebar", Model.SidebarCategories)
             @await Html.PartialAsync("_TagSidebar", Model.SidebarTags)

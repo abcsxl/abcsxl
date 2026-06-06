@@ -1,22 +1,22 @@
 @model abcsxl.Areas.Admin.Models.ViewModels.Dashboard.IndexPageViewModel
 
 @{
-    ViewData["Title"] = "仪表盘";
+    ViewData["Title"] = T["PageTitle"].Value;
 }
 
 <div class="card">
     <div class="card-header d-flex justify-content-between align-items-center">
-        <h5 class="mb-0">📊 仪表盘</h5>
+        <h5 class="mb-0">@T["HeaderTitle"]</h5>
     </div>
     <div class="card-body">
-        <p class="text-muted">欢迎回来，这里是你的博客管理概览。</p>
+        <p class="text-muted">@T["Subtitle"]</p>
 
         <div class="row mb-4">
             <div class="col-md-2">
                 <div class="card text-center bg-primary text-white">
                     <div class="card-body">
                         <h4>@Model.TotalPosts</h4>
-                        <small class="text-white">总文章</small>
+                        <small class="text-white">@T["TotalPosts"]</small>
                     </div>
                 </div>
             </div>
@@ -24,7 +24,7 @@
                 <div class="card text-center bg-success text-white">
                     <div class="card-body">
                         <h4>@Model.PublishedPosts</h4>
-                        <small class="text-white">已发布</small>
+                        <small class="text-white">@T["PublishedPosts"]</small>
                     </div>
                 </div>
             </div>
@@ -32,7 +32,7 @@
                 <div class="card text-center bg-info text-white">
                     <div class="card-body">
                         <h4>@Model.TotalCategories</h4>
-                        <small class="text-white">分类</small>
+                        <small class="text-white">@T["TotalCategories"]</small>
                     </div>
                 </div>
             </div>
@@ -40,7 +40,7 @@
                 <div class="card text-center bg-warning text-white">
                     <div class="card-body">
                         <h4>@Model.TotalTags</h4>
-                        <small class="text-white">标签</small>
+                        <small class="text-white">@T["TotalTags"]</small>
                     </div>
                 </div>
             </div>
@@ -48,7 +48,7 @@
                 <div class="card text-center bg-secondary text-white">
                     <div class="card-body">
                         <h4>@Model.TotalUsers</h4>
-                        <small class="text-white">用户</small>
+                        <small class="text-white">@T["TotalUsers"]</small>
                     </div>
                 </div>
             </div>
@@ -56,7 +56,7 @@
                 <div class="card text-center bg-danger text-white">
                     <div class="card-body">
                         <h4>@Model.TotalComments</h4>
-                        <small class="text-white">评论</small>
+                        <small class="text-white">@T["TotalComments"]</small>
                     </div>
                 </div>
             </div>
@@ -64,7 +64,7 @@
 
         <div class="card">
             <div class="card-header">
-                <h5 class="mb-0">📝 最新文章</h5>
+                <h5 class="mb-0">@T["RecentPostsTitle"]</h5>
             </div>
             <div class="card-body p-0">
                 @if (Model.RecentPosts.Any())
@@ -73,11 +73,11 @@
                         <table class="table table-hover mb-0">
                             <thead class="table-light">
                                 <tr>
-                                    <th>标题</th>
-                                    <th>作者</th>
-                                    <th>发布时间</th>
-                                    <th>状态</th>
-                                    <th style="width: 100px;">操作</th>
+                                    <th>@T["TableHeaderTitle"]</th>
+                                    <th>@T["TableHeaderAuthor"]</th>
+                                    <th>@T["TableHeaderPublishDate"]</th>
+                                    <th>@T["TableHeaderStatus"]</th>
+                                    <th style="width: 100px;">@T["TableHeaderActions"]</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -92,11 +92,11 @@
                                         <td>
                                             @if (post.IsPublished)
                                             {
-                                                <span class="badge bg-success">已发布</span>
+                                                <span class="badge bg-success">@T["StatusPublished"]</span>
                                             }
                                             else
                                             {
-                                                <span class="badge bg-secondary">草稿</span>
+                                                <span class="badge bg-secondary">@T["StatusDraft"]</span>
                                             }
                                         </td>
                                         <td>
@@ -113,7 +113,7 @@
                 else
                 {
                     <div class="text-center py-4">
-                        <p class="text-muted">暂无文章</p>
+                        <p class="text-muted">@T["NoPosts"]</p>
                     </div>
                 }
             </div>

@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "Privacy Policy";
+    ViewData["Title"] = T["PageTitle"].Value;
 }
 
 <!-- Page Header-->
@@ -9,15 +9,11 @@
             <div class="col-md-10 col-lg-9 col-xl-8">
                 <div class="site-heading">
                     <h1>@ViewData["Title"]</h1>
-                    <span class="subheading">
-                        @*                         To undertake the endeavors of life with the awareness of its impermanence,
-                        To live an optimistic life with a contemplative acceptance of its sorrows. *@
-                        以无生之觉悟为有生之事业，以悲观之心情过乐观之生活。
-                    </span>
+                    <span class="subheading">@T["Subtitle"]</span>
                 </div>
             </div>
         </div>
     </div>
 </header>
 
-<p>Use this page to detail your site's privacy policy.</p>
+<p>@T["BodyText"]</p>

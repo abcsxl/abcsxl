@@ -1,12 +1,12 @@
 @model abcsxl.Models.Entities.Category
 
 @{
-    ViewData["Title"] = "新建分类";
+    ViewData["Title"] = T["PageTitle"].Value;
 }
 
 <div class="card">
     <div class="card-header">
-        <h5 class="mb-0"><i class="bi bi-folder-plus"></i> 新建分类</h5>
+        <h5 class="mb-0"><i class="bi bi-folder-plus"></i> @T["HeaderTitle"]</h5>
     </div>
     <div class="card-body">
         <form asp-action="Create" method="post">
@@ -15,36 +15,36 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="mb-3">
-                        <label class="form-label">分类名称 *</label>
+                        <label class="form-label">@T["NameLabel"] *</label>
                         <input asp-for="Name" class="form-control" required />
                         <span asp-validation-for="Name" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="mb-3">
-                        <label class="form-label">上级分类</label>
+                        <label class="form-label">@T["ParentLabel"]</label>
                         <select asp-for="ParentId" asp-items="ViewBag.ParentCategories" class="form-select">
-                            <option value="">— 无上级 —</option>
+                            <option value="">@T["NoParentOption"]</option>
                         </select>
                     </div>
                 </div>
             </div>
 
             <div class="mb-3">
-                <label class="form-label">描述</label>
-                <textarea asp-for="Description" class="form-control" rows="2" placeholder="简短描述..."></textarea>
+                <label class="form-label">@T["DescriptionLabel"]</label>
+                <textarea asp-for="Description" class="form-control" rows="2" placeholder="@T["DescriptionPlaceholder"]"></textarea>
             </div>
 
             <div class="row">
                 <div class="col-md-6">
                     <div class="mb-3">
-                        <label class="form-label">URL别名</label>
-                        <input asp-for="Slug" class="form-control" placeholder="自动生成" />
+                        <label class="form-label">@T["SlugLabel"]</label>
+                        <input asp-for="Slug" class="form-control" placeholder="@T["SlugPlaceholder"]" />
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="mb-3">
-                        <label class="form-label">排序</label>
+                        <label class="form-label">@T["OrderLabel"]</label>
                         <input asp-for="Order" class="form-control" type="number" value="0" />
                     </div>
                 </div>
@@ -52,13 +52,13 @@
 
             <div class="mb-3 form-check">
                 <input asp-for="IsVisible" class="form-check-input" type="checkbox" checked />
-                <label asp-for="IsVisible" class="form-check-label">显示</label>
+                <label asp-for="IsVisible" class="form-check-label">@T["VisibleLabel"]</label>
             </div>
 
             <div class="text-end">
-                <a asp-action="Index" class="btn btn-secondary me-2">取消</a>
+                <a asp-action="Index" class="btn btn-secondary me-2">@T["CancelButton"]</a>
                 <button type="submit" class="btn btn-primary">
-                    <i class="bi bi-check-lg"></i> 创建
+                    <i class="bi bi-check-lg"></i> @T["CreateButton"]
                 </button>
             </div>
         </form>

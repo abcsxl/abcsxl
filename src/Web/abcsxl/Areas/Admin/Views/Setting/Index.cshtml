@@ -1,5 +1,5 @@
 @{
-    ViewData["Title"] = "系统设置";
+    ViewData["Title"] = T["PageTitle"].Value;
 }
 
 @if (TempData["Success"] != null)
@@ -12,70 +12,67 @@
 
 <div class="card">
     <div class="card-header">
-        <h5 class="mb-0"><i class="bi bi-gear"></i> 系统设置</h5>
+        <h5 class="mb-0"><i class="bi bi-gear"></i> @T["HeaderTitle"]</h5>
     </div>
     <div class="card-body">
         <form asp-action="Save" method="post">
-            <!-- 博客信息 -->
             <h6 class="border-bottom pb-2 mb-3">
-                <i class="bi bi-info-circle"></i> 博客信息
+                <i class="bi bi-info-circle"></i> @T["BlogInfoTitle"]
             </h6>
             <div class="row mb-3">
                 <div class="col-md-6">
-                    <label class="form-label">博客名称</label>
+                    <label class="form-label">@T["BlogNameLabel"]</label>
                     <input type="text" name="BlogName" class="form-control" value="@ViewBag.BlogName" />
                 </div>
                 <div class="col-md-6">
-                    <label class="form-label">博客描述</label>
+                    <label class="form-label">@T["BlogDescriptionLabel"]</label>
                     <input type="text" name="BlogDescription" class="form-control" value="@ViewBag.BlogDescription" />
                 </div>
             </div>
             <div class="mb-3">
-                <label class="form-label">SEO 关键词</label>
-                <input type="text" name="SEOKeywords" class="form-control" value="@ViewBag.SEOKeywords" placeholder="用逗号分隔" />
+                <label class="form-label">@T["SEOKeywordsLabel"]</label>
+                <input type="text" name="SEOKeywords" class="form-control" value="@ViewBag.SEOKeywords" placeholder="@T["SEOKeywordsPlaceholder"]" />
             </div>
 
-            <!-- 评论设置 -->
             <h6 class="border-bottom pb-2 mb-3 mt-4">
-                <i class="bi bi-chat-dots"></i> 评论设置
+                <i class="bi bi-chat-dots"></i> @T["CommentSettingsTitle"]
             </h6>
             <div class="row mb-3">
                 <div class="col-md-6">
                     <div class="form-check">
                         <input type="checkbox" name="EnableComments" class="form-check-input" id="EnableComments" value="true" @(ViewBag.EnableComments == "true" ? "checked" : "") />
-                        <label class="form-check-label" for="EnableComments">开启评论</label>
+                        <label class="form-check-label" for="EnableComments">@T["EnableCommentsLabel"]</label>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-check">
                         <input type="checkbox" name="CommentModeration" class="form-check-input" id="CommentModeration" value="true" @(ViewBag.CommentModeration == "true" ? "checked" : "") />
-                        <label class="form-check-label" for="CommentModeration">评论需要审核</label>
+                        <label class="form-check-label" for="CommentModeration">@T["CommentModerationLabel"]</label>
                     </div>
                 </div>
             </div>
 
-            <!-- 分页设置 -->
             <h6 class="border-bottom pb-2 mb-3 mt-4">
-                <i class="bi bi-collection"></i> 分页设置
+                <i class="bi bi-collection"></i> @T["PaginationSettingsTitle"]
             </h6>
             <div class="row mb-3">
                 <div class="col-md-4">
-                    <label class="form-label">首页文章数</label>
+                    <label class="form-label">@T["HomePageSizeLabel"]</label>
                     <input type="number" name="HomePageSize" class="form-control" value="@ViewBag.HomePageSize" />
                 </div>
                 <div class="col-md-4">
-                    <label class="form-label">列表每页文章数</label>
+                    <label class="form-label">@T["ListPageSizeLabel"]</label>
                     <input type="number" name="ListPageSize" class="form-control" value="@ViewBag.ListPageSize" />
                 </div>
                 <div class="col-md-4">
-                    <label class="form-label">最新文章数</label>
+                    <label class="form-label">@T["RecentPostCountLabel"]</label>
                     <input type="number" name="RecentPostCount" class="form-control" value="@ViewBag.RecentPostCount" />
                 </div>
             </div>
 
             <div class="text-end mt-4">
                 <button type="submit" class="btn btn-primary">
-                    <i class="bi bi-check-lg"></i> 保存设置
+                    <i class="bi bi-check-lg"></i> @T["SaveButton"]
                 </button>
             </div>
         </form>

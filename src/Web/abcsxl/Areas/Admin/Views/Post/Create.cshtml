@@ -4,16 +4,20 @@
     var isEditMode = Model?.Id != null &&
                      Model.Id != Guid.Empty &&
                      Model.Id.ToString() != "00000000-0000-0000-0000-000000000000";
-    ViewData["Title"] = isEditMode ? "编辑文章" : "写文章";
+    ViewData["Title"] = isEditMode ? T["TitleEdit"].Value : T["TitleCreate"].Value;
+    var currentCulture = System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+    var slugAutoGenText = T["SlugAutoGen"].Value;
+    var editSlugPromptText = T["EditSlugPrompt"].Value;
+    var startWritingPlaceholder = T["StartWritingPlaceholder"].Value;
+    var uploadFailedText = T["UploadFailed"].Value;
+    var vditorLang = currentCulture == "zh" ? "zh_CN" : "en_US";
 }
 
-<!-- 引入 Vditor 样式 -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vditor@3.10.3/dist/index.css" />
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/highlight.js/lib/index.min.js"></script>
 
 <style>
-    /* ===== 文章编辑页面样式 ===== */
     :root {
         --sidebar-active: #0d6efd;
     }
@@ -66,7 +70,6 @@
         color: #475569;
     }
 
-    /* 元信息卡片 */
     .meta-card {
         background: white;
         border-radius: 16px;
@@ -93,7 +96,6 @@
             font-size: 1.1rem;
         }
 
-    /* Vditor 编辑器容器 */
     .vditor-container {
         border: none !important;
         border-radius: 16px !important;
@@ -106,7 +108,6 @@
         border-radius: 16px !important;
     }
 
-    /* 标签输入 */
     .tags-input {
         border: 2px solid #e2e8f0;
         border-radius: 12px;
@@ -145,7 +146,6 @@
             border-color: var(--sidebar-active);
         }
 
-    /* 特色图片上传 */
     .featured-image-upload {
         border: 2px dashed #e2e8f0;
         border-radius: 16px;
@@ -180,7 +180,6 @@
         display: none;
     }
 
-    /* 发布按钮组 */
     .publish-actions {
         position: sticky;
         bottom: 1.5rem;
@@ -217,7 +216,6 @@
             color: var(--sidebar-active);
         }
 
-    /* 表单控件 */
     .form-select, .form-control {
         border: 2px solid #e2e8f0;
         border-radius: 12px;
@@ -229,7 +227,6 @@
             box-shadow: 0 0 0 4px rgba(13,110,253,0.1);
         }
 
-    /* 验证错误样式 - 微软官方方式 */
     .field-validation-error {
         color: #dc3545;
         font-size: 0.85rem;
@@ -255,7 +252,6 @@
             padding-left: 1.5rem;
         }
 
-    /* 暗黑模式 */
     [data-bs-theme="dark"] .post-editor-header,
     [data-bs-theme="dark"] .meta-card,
     [data-bs-theme="dark"] .vditor-container {
@@ -283,7 +279,6 @@
         color: #e2e8f0;
     }
 
-    /* 响应式 */
     @@media (max-width: 768px) {
         .post-title-input {
             font-size: 1.5rem;
@@ -313,115 +308,106 @@
             <input type="hidden" asp-for="Id" />
         }
 
-        <!-- 验证摘要 - 微软官方方式，错误会一直显示直到修正 -->
         <div asp-validation-summary="All" class="validation-summary-errors" style="@(ViewData.ModelState.IsValid ? "display:none;" : "")"></div>
 
-        <!-- 文章标题区域 -->
         <div class="post-editor-header">
-            <input type="text" class="post-title-input" asp-for="Title" placeholder="输入文章标题..." autofocus value="@(isEditMode? Model.Title: "")">
+            <input type="text" class="post-title-input" asp-for="Title" placeholder="@T["TitlePlaceholder"]" autofocus value="@(isEditMode? Model.Title: "")">
             <span asp-validation-for="Title" class="field-validation-error"></span>
 
             <div class="d-flex align-items-center mt-3 text-muted small">
                 <i class="bi bi-link-45deg me-1"></i>
-                <span>别名：</span>
-                <span class="slug-preview ms-2 me-2" id="slugPreview">@(!string.IsNullOrEmpty(Model.Slug) ? Model.Slug : "将根据标题自动生成")</span>
+                <span>@T["SlugLabel"]</span>
+                <span class="slug-preview ms-2 me-2" id="slugPreview">@(!string.IsNullOrEmpty(Model.Slug) ? Model.Slug : slugAutoGenText)</span>
                 <input type="hidden" asp-for="Slug" id="slugInput" value="@Model.Slug" />
                 <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill px-3" id="editSlugBtn" onclick="editSlug()">
-                    <i class="bi bi-pencil"></i> 编辑
+                    <i class="bi bi-pencil"></i> @T["EditSlugButton"]
                 </button>
             </div>
         </div>
 
         <div class="row g-4">
-            <!-- ===== 左侧：主编辑区 ===== -->
             <div class="col-lg-8">
-                <!-- Vditor 编辑器容器 -->
                 <div class="meta-card p-0 overflow-hidden vditor-container">
                     <div id="vditor" style="height: 600px;"></div>
                     <textarea asp-for="Content" style="display:none;" id="contentHidden"></textarea>
                 </div>
                 <span asp-validation-for="Content" class="field-validation-error"></span>
 
-                <!-- 摘要 -->
                 <div class="meta-card">
                     <div class="meta-card-title">
                         <i class="bi bi-text-paragraph"></i>
-                        文章摘要
+                        @T["ExcerptTitle"]
                     </div>
-                    <textarea class="form-control" asp-for="Excerpt" rows="4" placeholder="文章摘要，如不填写将自动从正文生成...">@Model.Excerpt</textarea>
+                    <textarea class="form-control" asp-for="Excerpt" rows="4" placeholder="@T["ExcerptPlaceholder"]">@Model.Excerpt</textarea>
                     <span asp-validation-for="Excerpt" class="field-validation-error"></span>
                 </div>
             </div>
 
-            <!-- ===== 右侧：文章元信息 ===== -->
             <div class="col-lg-4">
-                <!-- 发布设置 -->
                 <div class="meta-card">
                     <div class="meta-card-title">
                         <i class="bi bi-send"></i>
-                        发布设置
+                        @T["PublishSettingsTitle"]
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label fw-medium mb-2">状态</label>
+                        <label class="form-label fw-medium mb-2">@T["StatusLabel"]</label>
                         <select asp-for="Status" class="form-select">
-                            <option value="@((int)PostStatus.Draft)">📝 草稿</option>
-                            <option value="@((int)PostStatus.Published)">🚀 立即发布</option>
-                            <option value="@((int)PostStatus.Archived)">📦 归档</option>
+                            <option value="@((int)PostStatus.Draft)">@T["StatusDraft"]</option>
+                            <option value="@((int)PostStatus.Published)">@T["StatusPublished"]</option>
+                            <option value="@((int)PostStatus.Archived)">@T["StatusArchived"]</option>
                         </select>
                     </div>
 
                     <div class="mb-3" id="publishTimeField" style="display: none;">
-                        <label class="form-label fw-medium mb-2">⏰ 定时发布</label>
+                        <label class="form-label fw-medium mb-2">@T["ScheduledPublish"]</label>
                         <input type="datetime-local" class="form-control" asp-for="PublishAt" />
                     </div>
 
                     <div class="form-check mb-2">
                         <input type="checkbox" class="form-check-input" asp-for="IsPinned">
                         <label class="form-check-label" asp-for="IsPinned">
-                            <i class="bi bi-pin-fill text-warning"></i> 置顶文章
+                            <i class="bi bi-pin-fill text-warning"></i> @T["PinPost"]
                         </label>
                     </div>
 
                     <div class="form-check">
                         <input type="checkbox" class="form-check-input" asp-for="AllowComments">
                         <label class="form-check-label" asp-for="AllowComments">
-                            <i class="bi bi-chat"></i> 允许评论
+                            <i class="bi bi-chat"></i> @T["AllowComments"]
                         </label>
                     </div>
                 </div>
 
-                <!-- 分类 -->
                 <div class="meta-card">
                     <div class="meta-card-title">
                         <i class="bi bi-folder"></i>
-                        分类
+                        @T["CategoryTitle"]
                     </div>
 
                     <select asp-for="CategoryId" asp-items="Model.Categories" class="form-select">
-                        <option value="">-- 选择分类 --</option>
+                        <option value="">@T["CategoryPlaceholder"]</option>
                     </select>
                     <span asp-validation-for="CategoryId" class="field-validation-error"></span>
                 </div>
 
-                <!-- 标签 -->
                 <div class="meta-card">
                     <div class="meta-card-title">
                         <i class="bi bi-tags"></i>
-                        标签
+                        @T["TagTitle"]
                     </div>
 
                     <input type="text" class="tags-input" asp-for="Tags"
-                           placeholder="输入标签，用逗号分隔" id="tagsInput" value="@Model.Tags" />
+                           placeholder="@T["TagPlaceholder"]" id="tagsInput" value="@Model.Tags" />
                     <span asp-validation-for="Tags" class="field-validation-error"></span>
                     <div class="small text-muted mt-1">
-                        <i class="bi bi-info-circle"></i> 多个标签用英文逗号分隔
+                        <i class="bi bi-info-circle"></i> @T["TagHint"]
                     </div>
 
                     @if (Model.ExistingTags != null && Model.ExistingTags.Any())
                     {
                         <div class="existing-tags">
-                            <span class="text-muted small fw-medium">📌 常用标签：</span>
+                            <span class="text-muted small fw-medium">@T["CommonTags"]</span>
                             @foreach (var tag in Model.ExistingTags.Take(8))
                             {
                                 <span class="tag-item" onclick="addTag('@tag')">
@@ -432,11 +418,10 @@
                     }
                 </div>
 
-                <!-- 特色图片 -->
                 <div class="meta-card">
                     <div class="meta-card-title">
                         <i class="bi bi-image"></i>
-                        特色图片
+                        @T["FeaturedImageTitle"]
                     </div>
 
                     <div class="featured-image-upload @(!string.IsNullOrEmpty(Model.FeaturedImage) ? "has-image" : "")"
@@ -446,8 +431,8 @@
 
                         <div class="upload-placeholder">
                             <i class="bi bi-cloud-arrow-up fs-1" style="color: #94a3b8;"></i>
-                            <p class="mt-2 mb-0 fw-medium">点击上传特色图片</p>
-                            <small class="text-muted">推荐尺寸：1200x630px，支持 JPG/PNG</small>
+                            <p class="mt-2 mb-0 fw-medium">@T["FeaturedImageUploadHint"]</p>
+                            <small class="text-muted">@T["FeaturedImageSize"]</small>
                         </div>
 
                         @if (!string.IsNullOrEmpty(Model.FeaturedImage))
@@ -456,37 +441,40 @@
                         }
                         else
                         {
-                            <img src="" class="featured-image-preview" alt="特色图片预览" />
+                            <img src="" class="featured-image-preview" alt="@T["FeaturedImageAlt"]" />
                         }
 
                         <button type="button" class="btn btn-sm btn-outline-danger mt-3 rounded-pill px-4"
                                 onclick="removeFeaturedImage(event)" style="display: @(!string.IsNullOrEmpty(Model.FeaturedImage) ? "inline-block" : "none");">
-                            <i class="bi bi-trash"></i> 移除图片
+                            <i class="bi bi-trash"></i> @T["RemoveImage"]
                         </button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- 底部操作栏 -->
         <div class="d-flex justify-content-center mt-4 mb-5">
             <div class="publish-actions">
                 <button type="submit" name="saveType" value="draft" class="btn-draft">
-                    <i class="bi bi-save me-2"></i>保存草稿
+                    <i class="bi bi-save me-2"></i>@T["SaveDraft"]
                 </button>
                 <button type="submit" name="saveType" value="publish" class="btn-publish">
-                    <i class="bi bi-send me-2"></i>发布文章
+                    <i class="bi bi-send me-2"></i>@T["Publish"]
                 </button>
             </div>
         </div>
     </form>
 </div>
 
-<!-- Vditor JS -->
 <script src="https://cdn.jsdelivr.net/npm/vditor@3.10.3/dist/index.min.js"></script>
 
 <script>
-    // 生成别名
+    const slugAutoGenText = @Html.Raw(Json.Serialize(slugAutoGenText));
+    const editSlugPromptText = @Html.Raw(Json.Serialize(editSlugPromptText));
+    const startWritingPlaceholder = @Html.Raw(Json.Serialize(startWritingPlaceholder));
+    const uploadFailedText = @Html.Raw(Json.Serialize(uploadFailedText));
+    const vditorLang = @Html.Raw(Json.Serialize(vditorLang));
+
     function generateSlug(text) {
         if (!text) return '';
         return text.trim()
@@ -497,11 +485,10 @@
             .substring(0, 100);
     }
 
-    // 编辑别名
     function editSlug() {
         var currentSlug = document.getElementById('slugInput').value || document.getElementById('slugPreview').textContent;
-        var displaySlug = currentSlug === '将根据标题自动生成' ? '' : currentSlug;
-        var newSlug = prompt('编辑别名', displaySlug);
+        var displaySlug = currentSlug === slugAutoGenText ? '' : currentSlug;
+        var newSlug = prompt(editSlugPromptText, displaySlug);
         if (newSlug && newSlug.trim() !== '') {
             var slug = generateSlug(newSlug);
             document.getElementById('slugInput').value = slug;
@@ -509,7 +496,6 @@
         }
     }
 
-    // 添加标签
     function addTag(tag) {
         const input = document.getElementById('tagsInput');
         const currentTags = input.value.split(',').map(t => t.trim()).filter(t => t);
@@ -519,7 +505,6 @@
         }
     }
 
-    // 移除特色图片
     function removeFeaturedImage(e) {
         e.stopPropagation();
         const container = document.getElementById('featuredImageUpload');
@@ -536,7 +521,6 @@
         fileInput.value = '';
     }
 
-    // 重置新建文章内容
     function resetEditorForNewPost() {
         const isEditMode = @Json.Serialize(isEditMode);
         if (!isEditMode) {
@@ -545,30 +529,27 @@
             }
             document.querySelector('.post-title-input').value = '';
             document.getElementById('slugInput').value = '';
-            document.getElementById('slugPreview').textContent = '将根据标题自动生成';
+            document.getElementById('slugPreview').textContent = slugAutoGenText;
             document.querySelector('textarea[name="Excerpt"]').value = '';
             document.getElementById('tagsInput').value = '';
             document.querySelector('select[name="CategoryId"]').value = '';
-            // 清除 Vditor 缓存
             localStorage.removeItem('vditor');
         }
     }
 
-    // DOM 加载完成
     document.addEventListener('DOMContentLoaded', function() {
         const currentTheme = document.documentElement.getAttribute('data-bs-theme') || 'light';
         const initialContent = document.getElementById('contentHidden')?.value || '';
         const isEditMode = @Json.Serialize(isEditMode);
 
-        // 初始化 Vditor
         const vditor = new Vditor('vditor', {
             height: 600,
             minHeight: 400,
             width: '100%',
-            placeholder: '开始写文章...',
+            placeholder: startWritingPlaceholder,
             theme: currentTheme === 'dark' ? 'dark' : 'classic',
             mode: 'ir',
-            lang: 'zh_CN',
+            lang: vditorLang,
             outline: { enable: true, position: 'left' },
             cache: { enable: false },
             toolbar: [
@@ -593,7 +574,7 @@
                             this.insertValue(`![${res.filename}](${res.url})`);
                         }
                     } catch (e) {
-                        console.error('上传失败', e);
+                        console.error(uploadFailedText, e);
                     }
                 }
             },
@@ -610,7 +591,6 @@
         window.vditor = vditor;
         resetEditorForNewPost();
 
-        // 标题自动生成别名
         let slugTimeout;
         const titleInput = document.querySelector('.post-title-input');
         const slugPreview = document.getElementById('slugPreview');
@@ -622,15 +602,15 @@
                 if (!slugInput.value) {
                     const slug = generateSlug(e.target.value);
                     slugInput.value = slug;
-                    slugPreview.textContent = slug || '将根据标题自动生成';
+                    slugPreview.textContent = slug || slugAutoGenText;
                 }
             }, 500);
         });
 
         function editSlug() {
             const currentSlug = document.getElementById('slugInput').value || document.getElementById('slugPreview').textContent;
-            const displaySlug = currentSlug === '将根据标题自动生成' ? '' : currentSlug;
-            const newSlug = prompt('编辑别名', displaySlug);
+            const displaySlug = currentSlug === slugAutoGenText ? '' : currentSlug;
+            const newSlug = prompt(editSlugPromptText, displaySlug);
             if (newSlug && newSlug.trim() !== '') {
                 const slug = generateSlug(newSlug);
                 document.getElementById('slugInput').value = slug;
@@ -638,7 +618,6 @@
             }
         }
 
-        // 定时发布切换
         const statusSelect = document.querySelector('select[name="Status"]');
         const publishTimeField = document.getElementById('publishTimeField');
 
@@ -651,7 +630,6 @@
         statusSelect?.addEventListener('change', togglePublishTime);
         togglePublishTime();
 
-        // 特色图片上传
         const featuredImageInput = document.getElementById('featuredImageInput');
         if (featuredImageInput) {
             featuredImageInput.addEventListener('change', function(e) {
@@ -687,7 +665,6 @@
         }
     });
 
-    // 暗黑模式监听
     const observer = new MutationObserver((mutations) => {
         mutations.forEach((mutation) => {
             if (mutation.attributeName === 'data-bs-theme' && window.vditor) {

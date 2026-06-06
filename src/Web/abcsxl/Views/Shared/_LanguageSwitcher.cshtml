@@ -1,0 +1,24 @@
+@using System.Globalization
+@{
+    var currentCulture = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+    var returnUrl = string.IsNullOrEmpty(Context.Request.Path) ? "/" : Context.Request.Path + Context.Request.QueryString;
+}
+
+<div class="language-switcher d-inline-flex align-items-center">
+    <form asp-controller="Language" asp-action="Set" method="post" class="d-inline">
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="returnUrl" value="@returnUrl" />
+        @if (currentCulture == "zh")
+        {
+            <button type="submit" name="culture" value="en-US" class="lang-link" title="English" aria-label="Switch to English">
+                EN
+            </button>
+        }
+        else
+        {
+            <button type="submit" name="culture" value="zh-CN" class="lang-link" title="中文" aria-label="切换到中文">
+                中文
+            </button>
+        }
+    </form>
+</div>

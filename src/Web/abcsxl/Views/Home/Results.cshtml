@@ -1,6 +1,8 @@
 @model abcsxl.Models.ViewModels.Home.SearchResultViewModel
 @{
-    ViewData["Title"] = !string.IsNullOrEmpty(Model.Query) ? $"搜索结果 - {Model.Query}" : "搜索";
+    ViewData["Title"] = !string.IsNullOrEmpty(Model.Query)
+        ? T["TitleWithQuery", Model.Query].Value
+        : T["TitleEmpty"].Value;
 }
 
 @section Styles
@@ -15,9 +17,7 @@
             <div class="col-md-10 col-lg-9 col-xl-8">
                 <div class="site-heading">
                     <h1>@ViewData["Title"]</h1>
-                    <span class="subheading">
-                        以无生之觉悟为有生之事业，以悲观之心情过乐观之生活。
-                    </span>
+                    <span class="subheading">@T["Subtitle"]</span>
                 </div>
             </div>
         </div>
@@ -29,11 +29,10 @@
     <div class="row gx-4 gx-lg-5 justify-content-center">
         <div class="col-md-10 col-lg-9 col-xl-8">
 
-            <!-- 搜索框 -->
             <div class="search-section">
                 <div class="container">
                     <form method="get" class="search-box-container">
-                        <input type="text" name="q" class="search-box" placeholder="输入搜索关键词..." value="@Model.Query">
+                        <input type="text" name="q" class="search-box" placeholder="@T["SearchPlaceholder"]" value="@Model.Query">
                         <input type="hidden" name="tab" value="@Model.ActiveTab" />
                         <button type="submit" class="search-button">
                             <i class="fas fa-search"></i>
@@ -44,25 +43,23 @@
 
             @if (!string.IsNullOrEmpty(Model.Query))
             {
-                <!-- 结果统计和筛选 -->
                 <div class="results-header">
-                    <div class="results-count">共找到 @Model.TotalCount 条关于 "@Model.Query" 的结果</div>
+                    <div class="results-count">@T["ResultsCount", Model.TotalCount, Model.Query]</div>
                     <div class="results-tabs" id="resultsTabs">
-                        <a href="@Url.Action("Results", "Home", new { q = Model.Query, tab = "all" })" class="tab @(Model.ActiveTab == "all" ? "active" : "")">全部</a>
-                        <a href="@Url.Action("Results", "Home", new { q = Model.Query, tab = "post" })" class="tab @(Model.ActiveTab == "post" ? "active" : "")">文章</a>
-                        <a href="@Url.Action("Results", "Home", new { q = Model.Query, tab = "category" })" class="tab @(Model.ActiveTab == "category" ? "active" : "")">分类</a>
-                        <a href="@Url.Action("Results", "Home", new { q = Model.Query, tab = "tag" })" class="tab @(Model.ActiveTab == "tag" ? "active" : "")">标签</a>
+                        <a href="@Url.Action("Results", "Home", new { q = Model.Query, tab = "all" })" class="tab @(Model.ActiveTab == "all" ? "active" : "")">@T["TabAll"]</a>
+                        <a href="@Url.Action("Results", "Home", new { q = Model.Query, tab = "post" })" class="tab @(Model.ActiveTab == "post" ? "active" : "")">@T["TabPost"]</a>
+                        <a href="@Url.Action("Results", "Home", new { q = Model.Query, tab = "category" })" class="tab @(Model.ActiveTab == "category" ? "active" : "")">@T["TabCategory"]</a>
+                        <a href="@Url.Action("Results", "Home", new { q = Model.Query, tab = "tag" })" class="tab @(Model.ActiveTab == "tag" ? "active" : "")">@T["TabTag"]</a>
                     </div>
                 </div>
 
-                <!-- 结果列表 -->
                 <div class="results-container" id="resultsContainer">
                     @if (Model.ActiveTab == "all" || Model.ActiveTab == "post")
                     {
                         @foreach (var post in Model.Posts)
                         {
                             <div class="result-item">
-                                <span class="result-category">文章</span>
+                                <span class="result-category">@T["CategoryPost"]</span>
                                 <a href="@post.Url" class="result-title">@post.Title</a>
                                 <p class="result-description">@post.Excerpt</p>
                                 <small class="text-muted">@post.Author · @post.PublishedAt.ToString("yyyy-MM-dd")</small>
@@ -75,9 +72,9 @@
                         @foreach (var category in Model.Categories)
                         {
                             <div class="result-item">
-                                <span class="result-category">分类</span>
+                                <span class="result-category">@T["CategoryCategory"]</span>
                                 <a href="@category.Url" class="result-title">@category.Name</a>
-                                <small class="text-muted">@category.PostCount 篇文章</small>
+                                <small class="text-muted">@T["PostCountFormat", category.PostCount]</small>
                             </div>
                         }
                     }
@@ -87,9 +84,9 @@
                         @foreach (var tag in Model.Tags)
                         {
                             <div class="result-item">
-                                <span class="result-category">标签</span>
+                                <span class="result-category">@T["CategoryTag"]</span>
                                 <a href="@tag.Url" class="result-title">@tag.Name</a>
-                                <small class="text-muted">@tag.PostCount 篇文章</small>
+                                <small class="text-muted">@T["PostCountFormat", tag.PostCount]</small>
                             </div>
                         }
                     }
@@ -97,7 +94,7 @@
                     @if (Model.TotalCount == 0)
                     {
                         <div class="text-center py-5">
-                            <p class="text-muted">未找到相关内容，请尝试其他关键词。</p>
+                            <p class="text-muted">@T["NoResultsMessage"]</p>
                         </div>
                     }
                 </div>
@@ -105,7 +102,7 @@
             else
             {
                 <div class="text-center py-5">
-                    <p class="text-muted">请输入搜索关键词。</p>
+                    <p class="text-muted">@T["EnterQueryMessage"]</p>
                 </div>
             }
 

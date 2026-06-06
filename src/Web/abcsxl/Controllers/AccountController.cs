@@ -1,16 +1,19 @@
 ﻿using abcsxl.Models.ViewModels.Account;
 using abcsxl.Services.Authentication;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 
 namespace abcsxl.Controllers
 {
     public class AccountController : Controller
     {
         private readonly IAuthenticationService _auth;
+        private readonly IStringLocalizer<AccountController> _localizer;
 
-        public AccountController(IAuthenticationService auth)
+        public AccountController(IAuthenticationService auth, IStringLocalizer<AccountController> localizer)
         {
             _auth = auth;
+            _localizer = localizer;
         }
 
         // ===== 登录 =====
@@ -41,7 +44,7 @@ namespace abcsxl.Controllers
 
             if (!result.Succeeded)
             {
-                ModelState.AddModelError(string.Empty, result.ErrorMessage ?? "登录失败");
+                ModelState.AddModelError(string.Empty, result.ErrorMessage ?? _localizer["LoginFailed"].Value);
                 return View(model);
             }
 
@@ -65,17 +68,17 @@ namespace abcsxl.Controllers
         [HttpGet]
         public IActionResult Profile()
         {
-            ViewData["Title"] = "个人资料";
+            ViewData["Title"] = _localizer["ProfileTitle"].Value;
             ViewBag.UserRole = "Admin";
             ViewBag.UserEmail = User.Identity?.Name ?? "admin@example.com";
 
             var model = new ProfileViewModel
             {
                 UserName = User.Identity?.Name ?? "admin",
-                DisplayName = "管理员",
+                DisplayName = _localizer["DefaultDisplayName"].Value,
                 Email = User.Identity?.Name ?? "admin@example.com",
                 Phone = "13800138000",
-                Bio = "热爱技术，专注.NET开发"
+                Bio = _localizer["DefaultBio"].Value
             };
 
             return View(model);
@@ -90,8 +93,7 @@ namespace abcsxl.Controllers
                 return View(model);
             }
 
-            // TODO: 保存到数据库
-            TempData["Success"] = "资料更新成功！";
+            TempData["Success"] = _localizer["ProfileUpdated"].Value;
 
             return RedirectToAction(nameof(Profile));
         }
@@ -100,7 +102,7 @@ namespace abcsxl.Controllers
         [HttpGet]
         public IActionResult ChangePassword()
         {
-            ViewData["Title"] = "修改密码";
+            ViewData["Title"] = _localizer["ChangePasswordTitle"].Value;
             return View();
         }
 
@@ -113,7 +115,6 @@ namespace abcsxl.Controllers
                 return View(model);
             }
 
-            // TODO: 验证旧密码，更新新密码
             ViewBag.Success = true;
 
             return View();

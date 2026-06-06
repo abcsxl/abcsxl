@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="@System.Globalization.CultureInfo.CurrentUICulture.Name">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <title>@ViewData["Title"] - 启绪拾光</title>
-    <meta name="description" content="启绪拾光" />
+    <title>@ViewData["Title"] - @T["SiteTitle"]</title>
+    <meta name="description" content="@T["MetaDescription"]" />
     <meta name="author" content="abcsxl" />
 
     <link rel="icon" type="image/x-icon" href="~/favicon.ico" />
@@ -19,13 +19,12 @@
           asp-fallback-test-value="Font Awesome 6 Free" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/startbootstrap-clean-blog@6.0.9/dist/css/styles.min.css" crossorigin="anonymous"
           asp-fallback-href="~/lib/startbootstrap-clean-blog/dist/css/styles.min.css"
-          asp-fallback-test-class="masthead" 
+          asp-fallback-test-class="masthead"
           asp-fallback-test-property="background-size"
           asp-fallback-test-value="cover" />
     <script type="importmap"></script>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/abcsxl.styles.css" asp-append-version="true" />
-    <!-- 页面特定的样式部分 -->
     @await RenderSectionAsync("Styles", required: false)
 </head>
 <body>
@@ -33,26 +32,25 @@
     <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
         <div class="container px-4 px-lg-5">
             <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">abcsxl</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-                Menu
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="@T["NavToggleAriaLabel"]">
+                @T["NavToggle"]
                 <i class="fas fa-bars"></i>
             </button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ms-auto py-4 py-lg-0">
-                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" asp-area="" asp-controller="Post" asp-action="Index"@*  asp-route-pageSize="2" *@>Posts</a></li>
-                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" asp-area="" asp-controller="Home" asp-action="Index">Contact</a></li>
+                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" asp-area="" asp-controller="Home" asp-action="Index">@T["NavHome"]</a></li>
+                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" asp-area="" asp-controller="Home" asp-action="About">@T["NavAbout"]</a></li>
+                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" asp-area="" asp-controller="Post" asp-action="Index">@T["NavPosts"]</a></li>
                 </ul>
-                <!-- 搜索框（导航栏内） -->
-                <form class="d-flex ms-3" style="max-width: 250px;" asp-area="" asp-controller="Home" asp-action="Results" method="get">
-                    <div class="input-group">
-                        <input type="text" name="q" class="form-control form-control-sm" placeholder="搜索..." aria-label="Search">
-                        <button class="btn btn-outline-primary btn-sm" type="submit">
-                            <i class="fas fa-search"></i>
-                        </button>
-                    </div>
+                <form class="navbar-search d-flex ms-3" asp-area="" asp-controller="Home" asp-action="Results" method="get">
+                    <input type="text" name="q" class="navbar-search-input" placeholder="@T["SearchPlaceholder"]" aria-label="@T["SearchAriaLabel"]">
+                    <button class="navbar-search-btn" type="submit" aria-label="@T["SearchAriaLabel"]">
+                        <i class="fas fa-search"></i>
+                    </button>
                 </form>
+                <div class="ms-3">
+                    @await Html.PartialAsync("_LanguageSwitcher")
+                </div>
             </div>
         </div>
     </nav>
@@ -92,8 +90,8 @@
                     <div class="small text-center text-muted fst-italic">
                         <a target="_blank" href="https://beian.miit.gov.cn/">京ICP备18059317号-1</a> &nbsp;
                         <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010702001966"><img src="~/images/ghs.png" />京公网安备 11010702001966号</a> &nbsp;
-                        &copy; 2026 启绪拾光 &nbsp;
-                        <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        @T["FooterCopyright", DateTime.Now.Year] &nbsp;
+                        <a asp-area="" asp-controller="Home" asp-action="Privacy">@T["FooterPrivacy"]</a>
                     </div>
                 </div>
             </div>

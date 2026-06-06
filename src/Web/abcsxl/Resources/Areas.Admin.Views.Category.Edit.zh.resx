@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="CancelButton" xml:space="preserve"><value>取消</value></data>
+  <data name="DescriptionLabel" xml:space="preserve"><value>描述</value></data>
+  <data name="DescriptionPlaceholder" xml:space="preserve"><value>分类描述（可选）</value></data>
+  <data name="HeaderTitle" xml:space="preserve"><value>编辑分类</value></data>
+  <data name="NameLabel" xml:space="preserve"><value>名称</value></data>
+  <data name="NavVisibleLabel" xml:space="preserve"><value>导航栏可见</value></data>
+  <data name="NoParentOption" xml:space="preserve"><value>无（顶级分类）</value></data>
+  <data name="OrderLabel" xml:space="preserve"><value>排序</value></data>
+  <data name="PageTitle" xml:space="preserve"><value>编辑分类</value></data>
+  <data name="ParentLabel" xml:space="preserve"><value>父分类</value></data>
+  <data name="SaveButton" xml:space="preserve"><value>保存</value></data>
+  <data name="SlugLabel" xml:space="preserve"><value>Slug</value></data>
+  <data name="VisibleLabel" xml:space="preserve"><value>是否显示</value></data>
+</root>

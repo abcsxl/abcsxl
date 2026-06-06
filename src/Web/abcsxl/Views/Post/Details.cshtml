@@ -2,7 +2,7 @@
 
 @{
     var coverImage = !string.IsNullOrEmpty(Model.Post.CoverImage) ? Model.Post.CoverImage : "/images/posts-bg.webp";
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = Model.Post.Title;
 }
 
 @section Styles
@@ -23,10 +23,7 @@
                     <h1>@Model.Post.Title</h1>
                     <h2 class="subheading">@Model.Post.Excerpt</h2>
                     <span class="meta">
-                        Posted by
-                        <a href="#!">@Model.Post.Author.Name</a>
-                        on
-                        @Model.Post.PublishedAt
+                        @T["PostedBy", Model.Post.Author.Name] @Model.Post.PublishedAt
                     </span>
                 </div>
             </div>

@@ -2,7 +2,7 @@
 @using abcsxl.Models.Enums
 
 @{
-    ViewData["Title"] = "文章管理";
+    ViewData["Title"] = T["PageTitle"].Value;
     var currentPage = ViewBag.CurrentPage ?? 1;
     var totalPages = ViewBag.TotalPages ?? 1;
     var search = ViewBag.Search as string;
@@ -11,35 +11,34 @@
 
 <div class="card">
     <div class="card-header d-flex justify-content-between align-items-center">
-        <h5 class="mb-0">📝 文章管理</h5>
+        <h5 class="mb-0">@T["HeaderTitle"]</h5>
         <a asp-area="Admin" asp-controller="Post" asp-action="Create" class="btn btn-primary btn-sm">
-            <i class="bi bi-plus-circle"></i> 新建文章
+            <i class="bi bi-plus-circle"></i> @T["CreateButton"]
         </a>
     </div>
     <div class="card-body">
-        <!-- 搜索和筛选 -->
         <form asp-action="Index" method="get" class="mb-3">
             <div class="row g-2">
                 <div class="col-md-4">
-                    <input type="text" name="search" class="form-control" placeholder="搜索标题或内容..." value="@search">
+                    <input type="text" name="search" class="form-control" placeholder="@T["SearchPlaceholder"]" value="@search">
                 </div>
                 <div class="col-md-3">
                     <select name="status" class="form-select">
-                        <option value="">全部状态</option>
-                        <option value="Draft" selected="@(status == "Draft")">草稿</option>
-                        <option value="Published" selected="@(status == "Published")">已发布</option>
+                        <option value="">@T["StatusAll"]</option>
+                        <option value="Draft" selected="@(status == "Draft")">@T["StatusDraft"]</option>
+                        <option value="Published" selected="@(status == "Published")">@T["StatusPublished"]</option>
                     </select>
                 </div>
                 <div class="col-md-2">
                     <button type="submit" class="btn btn-outline-primary w-100">
-                        <i class="bi bi-search"></i> 搜索
+                        <i class="bi bi-search"></i> @T["SearchButton"]
                     </button>
                 </div>
                 @if (!string.IsNullOrEmpty(search) || !string.IsNullOrEmpty(status))
                 {
                     <div class="col-md-2">
                         <a asp-action="Index" class="btn btn-outline-secondary w-100">
-                            <i class="bi bi-x-circle"></i> 重置
+                            <i class="bi bi-x-circle"></i> @T["ResetButton"]
                         </a>
                     </div>
                 }
@@ -51,12 +50,12 @@
             <table class="table table-hover">
                 <thead>
                     <tr>
-                        <th>标题</th>
-                        <th>作者</th>
-                        <th>浏览</th>
-                        <th>发布时间</th>
-                        <th>状态</th>
-                        <th style="width: 120px;">操作</th>
+                        <th>@T["TableHeaderTitle"]</th>
+                        <th>@T["TableHeaderAuthor"]</th>
+                        <th>@T["TableHeaderViews"]</th>
+                        <th>@T["TableHeaderPublishDate"]</th>
+                        <th>@T["TableHeaderStatus"]</th>
+                        <th style="width: 120px;">@T["TableHeaderActions"]</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -76,22 +75,22 @@
                             <td>
                                 @if (post.Status == PostStatus.Published)
                                 {
-                                    <span class="badge bg-success">已发布</span>
+                                    <span class="badge bg-success">@T["StatusPublished"]</span>
                                 }
                                 else
                                 {
-                                    <span class="badge bg-secondary">草稿</span>
+                                    <span class="badge bg-secondary">@T["StatusDraft"]</span>
                                 }
                             </td>
                             <td>
                                 <div class="btn-group btn-group-sm">
-                                    <a asp-area="Admin" asp-controller="Post" asp-action="Edit" asp-route-id="@post.Id" class="btn btn-outline-primary" title="编辑">
+                                    <a asp-area="Admin" asp-controller="Post" asp-action="Edit" asp-route-id="@post.Id" class="btn btn-outline-primary" title="@T["ActionEdit"]">
                                         <i class="bi bi-pencil"></i>
                                     </a>
-                                    <a asp-area="" asp-controller="Post" asp-action="Detail" asp-route-id="@post.Slug" class="btn btn-outline-secondary" target="_blank" title="查看">
+                                    <a asp-area="" asp-controller="Post" asp-action="Detail" asp-route-id="@post.Slug" class="btn btn-outline-secondary" target="_blank" title="@T["ActionView"]">
                                         <i class="bi bi-eye"></i>
                                     </a>
-                                    <a asp-area="Admin" asp-controller="Post" asp-action="Delete" asp-route-id="@post.Id" class="btn btn-outline-danger" title="删除">
+                                    <a asp-area="Admin" asp-controller="Post" asp-action="Delete" asp-route-id="@post.Id" class="btn btn-outline-danger" title="@T["ActionDelete"]">
                                         <i class="bi bi-trash"></i>
                                     </a>
                                 </div>
@@ -101,10 +100,9 @@
                 </tbody>
             </table>
 
-            <!-- 分页 -->
             @if (totalPages > 1)
             {
-                <nav aria-label="文章分页">
+                <nav aria-label="@T["PaginationAriaLabel"]">
                     <ul class="pagination justify-content-center">
                         <li class="page-item @(currentPage <= 1 ? "disabled" : "")">
                             <a class="page-link" asp-action="Index" asp-route-page="@(currentPage - 1)" asp-route-search="@search" asp-route-status="@status">
@@ -138,7 +136,7 @@
         else
         {
             <div class="text-center py-5">
-                <p class="text-muted">暂无文章。</p>
+                <p class="text-muted">@T["NoPosts"]</p>
             </div>
         }
     </div>

@@ -1,7 +1,7 @@
 ﻿@model abcsxl.Models.ViewModels.Home.HomeIndexViewModel
 
 @{
-    ViewData["Title"] = "abcsxl";
+    ViewData["Title"] = T["PageTitle"].Value;
 }
 
 <!-- Page Header-->
@@ -10,12 +10,8 @@
         <div class="row gx-4 gx-lg-5 justify-content-center">
             <div class="col-md-10 col-lg-9 col-xl-8">
                 <div class="site-heading">
-                    <h1>启绪拾光</h1>
-                    <span class="subheading">
-@*                         To undertake the endeavors of life with the awareness of its impermanence,
-                        To live an optimistic life with a contemplative acceptance of its sorrows. *@
-                        以无生之觉悟为有生之事业，以悲观之心情过乐观之生活。
-                    </span>
+                    <h1>@T["HeroTitle"]</h1>
+                    <span class="subheading">@T["HeroSubtitle"]</span>
                 </div>
             </div>
         </div>
@@ -34,17 +30,14 @@
                         <h3 class="post-subtitle">@Html.DisplayFor(modelItem => item.Excerpt)</h3>
                     </a>
                     <p class="post-meta">
-                        Posted by
-                        <a href="#!">@Html.DisplayFor(modelItem => item.Author)</a>
-                        on 
-                        @Html.DisplayFor(modelItem => item.PublishedAt)
+                        @T["PostedBy", item.Author] @T["PostedOn"] @Html.DisplayFor(modelItem => item.PublishedAt)
                     </p>
                 </div>
                 <!-- Divider-->
                 <hr class="my-4" />
             }
             <!-- Pager-->
-            <div class="d-flex justify-content-end mb-4"><a class="btn btn-primary text-uppercase" asp-area="" asp-controller="Post" asp-action="Index">More →</a></div>
+            <div class="d-flex justify-content-end mb-4"><a class="btn btn-primary text-uppercase" asp-area="" asp-controller="Post" asp-action="Index">@T["MoreButton"]</a></div>
         </div>
     </div>
 </div>

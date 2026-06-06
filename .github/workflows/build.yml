@@ -23,8 +23,8 @@ jobs:
         dotnet-version: 10.0.x
         cache: true
     - name: Restore dependencies
-      run: dotnet restore abcsxl.sln
+      run: dotnet restore abcsxl.slnx
     - name: Build
-      run: dotnet build abcsxl.sln --no-restore
+      run: dotnet build abcsxl.slnx --no-restore
     - name: Test
-      run: dotnet test abcsxl.sln --no-build --verbosity normal
+      run: dotnet test abcsxl.slnx --no-build --verbosity normal
