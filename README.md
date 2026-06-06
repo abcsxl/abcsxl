@@ -1,5 +1,4 @@
 # abcsxl Blog
-
 一个基于 ASP.NET Core MVC 的个人博客系统，Markdown 编辑与展示，支持文章/分类/标签/评论/访问统计等完整功能。
 
 ## 技术栈
@@ -105,3 +104,8 @@ docker compose up -d
 ## License
 
 本项目为个人博客系统，按原样提供。
+=======
+[![Build Status](https://img.shields.io/github/actions/workflow/status/abcsxl/abcsxl/build.yml)](https://github.com/abcsxl/abcsxl/actions)
+![Coverage](https://codecov.io/gh/user/repo/branch/main/graph/badge.svg)
+[![License](https://img.shields.io/badge/license-MIT-blue)](https://opensource.org/licenses/MIT)
+[![GitHub Release](https://img.shields.io/github/v/release/abcsxl/abcsxl)](https://github.com/abcsxl/abcsxl/releases)
