@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="ActionDelete" xml:space="preserve"><value>Delete</value></data>
+  <data name="ActionEdit" xml:space="preserve"><value>Edit</value></data>
+  <data name="ConfirmDelete" xml:space="preserve"><value>Are you sure you want to delete this category?</value></data>
+  <data name="CreateButton" xml:space="preserve"><value>New Category</value></data>
+  <data name="CreateFirstCategory" xml:space="preserve"><value>Create Your First Category</value></data>
+  <data name="HeaderTitle" xml:space="preserve"><value>Categories</value></data>
+  <data name="NoCategories" xml:space="preserve"><value>No categories yet</value></data>
+  <data name="PageTitle" xml:space="preserve"><value>Categories</value></data>
+  <data name="PaginationAriaLabel" xml:space="preserve"><value>Pagination</value></data>
+  <data name="ResetButton" xml:space="preserve"><value>Reset</value></data>
+  <data name="SearchButton" xml:space="preserve"><value>Search</value></data>
+  <data name="SearchPlaceholder" xml:space="preserve"><value>Search category name...</value></data>
+  <data name="TableHeaderActions" xml:space="preserve"><value>Actions</value></data>
+  <data name="TableHeaderDescription" xml:space="preserve"><value>Description</value></data>
+  <data name="TableHeaderName" xml:space="preserve"><value>Name</value></data>
+  <data name="TableHeaderOrder" xml:space="preserve"><value>Order</value></data>
+  <data name="TableHeaderParent" xml:space="preserve"><value>Parent</value></data>
+  <data name="TableHeaderPosts" xml:space="preserve"><value>Posts</value></data>
+</root>

@@ -1,0 +1,122 @@
+@model abcsxl.Areas.Admin.Models.ViewModels.Dashboard.IndexPageViewModel
+
+@{
+    ViewData["Title"] = T["PageTitle"].Value;
+}
+
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">@T["HeaderTitle"]</h5>
+    </div>
+    <div class="card-body">
+        <p class="text-muted">@T["Subtitle"]</p>
+
+        <div class="row mb-4">
+            <div class="col-md-2">
+                <div class="card text-center bg-primary text-white">
+                    <div class="card-body">
+                        <h4>@Model.TotalPosts</h4>
+                        <small class="text-white">@T["TotalPosts"]</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="card text-center bg-success text-white">
+                    <div class="card-body">
+                        <h4>@Model.PublishedPosts</h4>
+                        <small class="text-white">@T["PublishedPosts"]</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="card text-center bg-info text-white">
+                    <div class="card-body">
+                        <h4>@Model.TotalCategories</h4>
+                        <small class="text-white">@T["TotalCategories"]</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="card text-center bg-warning text-white">
+                    <div class="card-body">
+                        <h4>@Model.TotalTags</h4>
+                        <small class="text-white">@T["TotalTags"]</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="card text-center bg-secondary text-white">
+                    <div class="card-body">
+                        <h4>@Model.TotalUsers</h4>
+                        <small class="text-white">@T["TotalUsers"]</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="card text-center bg-danger text-white">
+                    <div class="card-body">
+                        <h4>@Model.TotalComments</h4>
+                        <small class="text-white">@T["TotalComments"]</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">@T["RecentPostsTitle"]</h5>
+            </div>
+            <div class="card-body p-0">
+                @if (Model.RecentPosts.Any())
+                {
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>@T["TableHeaderTitle"]</th>
+                                    <th>@T["TableHeaderAuthor"]</th>
+                                    <th>@T["TableHeaderPublishDate"]</th>
+                                    <th>@T["TableHeaderStatus"]</th>
+                                    <th style="width: 100px;">@T["TableHeaderActions"]</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var post in Model.RecentPosts)
+                                {
+                                    <tr>
+                                        <td>@post.Title</td>
+                                        <td>@post.AuthorName</td>
+                                        <td>
+                                            @(post.PublishedAt?.ToString("yyyy-MM-dd") ?? "—")
+                                        </td>
+                                        <td>
+                                            @if (post.IsPublished)
+                                            {
+                                                <span class="badge bg-success">@T["StatusPublished"]</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge bg-secondary">@T["StatusDraft"]</span>
+                                            }
+                                        </td>
+                                        <td>
+                                            <a asp-area="Admin" asp-controller="Post" asp-action="Edit" asp-route-id="@post.Id" class="btn btn-sm btn-outline-primary">
+                                                <i class="bi bi-pencil"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+                else
+                {
+                    <div class="text-center py-4">
+                        <p class="text-muted">@T["NoPosts"]</p>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

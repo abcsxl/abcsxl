@@ -1,0 +1,681 @@
+@using abcsxl.Areas.Admin.Models.ViewModels.Post
+@model PostCreateViewModel
+@{
+    var isEditMode = Model?.Id != null &&
+                     Model.Id != Guid.Empty &&
+                     Model.Id.ToString() != "00000000-0000-0000-0000-000000000000";
+    ViewData["Title"] = isEditMode ? T["TitleEdit"].Value : T["TitleCreate"].Value;
+    var currentCulture = System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+    var slugAutoGenText = T["SlugAutoGen"].Value;
+    var editSlugPromptText = T["EditSlugPrompt"].Value;
+    var startWritingPlaceholder = T["StartWritingPlaceholder"].Value;
+    var uploadFailedText = T["UploadFailed"].Value;
+    var vditorLang = currentCulture == "zh" ? "zh_CN" : "en_US";
+}
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vditor@3.10.3/dist/index.css" />
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/highlight.js/lib/index.min.js"></script>
+
+<style>
+    :root {
+        --sidebar-active: #0d6efd;
+    }
+
+    body {
+        background-color: #f8fafc;
+    }
+
+    .post-editor-header {
+        background: white;
+        border-radius: 16px;
+        padding: 1.75rem 2rem;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+        border: 1px solid rgba(0,0,0,0.04);
+    }
+
+    .post-title-input {
+        border: none;
+        font-size: 2.2rem;
+        font-weight: 600;
+        padding: 0;
+        color: #1e293b;
+        width: 100%;
+        outline: none;
+        background: transparent;
+    }
+
+        .post-title-input::placeholder {
+            color: #cbd5e1;
+            font-weight: 400;
+        }
+
+        .post-title-input:focus {
+            box-shadow: none;
+        }
+
+        .post-title-input.is-invalid {
+            border: 2px solid #dc3545;
+            border-radius: 12px;
+            padding: 0.5rem 1rem;
+            margin: -0.5rem -1rem;
+        }
+
+    .slug-preview {
+        background: #f1f5f9;
+        padding: 0.25rem 0.75rem;
+        border-radius: 30px;
+        font-size: 0.85rem;
+        color: #475569;
+    }
+
+    .meta-card {
+        background: white;
+        border-radius: 16px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+        border: 1px solid rgba(0,0,0,0.04);
+    }
+
+    .meta-card-title {
+        font-size: 1rem;
+        font-weight: 600;
+        color: #1e293b;
+        margin-bottom: 1.25rem;
+        display: flex;
+        align-items: center;
+        border-bottom: 1px solid rgba(0,0,0,0.04);
+        padding-bottom: 0.75rem;
+    }
+
+        .meta-card-title i {
+            margin-right: 0.5rem;
+            color: var(--sidebar-active);
+            font-size: 1.1rem;
+        }
+
+    .vditor-container {
+        border: none !important;
+        border-radius: 16px !important;
+        overflow: hidden;
+        background: white;
+    }
+
+    .vditor {
+        border: none !important;
+        border-radius: 16px !important;
+    }
+
+    .tags-input {
+        border: 2px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 0.6rem 1rem;
+        width: 100%;
+    }
+
+        .tags-input:focus {
+            border-color: var(--sidebar-active);
+            box-shadow: 0 0 0 4px rgba(13,110,253,0.1);
+            outline: none;
+        }
+
+    .existing-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-top: 1rem;
+        padding-top: 0.5rem;
+        border-top: 1px dashed #e2e8f0;
+    }
+
+    .tag-item {
+        background: #f1f5f9;
+        color: #475569;
+        padding: 0.4rem 1.2rem;
+        border-radius: 30px;
+        font-size: 0.85rem;
+        display: inline-flex;
+        align-items: center;
+        cursor: pointer;
+    }
+
+        .tag-item:hover {
+            background: #e2e8f0;
+            border-color: var(--sidebar-active);
+        }
+
+    .featured-image-upload {
+        border: 2px dashed #e2e8f0;
+        border-radius: 16px;
+        padding: 2rem 1.5rem;
+        text-align: center;
+        cursor: pointer;
+        background: #f8fafc;
+    }
+
+        .featured-image-upload:hover {
+            border-color: var(--sidebar-active);
+        }
+
+        .featured-image-upload.has-image {
+            border-style: solid;
+            padding: 1rem;
+        }
+
+    .featured-image-preview {
+        max-width: 100%;
+        max-height: 200px;
+        border-radius: 12px;
+        display: none;
+        margin: 0 auto;
+    }
+
+    .featured-image-upload.has-image .featured-image-preview {
+        display: block;
+    }
+
+    .featured-image-upload.has-image .upload-placeholder {
+        display: none;
+    }
+
+    .publish-actions {
+        position: sticky;
+        bottom: 1.5rem;
+        background: white;
+        border-radius: 60px;
+        padding: 0.75rem;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        display: inline-flex;
+        gap: 0.75rem;
+        margin-top: 2rem;
+        background: rgba(255,255,255,0.9);
+    }
+
+    .btn-publish {
+        background: linear-gradient(145deg, #0d6efd, #0b5ed7);
+        border: none;
+        border-radius: 50px;
+        padding: 0.75rem 2.5rem;
+        font-weight: 600;
+        color: white;
+    }
+
+    .btn-draft {
+        background: white;
+        border: 2px solid #e2e8f0;
+        border-radius: 50px;
+        padding: 0.75rem 2.5rem;
+        font-weight: 600;
+        color: #475569;
+    }
+
+        .btn-draft:hover {
+            border-color: var(--sidebar-active);
+            color: var(--sidebar-active);
+        }
+
+    .form-select, .form-control {
+        border: 2px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 0.6rem 1rem;
+    }
+
+        .form-select:focus, .form-control:focus {
+            border-color: var(--sidebar-active);
+            box-shadow: 0 0 0 4px rgba(13,110,253,0.1);
+        }
+
+    .field-validation-error {
+        color: #dc3545;
+        font-size: 0.85rem;
+        margin-top: 0.25rem;
+        display: block;
+    }
+
+    .input-validation-error {
+        border-color: #dc3545 !important;
+    }
+
+    .validation-summary-errors {
+        background: #f8d7da;
+        border: 1px solid #f5c2c7;
+        color: #842029;
+        padding: 1rem 1.5rem;
+        border-radius: 12px;
+        margin-bottom: 1.5rem;
+    }
+
+        .validation-summary-errors ul {
+            margin-bottom: 0;
+            padding-left: 1.5rem;
+        }
+
+    [data-bs-theme="dark"] .post-editor-header,
+    [data-bs-theme="dark"] .meta-card,
+    [data-bs-theme="dark"] .vditor-container {
+        background: #1e293b;
+        border-color: rgba(255,255,255,0.05);
+    }
+
+    [data-bs-theme="dark"] .post-title-input {
+        color: #f1f5f9;
+    }
+
+    [data-bs-theme="dark"] .slug-preview {
+        background: #2c3034;
+        color: #e2e8f0;
+    }
+
+    [data-bs-theme="dark"] .tag-item {
+        background: #2c3034;
+        color: #e2e8f0;
+    }
+
+    [data-bs-theme="dark"] .btn-draft {
+        background: #2c3034;
+        border-color: #475569;
+        color: #e2e8f0;
+    }
+
+    @@media (max-width: 768px) {
+        .post-title-input {
+            font-size: 1.5rem;
+        }
+
+        .publish-actions {
+            position: fixed;
+            bottom: 1rem;
+            left: 1rem;
+            right: 1rem;
+            border-radius: 16px;
+            justify-content: center;
+        }
+
+        .btn-publish, .btn-draft {
+            flex: 1;
+            padding: 0.75rem 1rem;
+        }
+    }
+</style>
+
+<div class="container-fluid px-0">
+    <form asp-action="@(isEditMode ? "Edit" : "Create")" method="post" id="postForm" enctype="multipart/form-data">
+        @Html.AntiForgeryToken()
+        @if (isEditMode)
+        {
+            <input type="hidden" asp-for="Id" />
+        }
+
+        <div asp-validation-summary="All" class="validation-summary-errors" style="@(ViewData.ModelState.IsValid ? "display:none;" : "")"></div>
+
+        <div class="post-editor-header">
+            <input type="text" class="post-title-input" asp-for="Title" placeholder="@T["TitlePlaceholder"]" autofocus value="@(isEditMode? Model.Title: "")">
+            <span asp-validation-for="Title" class="field-validation-error"></span>
+
+            <div class="d-flex align-items-center mt-3 text-muted small">
+                <i class="bi bi-link-45deg me-1"></i>
+                <span>@T["SlugLabel"]</span>
+                <span class="slug-preview ms-2 me-2" id="slugPreview">@(!string.IsNullOrEmpty(Model.Slug) ? Model.Slug : slugAutoGenText)</span>
+                <input type="hidden" asp-for="Slug" id="slugInput" value="@Model.Slug" />
+                <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill px-3" id="editSlugBtn" onclick="editSlug()">
+                    <i class="bi bi-pencil"></i> @T["EditSlugButton"]
+                </button>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-lg-8">
+                <div class="meta-card p-0 overflow-hidden vditor-container">
+                    <div id="vditor" style="height: 600px;"></div>
+                    <textarea asp-for="Content" style="display:none;" id="contentHidden"></textarea>
+                </div>
+                <span asp-validation-for="Content" class="field-validation-error"></span>
+
+                <div class="meta-card">
+                    <div class="meta-card-title">
+                        <i class="bi bi-text-paragraph"></i>
+                        @T["ExcerptTitle"]
+                    </div>
+                    <textarea class="form-control" asp-for="Excerpt" rows="4" placeholder="@T["ExcerptPlaceholder"]">@Model.Excerpt</textarea>
+                    <span asp-validation-for="Excerpt" class="field-validation-error"></span>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="meta-card">
+                    <div class="meta-card-title">
+                        <i class="bi bi-send"></i>
+                        @T["PublishSettingsTitle"]
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-medium mb-2">@T["StatusLabel"]</label>
+                        <select asp-for="Status" class="form-select">
+                            <option value="@((int)PostStatus.Draft)">@T["StatusDraft"]</option>
+                            <option value="@((int)PostStatus.Published)">@T["StatusPublished"]</option>
+                            <option value="@((int)PostStatus.Archived)">@T["StatusArchived"]</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3" id="publishTimeField" style="display: none;">
+                        <label class="form-label fw-medium mb-2">@T["ScheduledPublish"]</label>
+                        <input type="datetime-local" class="form-control" asp-for="PublishAt" />
+                    </div>
+
+                    <div class="form-check mb-2">
+                        <input type="checkbox" class="form-check-input" asp-for="IsPinned">
+                        <label class="form-check-label" asp-for="IsPinned">
+                            <i class="bi bi-pin-fill text-warning"></i> @T["PinPost"]
+                        </label>
+                    </div>
+
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" asp-for="AllowComments">
+                        <label class="form-check-label" asp-for="AllowComments">
+                            <i class="bi bi-chat"></i> @T["AllowComments"]
+                        </label>
+                    </div>
+                </div>
+
+                <div class="meta-card">
+                    <div class="meta-card-title">
+                        <i class="bi bi-folder"></i>
+                        @T["CategoryTitle"]
+                    </div>
+
+                    <select asp-for="CategoryId" asp-items="Model.Categories" class="form-select">
+                        <option value="">@T["CategoryPlaceholder"]</option>
+                    </select>
+                    <span asp-validation-for="CategoryId" class="field-validation-error"></span>
+                </div>
+
+                <div class="meta-card">
+                    <div class="meta-card-title">
+                        <i class="bi bi-tags"></i>
+                        @T["TagTitle"]
+                    </div>
+
+                    <input type="text" class="tags-input" asp-for="Tags"
+                           placeholder="@T["TagPlaceholder"]" id="tagsInput" value="@Model.Tags" />
+                    <span asp-validation-for="Tags" class="field-validation-error"></span>
+                    <div class="small text-muted mt-1">
+                        <i class="bi bi-info-circle"></i> @T["TagHint"]
+                    </div>
+
+                    @if (Model.ExistingTags != null && Model.ExistingTags.Any())
+                    {
+                        <div class="existing-tags">
+                            <span class="text-muted small fw-medium">@T["CommonTags"]</span>
+                            @foreach (var tag in Model.ExistingTags.Take(8))
+                            {
+                                <span class="tag-item" onclick="addTag('@tag')">
+                                    <i class="bi bi-tag"></i>@tag
+                                </span>
+                            }
+                        </div>
+                    }
+                </div>
+
+                <div class="meta-card">
+                    <div class="meta-card-title">
+                        <i class="bi bi-image"></i>
+                        @T["FeaturedImageTitle"]
+                    </div>
+
+                    <div class="featured-image-upload @(!string.IsNullOrEmpty(Model.FeaturedImage) ? "has-image" : "")"
+                         id="featuredImageUpload" onclick="document.getElementById('featuredImageInput').click()">
+                        <input type="file" id="featuredImageInput" accept="image/*" style="display:none;" />
+                        <input type="hidden" asp-for="FeaturedImage" id="featuredImageHidden" value="@Model.FeaturedImage" />
+
+                        <div class="upload-placeholder">
+                            <i class="bi bi-cloud-arrow-up fs-1" style="color: #94a3b8;"></i>
+                            <p class="mt-2 mb-0 fw-medium">@T["FeaturedImageUploadHint"]</p>
+                            <small class="text-muted">@T["FeaturedImageSize"]</small>
+                        </div>
+
+                        @if (!string.IsNullOrEmpty(Model.FeaturedImage))
+                        {
+                            <img src="@Model.FeaturedImage" class="featured-image-preview" style="display:block;" />
+                        }
+                        else
+                        {
+                            <img src="" class="featured-image-preview" alt="@T["FeaturedImageAlt"]" />
+                        }
+
+                        <button type="button" class="btn btn-sm btn-outline-danger mt-3 rounded-pill px-4"
+                                onclick="removeFeaturedImage(event)" style="display: @(!string.IsNullOrEmpty(Model.FeaturedImage) ? "inline-block" : "none");">
+                            <i class="bi bi-trash"></i> @T["RemoveImage"]
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-center mt-4 mb-5">
+            <div class="publish-actions">
+                <button type="submit" name="saveType" value="draft" class="btn-draft">
+                    <i class="bi bi-save me-2"></i>@T["SaveDraft"]
+                </button>
+                <button type="submit" name="saveType" value="publish" class="btn-publish">
+                    <i class="bi bi-send me-2"></i>@T["Publish"]
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/vditor@3.10.3/dist/index.min.js"></script>
+
+<script>
+    const slugAutoGenText = @Html.Raw(Json.Serialize(slugAutoGenText));
+    const editSlugPromptText = @Html.Raw(Json.Serialize(editSlugPromptText));
+    const startWritingPlaceholder = @Html.Raw(Json.Serialize(startWritingPlaceholder));
+    const uploadFailedText = @Html.Raw(Json.Serialize(uploadFailedText));
+    const vditorLang = @Html.Raw(Json.Serialize(vditorLang));
+
+    function generateSlug(text) {
+        if (!text) return '';
+        return text.trim()
+            .replace(/\s+/g, '-')
+            .replace(/[^\u4e00-\u9fa5a-zA-Z0-9-]/g, '')
+            .replace(/-+/g, '-')
+            .replace(/^-|-$/g, '')
+            .substring(0, 100);
+    }
+
+    function editSlug() {
+        var currentSlug = document.getElementById('slugInput').value || document.getElementById('slugPreview').textContent;
+        var displaySlug = currentSlug === slugAutoGenText ? '' : currentSlug;
+        var newSlug = prompt(editSlugPromptText, displaySlug);
+        if (newSlug && newSlug.trim() !== '') {
+            var slug = generateSlug(newSlug);
+            document.getElementById('slugInput').value = slug;
+            document.getElementById('slugPreview').textContent = slug;
+        }
+    }
+
+    function addTag(tag) {
+        const input = document.getElementById('tagsInput');
+        const currentTags = input.value.split(',').map(t => t.trim()).filter(t => t);
+        if (!currentTags.includes(tag)) {
+            currentTags.push(tag);
+            input.value = currentTags.join(', ');
+        }
+    }
+
+    function removeFeaturedImage(e) {
+        e.stopPropagation();
+        const container = document.getElementById('featuredImageUpload');
+        const preview = container.querySelector('.featured-image-preview');
+        const hidden = document.getElementById('featuredImageHidden');
+        const removeBtn = container.querySelector('.btn-outline-danger');
+        const fileInput = document.getElementById('featuredImageInput');
+
+        preview.src = '';
+        preview.style.display = 'none';
+        hidden.value = '';
+        container.classList.remove('has-image');
+        removeBtn.style.display = 'none';
+        fileInput.value = '';
+    }
+
+    function resetEditorForNewPost() {
+        const isEditMode = @Json.Serialize(isEditMode);
+        if (!isEditMode) {
+            if (window.vditor) {
+                window.vditor.setValue('');
+            }
+            document.querySelector('.post-title-input').value = '';
+            document.getElementById('slugInput').value = '';
+            document.getElementById('slugPreview').textContent = slugAutoGenText;
+            document.querySelector('textarea[name="Excerpt"]').value = '';
+            document.getElementById('tagsInput').value = '';
+            document.querySelector('select[name="CategoryId"]').value = '';
+            localStorage.removeItem('vditor');
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const currentTheme = document.documentElement.getAttribute('data-bs-theme') || 'light';
+        const initialContent = document.getElementById('contentHidden')?.value || '';
+        const isEditMode = @Json.Serialize(isEditMode);
+
+        const vditor = new Vditor('vditor', {
+            height: 600,
+            minHeight: 400,
+            width: '100%',
+            placeholder: startWritingPlaceholder,
+            theme: currentTheme === 'dark' ? 'dark' : 'classic',
+            mode: 'ir',
+            lang: vditorLang,
+            outline: { enable: true, position: 'left' },
+            cache: { enable: false },
+            toolbar: [
+                'emoji', 'headings', 'bold', 'italic', 'strike', '|',
+                'list', 'ordered-list', 'check', '|',
+                'link', 'quote', 'line', 'code', 'inline-code', '|',
+                'table', '|', 'upload', '|',
+                'undo', 'redo', '|',
+                'fullscreen', 'edit-mode', 'outline', 'preview'
+            ],
+            upload: {
+                url: '@Url.Action("UploadImage", "Posts")',
+                accept: 'image/*',
+                max: 5 * 1024 * 1024,
+                filename(name) {
+                    return name.replace(/[^a-zA-Z0-9.]/g, '_').substring(0, 50);
+                },
+                success(editor, msg) {
+                    try {
+                        const res = JSON.parse(msg);
+                        if (res.success) {
+                            this.insertValue(`![${res.filename}](${res.url})`);
+                        }
+                    } catch (e) {
+                        console.error(uploadFailedText, e);
+                    }
+                }
+            },
+            after() {
+                if (isEditMode && initialContent) {
+                    vditor.setValue(initialContent);
+                }
+            },
+            input(value) {
+                document.getElementById('contentHidden').value = value;
+            }
+        });
+
+        window.vditor = vditor;
+        resetEditorForNewPost();
+
+        let slugTimeout;
+        const titleInput = document.querySelector('.post-title-input');
+        const slugPreview = document.getElementById('slugPreview');
+        const slugInput = document.getElementById('slugInput');
+
+        titleInput?.addEventListener('input', function(e) {
+            clearTimeout(slugTimeout);
+            slugTimeout = setTimeout(() => {
+                if (!slugInput.value) {
+                    const slug = generateSlug(e.target.value);
+                    slugInput.value = slug;
+                    slugPreview.textContent = slug || slugAutoGenText;
+                }
+            }, 500);
+        });
+
+        function editSlug() {
+            const currentSlug = document.getElementById('slugInput').value || document.getElementById('slugPreview').textContent;
+            const displaySlug = currentSlug === slugAutoGenText ? '' : currentSlug;
+            const newSlug = prompt(editSlugPromptText, displaySlug);
+            if (newSlug && newSlug.trim() !== '') {
+                const slug = generateSlug(newSlug);
+                document.getElementById('slugInput').value = slug;
+                document.getElementById('slugPreview').textContent = slug;
+            }
+        }
+
+        const statusSelect = document.querySelector('select[name="Status"]');
+        const publishTimeField = document.getElementById('publishTimeField');
+
+        function togglePublishTime() {
+            if (statusSelect) {
+                publishTimeField.style.display =
+                    statusSelect.value === '@((int)PostStatus.Published)' ? 'none' : 'block';
+            }
+        }
+        statusSelect?.addEventListener('change', togglePublishTime);
+        togglePublishTime();
+
+        const featuredImageInput = document.getElementById('featuredImageInput');
+        if (featuredImageInput) {
+            featuredImageInput.addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (!file) return;
+
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.querySelector('.featured-image-preview').src = e.target.result;
+                    document.querySelector('.featured-image-preview').style.display = 'block';
+                    document.getElementById('featuredImageUpload').classList.add('has-image');
+                    document.querySelector('.btn-outline-danger').style.display = 'inline-block';
+                };
+                reader.readAsDataURL(file);
+
+                const formData = new FormData();
+                formData.append('file', file);
+
+                fetch('@Url.Action("UploadImage", "Posts")', {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value || ''
+                    }
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        document.getElementById('featuredImageHidden').value = data.url;
+                    }
+                });
+            });
+        }
+    });
+
+    const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+            if (mutation.attributeName === 'data-bs-theme' && window.vditor) {
+                const theme = document.documentElement.getAttribute('data-bs-theme');
+                window.vditor.setTheme(theme === 'dark' ? 'dark' : 'classic');
+            }
+        });
+    });
+    observer.observe(document.documentElement, { attributes: true });
+</script>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

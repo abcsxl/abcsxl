@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="BodyText" xml:space="preserve"><value>本站使用 Cookie 用于登录会话与语言偏好。我们不收集任何个人信息。</value></data>
+  <data name="PageTitle" xml:space="preserve"><value>隐私政策 - abcsxl</value></data>
+  <data name="Subtitle" xml:space="preserve"><value>你的隐私很重要</value></data>
+</root>

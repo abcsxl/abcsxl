@@ -1,0 +1,119 @@
+@model abcsxl.Models.ViewModels.Account.ProfileViewModel
+@{
+    ViewData["Title"] = T["PageTitle"].Value;
+}
+
+<header class="masthead" style="background-image: url('../images/home-bg.webp')">
+    <div class="container position-relative px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-9 col-xl-8">
+                <div class="site-heading">
+                    <h1>@ViewData["Title"]</h1>
+                    <span class="subheading">@T["Subtitle"]</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="container px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+        <div class="col-md-10 col-lg-9 col-xl-8">
+            <div class="clearfix">
+                <div class="col-lg-4 float-start pe-lg-4 mb-4">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            @{
+                                var initial = User.Identity?.Name?.Substring(0, 1).ToUpper() ?? "A";
+                            }
+                            <div class="user-avatar-large mx-auto mb-3">@initial</div>
+                            <h4>@(User.Identity?.Name ?? T["DefaultName"].Value)</h4>
+                            <p class="text-muted mb-2">@T["DefaultRole"]</p>
+                            <span class="badge bg-primary">Admin</span>
+
+                            <hr>
+
+                            <div class="text-start">
+                                <p class="mb-2"><i class="bi bi-envelope me-2"></i>admin@example.com</p>
+                                <p class="mb-2"><i class="bi bi-calendar me-2"></i>2024-01-15</p>
+                            </div>
+
+                            <hr>
+
+                            <div class="d-grid gap-2">
+                                <button class="btn btn-outline-primary" onclick="location.href='@Url.Action("ChangePassword")'">
+                                    <i class="bi bi-key me-2"></i>@T["ChangePasswordButton"]
+                                </button>
+                                <button class="btn btn-outline-danger" onclick="location.href='@Url.Action("Logout")'">
+                                    <i class="bi bi-box-arrow-right me-2"></i>@T["LogoutButton"]
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-8 float-end">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0"><i class="bi bi-pencil-square me-2"></i>@T["EditProfileTitle"]</h5>
+                        </div>
+                        <div class="card-body">
+                            <form asp-action="Profile" method="post">
+                                @Html.AntiForgeryToken()
+
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label">@T["LabelUserName"]</label>
+                                        <input type="text" class="form-control" name="UserName" value="@User.Identity?.Name">
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label class="form-label">@T["LabelDisplayName"]</label>
+                                        <input type="text" class="form-control" name="DisplayName" value="@T["DefaultName"]">
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label class="form-label">@T["LabelEmail"]</label>
+                                        <input type="email" class="form-control" name="Email" value="admin@example.com">
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label class="form-label">@T["LabelPhone"]</label>
+                                        <input type="tel" class="form-control" name="Phone" value="">
+                                    </div>
+
+                                    <div class="col-12">
+                                        <label class="form-label">@T["LabelBio"]</label>
+                                        <textarea class="form-control" name="Bio" rows="3"></textarea>
+                                    </div>
+
+                                    <div class="col-12 mt-4">
+                                        <div class="d-flex gap-2 justify-content-end">
+                                            <button type="reset" class="btn btn-secondary">@T["CancelButton"]</button>
+                                            <button type="submit" class="btn btn-primary">@T["SaveButton"]</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.user-avatar-large {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: #0078d4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 600;
+    font-size: 2.5rem;
+}
+</style>

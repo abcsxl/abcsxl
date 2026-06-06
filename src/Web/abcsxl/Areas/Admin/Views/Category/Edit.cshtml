@@ -1,0 +1,73 @@
+@model abcsxl.Models.Entities.Category
+
+@{
+    ViewData["Title"] = T["PageTitle"].Value;
+}
+
+<div class="card">
+    <div class="card-header">
+        <h5 class="mb-0"><i class="bi bi-pencil-square"></i> @T["HeaderTitle"]</h5>
+    </div>
+    <div class="card-body">
+        <form asp-action="Edit" method="post">
+            @Html.AntiForgeryToken()
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="CreatedAt" />
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label class="form-label">@T["NameLabel"] *</label>
+                        <input asp-for="Name" class="form-control" required />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label class="form-label">@T["ParentLabel"]</label>
+                        <select asp-for="ParentId" asp-items="ViewBag.ParentCategories" class="form-select">
+                            <option value="">@T["NoParentOption"]</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">@T["DescriptionLabel"]</label>
+                <textarea asp-for="Description" class="form-control" rows="2" placeholder="@T["DescriptionPlaceholder"]"></textarea>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label class="form-label">@T["SlugLabel"]</label>
+                        <input asp-for="Slug" class="form-control" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label class="form-label">@T["OrderLabel"]</label>
+                        <input asp-for="Order" class="form-control" type="number" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-3 form-check">
+                <input asp-for="IsVisible" class="form-check-input" type="checkbox" />
+                <label asp-for="IsVisible" class="form-check-label">@T["VisibleLabel"]</label>
+            </div>
+
+            <div class="mb-3 form-check">
+                <input asp-for="ShowInNav" class="form-check-input" type="checkbox" />
+                <label asp-for="ShowInNav" class="form-check-label">@T["NavVisibleLabel"]</label>
+            </div>
+
+            <div class="text-end">
+                <a asp-action="Index" class="btn btn-secondary me-2">@T["CancelButton"]</a>
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-check-lg"></i> @T["SaveButton"]
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

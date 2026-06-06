@@ -1,0 +1,26 @@
+@model abcsxl.Models.ViewModels.Tag.TagSidebarViewModel
+
+<div class="sidebar-widget mt-4">
+    <h4 class="sidebar-heading">
+        <i class="fas fa-tags mr-2"></i>@T["Heading"]
+    </h4>
+    @if (Model != null && Model.Tags != null && Model.Tags.Any())
+    {
+        <div class="post-tags">
+            @foreach (var item in Model.Tags)
+            {
+                <a class="badge @(Model.CurrentTag == item.Name ? "bg-primary text-white" : "bg-light text-dark")"
+                   asp-area=""
+                   asp-controller="Post"
+                   asp-action="Index"
+                   asp-route-tag="@item.Name">
+                    @Html.DisplayFor(modelItem => item.Name)
+                </a>
+            }
+        </div>
+    }
+    else
+    {
+        <p class="text-muted">@T["EmptyMessage"]</p>
+    }
+</div>

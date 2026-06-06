@@ -1,91 +1,69 @@
-﻿<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="@System.Globalization.CultureInfo.CurrentUICulture.Name">
 <head>
-@*  <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - abcsxl</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/abcsxl.styles.css" asp-append-version="true" />*@
-
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no"" />
-    <meta name="description" content="偶尔勤快的烂笔头" />
-    <meta name="author" content="SIM" />
-    <title>@ViewData["Title"] - 偶尔勤快的烂笔头</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>@ViewData["Title"] - @T["SiteTitle"]</title>
+    <meta name="description" content="@T["MetaDescription"]" />
+    <meta name="author" content="abcsxl" />
 
-    <!-- Font Awesome icons (free version)-->
-    @*<script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>*@
-    <link rel="stylesheet" href="~/lib/font-awesome/css/all.css" />
-
+    <link rel="icon" type="image/x-icon" href="~/favicon.ico" />
     <!-- Google fonts-->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" type="text/css" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" type="text/css" />
-    <!-- Core theme CSS (includes Bootstrap)-->
-    <link rel="stylesheet" href="~/lib/startbootstrap-clean-blog/dist/css/styles.min.css">
-
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link href="~/fonts/lora/lora.css" rel="stylesheet" />
+    <link href="~/fonts/open-sans/open-sans.css" rel="stylesheet" />
+    <!-- Font Awesome icons (free version)-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer"
+          asp-fallback-href="~/lib/fortawesome/fontawesome-free/css/all.min.css"
+          asp-fallback-test-class="fa-solid"
+          asp-fallback-test-property="font-family"
+          asp-fallback-test-value="Font Awesome 6 Free" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/startbootstrap-clean-blog@6.0.9/dist/css/styles.min.css" crossorigin="anonymous"
+          asp-fallback-href="~/lib/startbootstrap-clean-blog/dist/css/styles.min.css"
+          asp-fallback-test-class="masthead"
+          asp-fallback-test-property="background-size"
+          asp-fallback-test-value="cover" />
+    <script type="importmap"></script>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/abcsxl.styles.css" asp-append-version="true" />
+    @await RenderSectionAsync("Styles", required: false)
 </head>
 <body>
-@*    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">abcsxl</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>*@
-
     <!-- Navigation-->
     <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
         <div class="container px-4 px-lg-5">
             <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">abcsxl</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-                Menu
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="@T["NavToggleAriaLabel"]">
+                @T["NavToggle"]
                 <i class="fas fa-bars"></i>
             </button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ms-auto py-4 py-lg-0">
-                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" asp-area="" asp-controller="Home" asp-action="Post">Post</a></li>
-                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
+                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" asp-area="" asp-controller="Home" asp-action="Index">@T["NavHome"]</a></li>
+                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" asp-area="" asp-controller="Home" asp-action="About">@T["NavAbout"]</a></li>
+                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" asp-area="" asp-controller="Post" asp-action="Index">@T["NavPosts"]</a></li>
                 </ul>
+                <form class="navbar-search d-flex ms-3" asp-area="" asp-controller="Home" asp-action="Results" method="get">
+                    <input type="text" name="q" class="navbar-search-input" placeholder="@T["SearchPlaceholder"]" aria-label="@T["SearchAriaLabel"]">
+                    <button class="navbar-search-btn" type="submit" aria-label="@T["SearchAriaLabel"]">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </form>
+                <div class="ms-3">
+                    @await Html.PartialAsync("_LanguageSwitcher")
+                </div>
             </div>
         </div>
     </nav>
-
     <!-- Main Content-->
     @RenderBody()
-
     <!-- Footer-->
     <footer class="border-top">
         <div class="container px-4 px-lg-5">
             <div class="row gx-4 gx-lg-5 justify-content-center">
-                <div class="col-md-10 col-lg-8 col-xl-7">
+                <div class="col-md-10 col-lg-9 col-xl-8">
                     <ul class="list-inline text-center">
                         <li class="list-inline-item">
-                            <a href="http://36868261.qzone.qq.com">
+                            <a href="http://36868261.qzone.qq.com" target="_blank" rel="noopener noreferrer">
                                 <span class="fa-stack fa-lg">
                                     <i class="fas fa-circle fa-stack-2x"></i>
                                     <i class="fab fa-qq fa-stack-1x fa-inverse"></i>
@@ -93,7 +71,7 @@
                             </a>
                         </li>
                         <li class="list-inline-item">
-                            <a href="https://hub.docker.com/u/abcsxl">
+                            <a href="https://hub.docker.com/u/abcsxl" target="_blank" rel="noopener noreferrer">
                                 <span class="fa-stack fa-lg">
                                     <i class="fas fa-circle fa-stack-2x"></i>
                                     <i class="fab fa-docker fa-stack-1x fa-inverse"></i>
@@ -101,7 +79,7 @@
                             </a>
                         </li>
                         <li class="list-inline-item">
-                            <a href="https://github.com/abcsxl">
+                            <a href="https://github.com/abcsxl" target="_blank" asp-add-rel="noopener noreferrer">
                                 <span class="fa-stack fa-lg">
                                     <i class="fas fa-circle fa-stack-2x"></i>
                                     <i class="fab fa-github fa-stack-1x fa-inverse"></i>
@@ -109,21 +87,22 @@
                             </a>
                         </li>
                     </ul>
-                    <div class="fs-6 text-center text-muted fst-italic">
+                    <div class="small text-center text-muted fst-italic">
                         <a target="_blank" href="https://beian.miit.gov.cn/">京ICP备18059317号-1</a> &nbsp;
-                        <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010702001966" ><img src="~/images/ghs.png" />京公网安备 11010702001966号</a> &nbsp;
-                        &copy; 2022 偶尔勤快的烂笔头 &nbsp;
-                        <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010702001966"><img src="~/images/ghs.png" />京公网安备 11010702001966号</a> &nbsp;
+                        @T["FooterCopyright", DateTime.Now.Year] &nbsp;
+                        <a asp-area="" asp-controller="Home" asp-action="Privacy">@T["FooterPrivacy"]</a>
                     </div>
                 </div>
             </div>
         </div>
     </footer>
-
-    <script src="~/lib/startbootstrap-clean-blog/dist/js/scripts.min.js"></script>
-    <script src="~/lib/font-awesome/js/all.js"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/startbootstrap-clean-blog@6.0.9/dist/js/scripts.min.js"
+            crossorigin="anonymous"
+            asp-fallback-src="~/lib/startbootstrap-clean-blog/dist/js/scripts.min.js"
+            asp-fallback-test="window.jQuery && jQuery.fn.collapse"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>

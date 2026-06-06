@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="ActionDelete" xml:space="preserve"><value>删除</value></data>
+  <data name="ActionEdit" xml:space="preserve"><value>编辑</value></data>
+  <data name="ConfirmDelete" xml:space="preserve"><value>确定要删除这个分类吗？</value></data>
+  <data name="CreateButton" xml:space="preserve"><value>新建分类</value></data>
+  <data name="CreateFirstCategory" xml:space="preserve"><value>创建第一个分类</value></data>
+  <data name="HeaderTitle" xml:space="preserve"><value>分类列表</value></data>
+  <data name="NoCategories" xml:space="preserve"><value>暂无分类</value></data>
+  <data name="PageTitle" xml:space="preserve"><value>分类管理</value></data>
+  <data name="PaginationAriaLabel" xml:space="preserve"><value>分页导航</value></data>
+  <data name="ResetButton" xml:space="preserve"><value>重置</value></data>
+  <data name="SearchButton" xml:space="preserve"><value>搜索</value></data>
+  <data name="SearchPlaceholder" xml:space="preserve"><value>搜索分类名称...</value></data>
+  <data name="TableHeaderActions" xml:space="preserve"><value>操作</value></data>
+  <data name="TableHeaderDescription" xml:space="preserve"><value>描述</value></data>
+  <data name="TableHeaderName" xml:space="preserve"><value>名称</value></data>
+  <data name="TableHeaderOrder" xml:space="preserve"><value>排序</value></data>
+  <data name="TableHeaderParent" xml:space="preserve"><value>父分类</value></data>
+  <data name="TableHeaderPosts" xml:space="preserve"><value>文章数</value></data>
+</root>

@@ -1,0 +1,46 @@
+﻿@model abcsxl.Models.ViewModels.Category.CategorySidebarViewModel
+
+<div class="sidebar-widget">
+    <h4 class="sidebar-heading">
+        <i class="fas fa-folder-tree mr-2"></i>@T["Heading"]
+    </h4>
+    @if (Model != null && Model.Categories != null && Model.Categories.Any())
+    {
+        <ul class="list-unstyled">
+            @foreach (var category in Model.Categories ?? Enumerable.Empty<abcsxl.Models.ViewModels.Category.CategoryItemViewModel>())
+            {
+                <li>
+                    <a asp-controller="Post"
+                       asp-action="Index"
+                       asp-route-category="@category.Name"
+                       class="category-link @(Model.CurrentCategory == category.Name ? "text-primary fw-bold" : "")">
+                        @category.Name
+                        <span class="badge badge-light float-right">@category.PostCount</span>
+                    </a>
+
+                    @if (category.HasSubCategories)
+                    {
+                        <ul class="list-unstyled ml-3">
+                            @foreach (var subCategory in category.SubCategories)
+                            {
+                                <li>
+                                    <a asp-controller="Post"
+                                       asp-action="Index"
+                                       asp-route-category="@subCategory.Name"
+                                       class="category-sub-link @(Model.CurrentCategory == subCategory.Name ? "text-primary fw-bold" : "")">
+                                        @subCategory.Name
+                                        <small class="text-muted">(@subCategory.PostCount)</small>
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+                    }
+                </li>
+            }
+        </ul>
+    }
+    else
+    {
+        <p class="text-muted">@T["EmptyMessage"]</p>
+    }
+</div>

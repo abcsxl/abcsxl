@@ -1,18 +1,93 @@
-/*html {
-  font-size: 14px;
-}
-
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-html {
-  position: relative;
-  min-height: 100%;
-}
-
-body {
-  margin-bottom: 60px;
+/*:root {
+    --bs-body-font-family: "Source Han Serif SC", "Source Han Serif CN", "Source Han Serif", "Noto Serif CJK SC", "Noto Serif CJK", "Songti SC", "STSong", "SimSun", serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --bs-headings-font-family: "Source Han Sans SC", "Source Han Sans CN", "Source Han Sans", "Noto Sans CJK SC", "Noto Sans CJK", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "΢���ź�", "STHeiti", "SimHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }*/
+
+/* Clean Blog ҳ��������ɫ�޸� */
+footer a {
+    color: var(--bs-dark) !important;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+footer a:hover {
+    color: var(--bs-primary) !important;
+    text-decoration: underline;
+}
+
+/* ��ѡ���ر�����罻ͼ�����ͣЧ�� */
+footer .list-line a:hover {
+    text-decoration: none; /* �罻ͼ����ܲ���Ҫ�»��� */
+}
+
+/* Navbar 搜索：与 startbootstrap 主题色一致，滚动时颜色自动随 mainNav 切换 */
+.navbar-search {
+    align-items: center;
+    max-width: 220px;
+}
+
+.navbar-search-input {
+    background: transparent;
+    border: 0;
+    border-bottom: 1px solid currentColor;
+    color: inherit;
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.0625em;
+    text-transform: uppercase;
+    padding: 0.35rem 0.5rem;
+    width: 140px;
+    outline: none;
+    opacity: 0.7;
+}
+.navbar-search-input::placeholder {
+    color: inherit;
+    opacity: 0.6;
+    font-weight: 800;
+    letter-spacing: 0.0625em;
+    text-transform: uppercase;
+}
+.navbar-search-input:focus {
+    opacity: 1;
+    border-bottom-color: currentColor;
+}
+
+.navbar-search-btn {
+    background: transparent;
+    border: 0;
+    color: inherit;
+    padding: 0.35rem 0.5rem;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.15s;
+}
+.navbar-search-btn:hover,
+.navbar-search-btn:focus {
+    opacity: 1;
+    outline: none;
+}
+.navbar-search-btn i {
+    font-size: 0.85rem;
+}
+
+/* 语言切换按钮：外观完全等同 nav-link，但保留 button 语义（提交表单） */
+.language-switcher {
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.0625em;
+    text-transform: uppercase;
+}
+.language-switcher .lang-link {
+    background: transparent;
+    border: 0;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    color: inherit;
+    text-decoration: none;
+    line-height: inherit;
+}
+.language-switcher .lang-link:hover,
+.language-switcher .lang-link:focus {
+    text-decoration: underline;
+    outline: none;
+}

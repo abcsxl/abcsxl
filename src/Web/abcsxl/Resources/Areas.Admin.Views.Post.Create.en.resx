@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="AllowComments" xml:space="preserve"><value>Allow Comments</value></data>
+  <data name="CategoryPlaceholder" xml:space="preserve"><value>Select a category</value></data>
+  <data name="CategoryTitle" xml:space="preserve"><value>Category</value></data>
+  <data name="CommonTags" xml:space="preserve"><value>Common Tags</value></data>
+  <data name="EditSlugButton" xml:space="preserve"><value>Edit</value></data>
+  <data name="EditSlugPrompt" xml:space="preserve"><value>Are you sure you want to edit the slug?</value></data>
+  <data name="ExcerptPlaceholder" xml:space="preserve"><value>Summarize this post in one sentence</value></data>
+  <data name="ExcerptTitle" xml:space="preserve"><value>Excerpt</value></data>
+  <data name="FeaturedImageAlt" xml:space="preserve"><value>Featured image preview</value></data>
+  <data name="FeaturedImageSize" xml:space="preserve"><value>Supports JPG/PNG/WebP, recommended 1920x1080</value></data>
+  <data name="FeaturedImageTitle" xml:space="preserve"><value>Featured Image</value></data>
+  <data name="FeaturedImageUploadHint" xml:space="preserve"><value>Click or drag an image here</value></data>
+  <data name="PinPost" xml:space="preserve"><value>Pin</value></data>
+  <data name="Publish" xml:space="preserve"><value>Publish</value></data>
+  <data name="PublishSettingsTitle" xml:space="preserve"><value>Publish Settings</value></data>
+  <data name="RemoveImage" xml:space="preserve"><value>Remove Image</value></data>
+  <data name="SaveDraft" xml:space="preserve"><value>Save Draft</value></data>
+  <data name="ScheduledPublish" xml:space="preserve"><value>Scheduled Publish</value></data>
+  <data name="SlugAutoGen" xml:space="preserve"><value>Auto-generated</value></data>
+  <data name="SlugLabel" xml:space="preserve"><value>Slug</value></data>
+  <data name="StartWritingPlaceholder" xml:space="preserve"><value>Start writing your thoughts...</value></data>
+  <data name="StatusArchived" xml:space="preserve"><value>Archived</value></data>
+  <data name="StatusDraft" xml:space="preserve"><value>Draft</value></data>
+  <data name="StatusLabel" xml:space="preserve"><value>Status</value></data>
+  <data name="StatusPublished" xml:space="preserve"><value>Published</value></data>
+  <data name="TagHint" xml:space="preserve"><value>Up to 10 tags</value></data>
+  <data name="TagPlaceholder" xml:space="preserve"><value>Type a tag and press Enter</value></data>
+  <data name="TagTitle" xml:space="preserve"><value>Tags</value></data>
+  <data name="TitleCreate" xml:space="preserve"><value>Write New Post</value></data>
+  <data name="TitleEdit" xml:space="preserve"><value>Edit Post</value></data>
+  <data name="TitlePlaceholder" xml:space="preserve"><value>Enter post title</value></data>
+  <data name="UploadFailed" xml:space="preserve"><value>Upload failed</value></data>
+</root>

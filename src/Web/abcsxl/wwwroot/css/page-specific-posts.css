@@ -1,0 +1,65 @@
+﻿/* 分类徽章 */
+.badge-light {
+    background-color: var(--bs-light);
+    color: var(--bs-gray);
+    font-weight: normal;
+}
+
+/* 分页器样式 */
+.pagination-container {
+    margin-top: 2rem;
+}
+
+/* 分类徽章（文章内） */
+.category-meta {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.875rem;
+    text-decoration: none;
+}
+
+    .category-meta:hover {
+        background: rgba(255, 255, 255, 0.3);
+        color: white;
+        text-decoration: none;
+    }
+
+/* 空状态 */
+.empty-state {
+    padding: 5rem 0;
+    text-align: center;
+}
+
+    .empty-state i {
+        color: var(--bs-gray-300);
+        margin-bottom: 1.5rem;
+    }
+
+/* 阅读时间 */
+.reading-time {
+    color: var(--bs-gray);
+}
+
+footer {
+    margin-top: 3rem;
+}
+
+/* 响应式调整 */
+@media (max-width: 992px) {
+    .category-card .card-body {
+        padding: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .post-preview > a > .post-title {
+        font-size: 24px;
+    }
+
+    .post-preview > .post-meta {
+        font-size: 16px;
+    }
+}

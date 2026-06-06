@@ -1,0 +1,114 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: abcsxl-data-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: com-abcsxl-deployment
+  labels:
+    app: abcsxl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: abcsxl
+  template:
+    metadata:
+      labels:
+        app: abcsxl
+    spec:
+      containers:
+      - name: abcsxlhtml
+        image: quay.io/abcsxl/abcsxl:20220825091445
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: abcsxl-data
+          mountPath: /app/Data
+      volumes:
+      - name: abcsxl-data
+        persistentVolumeClaim:
+          claimName: abcsxl-data-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: com-abcsxl-service
+spec:
+  selector:
+    app: abcsxl
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+---
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-prod
+spec:
+  acme:
+    # The ACME server URL
+    server: https://acme-v02.api.letsencrypt.org/directory
+    # Email address used for ACME registration
+    email: abcsxl@foxmail.com
+    # The ACME certificate profile
+    profile: tlsserver
+    # Name of a secret used to store the ACME account private key
+    privateKeySecretRef:
+      name: letsencrypt-prod
+    # Enable the HTTP-01 challenge provider
+    solvers:
+      - http01:
+          ingress:
+            ingressClassName: nginx
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: com-abcsxl-ingress
+  labels:
+    name: com-abcsxl-ingress
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/from-to-www-redirect: "true"
+    acme.cert-manager.io/http01-edit-in-place: "true" 
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+      - www.abcsxl.com
+      - abcsxl.com
+    secretName: com-abcsxl-tls
+
+  rules:
+  - host: "www.abcsxl.com"
+    http:
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: com-abcsxl-service
+              port:
+                number: 80
+  - host: "abcsxl.com"
+    http:
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: com-abcsxl-service
+              port:
+                number: 80
+

@@ -1,0 +1,63 @@
+@model abcsxl.Models.ViewModels.Post.DetailPageViewModel
+
+@{
+    var coverImage = !string.IsNullOrEmpty(Model.Post.CoverImage) ? Model.Post.CoverImage : "/images/posts-bg.webp";
+    ViewData["Title"] = Model.Post.Title;
+}
+
+@section Styles
+{
+    <link rel="stylesheet" href="https://unpkg.com/vditor@3.11.2/dist/index.css"
+          asp-fallback-href="~/lib/vditor/index.min.css"
+          asp-fallback-test-class="vditor"
+          asp-fallback-test-property="position"
+          asp-fallback-test-value="relative" />
+    <link rel="stylesheet" href="~/css/page-specific-post.css" />
+}
+
+<header class="masthead" style="background-image: url('@coverImage')">
+    <div class="container position-relative px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-9 col-xl-8">
+                <div class="post-heading">
+                    <h1>@Model.Post.Title</h1>
+                    <h2 class="subheading">@Model.Post.Excerpt</h2>
+                    <span class="meta">
+                        @T["PostedBy", Model.Post.Author.Name] @Model.Post.PublishedAt
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content-->
+<article class="mb-4">
+    <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-9 col-xl-8">
+                <div id="vditor-content" class="vditor-clean-blog"></div>
+            </div>
+        </div>
+    </div>
+</article>
+@section Scripts
+{
+    <script src="https://unpkg.com/vditor@3.11.2/dist/index.min.js"
+            asp-fallback-src="~/lib/vditor/index.min.js"
+            asp-fallback-test="window.Vditor"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const contentElement = document.getElementById('vditor-content');
+            const markdownContent = `@Html.Raw(Json.Serialize(Model.Post.Content))`;
+
+            Vditor.preview(contentElement, markdownContent, {
+                mode: 'light',
+                theme: 'classic',
+                anchor: 1,
+                outline: { enable: true, position: 'left' }
+            });
+        });
+    </script>
+}
