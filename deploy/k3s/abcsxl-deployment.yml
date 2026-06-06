@@ -26,8 +26,8 @@ spec:
         app: abcsxl
     spec:
       containers:
-      - name: abcsxlhtml
-        image: quay.io/abcsxl/abcsxl:20220825091445
+      - name: abcsxl
+        image: quay.io/abcsxl/abcsxl:v2.0.0
         ports:
         - containerPort: 80
         volumeMounts:
