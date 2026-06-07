@@ -118,21 +118,21 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="PageTitle" xml:space="preserve">
-    <value>Home - abcsxl</value>
+    <value>首页 - abcsxl</value>
   </data>
   <data name="HeroTitle" xml:space="preserve">
-    <value>abcsxl</value>
+    <value>启绪拾光</value>
   </data>
   <data name="HeroSubtitle" xml:space="preserve">
-    <value>Sharing bits of technology and life</value>
+    <value>以无生之觉悟为有生之事业，以悲观之心情过乐观之生活。</value>
   </data>
   <data name="PostedBy" xml:space="preserve">
-    <value>Posted by {0}</value>
+    <value>作者：{0}</value>
   </data>
   <data name="PostedOn" xml:space="preserve">
-    <value>on</value>
+    <value>发布于</value>
   </data>
   <data name="MoreButton" xml:space="preserve">
-    <value>See More Posts →</value>
+    <value>查看更多文章 →</value>
   </data>
 </root>

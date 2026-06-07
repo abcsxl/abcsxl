@@ -4,28 +4,28 @@
   <resheader name="version"><value>2.0</value></resheader>
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
   <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
-  <data name="BrandTitle" xml:space="preserve"><value>abcsxl Admin</value></data>
-  <data name="BreadcrumbHome" xml:space="preserve"><value>Home</value></data>
-  <data name="NavBackToSite" xml:space="preserve"><value>Back to Site</value></data>
-  <data name="NavCategoryManagement" xml:space="preserve"><value>Categories</value></data>
-  <data name="NavCommentManagement" xml:space="preserve"><value>Comments</value></data>
-  <data name="NavDashboard" xml:space="preserve"><value>Dashboard</value></data>
-  <data name="NavLogout" xml:space="preserve"><value>Sign Out</value></data>
-  <data name="NavPostManagement" xml:space="preserve"><value>Posts</value></data>
-  <data name="NavSetting" xml:space="preserve"><value>Settings</value></data>
-  <data name="NavUserManagement" xml:space="preserve"><value>Users</value></data>
-  <data name="NotificationContent1" xml:space="preserve"><value>New comment pending review</value></data>
-  <data name="NotificationContent2" xml:space="preserve"><value>System update completed</value></data>
-  <data name="NotificationTime1Hour" xml:space="preserve"><value>1 hour ago</value></data>
-  <data name="NotificationTime5Min" xml:space="preserve"><value>5 minutes ago</value></data>
-  <data name="NotificationTitle" xml:space="preserve"><value>Notifications</value></data>
-  <data name="NotificationViewAll" xml:space="preserve"><value>View all</value></data>
   <data name="PageTitleSuffix" xml:space="preserve"><value>Admin Panel</value></data>
+  <data name="BrandTitle" xml:space="preserve"><value>abcsxl Admin</value></data>
   <data name="SidebarCollapseTitle" xml:space="preserve"><value>Collapse sidebar</value></data>
   <data name="SidebarExpandTitle" xml:space="preserve"><value>Expand sidebar</value></data>
-  <data name="ToggleThemeTitle" xml:space="preserve"><value>Toggle theme</value></data>
   <data name="UserDefaultName" xml:space="preserve"><value>Administrator</value></data>
   <data name="UserDefaultRole" xml:space="preserve"><value>Admin</value></data>
-  <data name="UserMenuChangePassword" xml:space="preserve"><value>Change Password</value></data>
+  <data name="NavDashboard" xml:space="preserve"><value>Dashboard</value></data>
+  <data name="NavPostManagement" xml:space="preserve"><value>Posts</value></data>
+  <data name="NavCategoryManagement" xml:space="preserve"><value>Categories</value></data>
+  <data name="NavUserManagement" xml:space="preserve"><value>Users</value></data>
+  <data name="NavSetting" xml:space="preserve"><value>Settings</value></data>
+  <data name="NavCommentManagement" xml:space="preserve"><value>Comments</value></data>
+  <data name="NavBackToSite" xml:space="preserve"><value>Back to Site</value></data>
+  <data name="NavLogout" xml:space="preserve"><value>Sign Out</value></data>
+  <data name="BreadcrumbHome" xml:space="preserve"><value>Home</value></data>
+  <data name="ToggleThemeTitle" xml:space="preserve"><value>Toggle theme</value></data>
+  <data name="NotificationTitle" xml:space="preserve"><value>Notifications</value></data>
+  <data name="NotificationTime5Min" xml:space="preserve"><value>5 minutes ago</value></data>
+  <data name="NotificationTime1Hour" xml:space="preserve"><value>1 hour ago</value></data>
+  <data name="NotificationContent1" xml:space="preserve"><value>New comment pending review</value></data>
+  <data name="NotificationContent2" xml:space="preserve"><value>System update completed</value></data>
+  <data name="NotificationViewAll" xml:space="preserve"><value>View all</value></data>
   <data name="UserMenuProfile" xml:space="preserve"><value>Profile</value></data>
+  <data name="UserMenuChangePassword" xml:space="preserve"><value>Change Password</value></data>
 </root>

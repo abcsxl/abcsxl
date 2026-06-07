@@ -1,7 +1,7 @@
 @model abcsxl.Models.ViewModels.Home.SearchResultViewModel
 @{
     ViewData["Title"] = !string.IsNullOrEmpty(Model.Query)
-        ? T["TitleWithQuery", Model.Query].Value
+        ? string.Format(T["TitleWithQuery"].Value, Model.Query)
         : T["TitleEmpty"].Value;
 }
 

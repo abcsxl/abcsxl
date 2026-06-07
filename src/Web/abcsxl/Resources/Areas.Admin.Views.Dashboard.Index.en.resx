@@ -4,22 +4,39 @@
   <resheader name="version"><value>2.0</value></resheader>
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
   <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
-  <data name="HeaderTitle" xml:space="preserve"><value>Dashboard</value></data>
-  <data name="NoPosts" xml:space="preserve"><value>No data yet</value></data>
   <data name="PageTitle" xml:space="preserve"><value>Dashboard</value></data>
-  <data name="PublishedPosts" xml:space="preserve"><value>Published Posts</value></data>
-  <data name="RecentPostsTitle" xml:space="preserve"><value>Recent Posts</value></data>
-  <data name="StatusDraft" xml:space="preserve"><value>Draft</value></data>
-  <data name="StatusPublished" xml:space="preserve"><value>Published</value></data>
+  <data name="WelcomeHeading" xml:space="preserve"><value>Welcome back, {0}!</value></data>
+  <data name="WelcomeSubtitle" xml:space="preserve"><value>Here&apos;s your abcsxl admin overview</value></data>
+  <data name="HeaderTitle" xml:space="preserve"><value>Dashboard</value></data>
   <data name="Subtitle" xml:space="preserve"><value>Overview of your blog</value></data>
-  <data name="TableHeaderActions" xml:space="preserve"><value>Actions</value></data>
-  <data name="TableHeaderAuthor" xml:space="preserve"><value>Author</value></data>
-  <data name="TableHeaderPublishDate" xml:space="preserve"><value>Published Date</value></data>
-  <data name="TableHeaderStatus" xml:space="preserve"><value>Status</value></data>
-  <data name="TableHeaderTitle" xml:space="preserve"><value>Title</value></data>
-  <data name="TotalCategories" xml:space="preserve"><value>Categories</value></data>
-  <data name="TotalComments" xml:space="preserve"><value>Comments</value></data>
   <data name="TotalPosts" xml:space="preserve"><value>Total Posts</value></data>
+  <data name="TotalCategories" xml:space="preserve"><value>Categories</value></data>
   <data name="TotalTags" xml:space="preserve"><value>Tags</value></data>
   <data name="TotalUsers" xml:space="preserve"><value>Users</value></data>
+  <data name="TotalComments" xml:space="preserve"><value>Comments</value></data>
+  <data name="PublishedPosts" xml:space="preserve"><value>Published Posts</value></data>
+  <data name="StatTotalPosts" xml:space="preserve"><value>Total Posts</value></data>
+  <data name="StatPublishedPosts" xml:space="preserve"><value>Published</value></data>
+  <data name="StatDraftPosts" xml:space="preserve"><value>Drafts</value></data>
+  <data name="StatTotalViews" xml:space="preserve"><value>Total Views</value></data>
+  <data name="StatTotalCategories" xml:space="preserve"><value>Categories</value></data>
+  <data name="StatTotalTags" xml:space="preserve"><value>Tags</value></data>
+  <data name="RecentPostsTitle" xml:space="preserve"><value>Recent Posts</value></data>
+  <data name="RecentPostsEmpty" xml:space="preserve"><value>No posts yet</value></data>
+  <data name="ViewAllButton" xml:space="preserve"><value>View All</value></data>
+  <data name="QuickActionsTitle" xml:space="preserve"><value>Quick Actions</value></data>
+  <data name="ActionCreatePost" xml:space="preserve"><value>Write New Post</value></data>
+  <data name="ActionCreateCategory" xml:space="preserve"><value>New Category</value></data>
+  <data name="ActionSettings" xml:space="preserve"><value>Settings</value></data>
+  <data name="RecentCommentsTitle" xml:space="preserve"><value>Recent Comments</value></data>
+  <data name="RecentCommentsEmpty" xml:space="preserve"><value>No comments yet</value></data>
+  <data name="ManageCommentsButton" xml:space="preserve"><value>Manage Comments</value></data>
+  <data name="TableHeaderTitle" xml:space="preserve"><value>Title</value></data>
+  <data name="TableHeaderAuthor" xml:space="preserve"><value>Author</value></data>
+  <data name="TableHeaderStatus" xml:space="preserve"><value>Status</value></data>
+  <data name="TableHeaderPublishDate" xml:space="preserve"><value>Published Date</value></data>
+  <data name="TableHeaderActions" xml:space="preserve"><value>Actions</value></data>
+  <data name="StatusDraft" xml:space="preserve"><value>Draft</value></data>
+  <data name="StatusPublished" xml:space="preserve"><value>Published</value></data>
+  <data name="NoPosts" xml:space="preserve"><value>No data yet</value></data>
 </root>

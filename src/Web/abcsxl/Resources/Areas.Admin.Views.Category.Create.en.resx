@@ -4,17 +4,17 @@
   <resheader name="version"><value>2.0</value></resheader>
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
   <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
-  <data name="CancelButton" xml:space="preserve"><value>Cancel</value></data>
-  <data name="CreateButton" xml:space="preserve"><value>Create</value></data>
-  <data name="DescriptionLabel" xml:space="preserve"><value>Description</value></data>
-  <data name="DescriptionPlaceholder" xml:space="preserve"><value>Category description (optional)</value></data>
+  <data name="PageTitle" xml:space="preserve"><value>New Category</value></data>
   <data name="HeaderTitle" xml:space="preserve"><value>New Category</value></data>
   <data name="NameLabel" xml:space="preserve"><value>Name</value></data>
-  <data name="NoParentOption" xml:space="preserve"><value>None (top-level)</value></data>
-  <data name="OrderLabel" xml:space="preserve"><value>Order</value></data>
-  <data name="PageTitle" xml:space="preserve"><value>New Category</value></data>
   <data name="ParentLabel" xml:space="preserve"><value>Parent Category</value></data>
+  <data name="NoParentOption" xml:space="preserve"><value>None (top-level)</value></data>
+  <data name="DescriptionLabel" xml:space="preserve"><value>Description</value></data>
+  <data name="DescriptionPlaceholder" xml:space="preserve"><value>Category description (optional)</value></data>
   <data name="SlugLabel" xml:space="preserve"><value>Slug</value></data>
   <data name="SlugPlaceholder" xml:space="preserve"><value>URL-friendly identifier</value></data>
+  <data name="OrderLabel" xml:space="preserve"><value>Order</value></data>
   <data name="VisibleLabel" xml:space="preserve"><value>Visible</value></data>
+  <data name="CancelButton" xml:space="preserve"><value>Cancel</value></data>
+  <data name="CreateButton" xml:space="preserve"><value>Create</value></data>
 </root>

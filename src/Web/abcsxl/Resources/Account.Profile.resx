@@ -4,18 +4,18 @@
   <resheader name="version"><value>2.0</value></resheader>
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
   <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
-  <data name="CancelButton" xml:space="preserve"><value>取消</value></data>
-  <data name="ChangePasswordButton" xml:space="preserve"><value>修改密码</value></data>
+  <data name="PageTitle" xml:space="preserve"><value>个人资料</value></data>
+  <data name="Subtitle" xml:space="preserve"><value>管理你的账户信息</value></data>
   <data name="DefaultName" xml:space="preserve"><value>管理员</value></data>
   <data name="DefaultRole" xml:space="preserve"><value>系统管理员</value></data>
+  <data name="ChangePasswordButton" xml:space="preserve"><value>修改密码</value></data>
+  <data name="LogoutButton" xml:space="preserve"><value>退出登录</value></data>
   <data name="EditProfileTitle" xml:space="preserve"><value>编辑资料</value></data>
-  <data name="LabelBio" xml:space="preserve"><value>个人简介</value></data>
+  <data name="LabelUserName" xml:space="preserve"><value>用户名</value></data>
   <data name="LabelDisplayName" xml:space="preserve"><value>显示名称</value></data>
   <data name="LabelEmail" xml:space="preserve"><value>邮箱</value></data>
   <data name="LabelPhone" xml:space="preserve"><value>手机号</value></data>
-  <data name="LabelUserName" xml:space="preserve"><value>用户名</value></data>
-  <data name="LogoutButton" xml:space="preserve"><value>退出登录</value></data>
-  <data name="PageTitle" xml:space="preserve"><value>个人资料</value></data>
+  <data name="LabelBio" xml:space="preserve"><value>个人简介</value></data>
+  <data name="CancelButton" xml:space="preserve"><value>取消</value></data>
   <data name="SaveButton" xml:space="preserve"><value>保存</value></data>
-  <data name="Subtitle" xml:space="preserve"><value>管理你的账户信息</value></data>
 </root>
