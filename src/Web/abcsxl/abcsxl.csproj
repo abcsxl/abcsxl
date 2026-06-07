@@ -30,6 +30,7 @@
   <ItemGroup>
     <None Update="Resources\*.resx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </None>
   </ItemGroup>
 
