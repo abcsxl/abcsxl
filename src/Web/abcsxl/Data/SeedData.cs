@@ -51,29 +51,11 @@ namespace abcsxl.Data
             {
                 new User
                 {
-                    Username = "admin",
+                    Username = "abcsxl",
                     PasswordHash = BCrypt.Net.BCrypt.HashPassword("Admin@123"),
                     DisplayName = "管理员",
                     Bio = "全栈开发者，专注.NET技术栈，偶尔写点博客记录踩坑经历。",
                     Role = UserRole.Admin,
-                    IsActive = true
-                },
-                new User
-                {
-                    Username = "author1",
-                    PasswordHash = BCrypt.Net.BCrypt.HashPassword("Author@123"),
-                    DisplayName = "代码流浪者",
-                    Bio = "热爱开源，喜欢折腾各种新技术，分享即学习。",
-                    Role = UserRole.Author,
-                    IsActive = true
-                },
-                new User
-                {
-                    Username = "author2",
-                    PasswordHash = BCrypt.Net.BCrypt.HashPassword("Author@456"),
-                    DisplayName = "数据库小学生",
-                    Bio = "DBA一枚，专注于数据库优化和数据架构设计。",
-                    Role = UserRole.Author,
                     IsActive = true
                 }
             };
@@ -215,7 +197,7 @@ namespace abcsxl.Data
                 Title = "VS Code 安装并使用 opencode 完整指南",
                 Subtitle = "从零开始配置你的 AI 编程助手",
                 Content = GetPost2Content(),
-                AuthorId = users[1].Id,
+                AuthorId = users[0].Id,
                 Excerpt = "opencode 是强大的开源 AI 编程助手。本文手把手教你完成安装、配置 API、VS Code 集成，以及 agent 模式的使用技巧。",
                 Status = PostStatus.Published,
                 PublishedAt = baseTime.AddDays(-20)
@@ -244,7 +226,7 @@ namespace abcsxl.Data
                 Title = "微服务架构中的事务一致性：Saga vs 事件溯源",
                 Subtitle = "两种经典方案，你选哪个？",
                 Content = GetPost4Content(),
-                AuthorId = users[2].Id,
+                AuthorId = users[0].Id,
                 Excerpt = "Saga 模式和事件溯源是解决分布式事务的两种主流方案。本文深入比较它们的原理、代码实现和适用场景。",
                 Status = PostStatus.Published,
                 PublishedAt = baseTime.AddDays(-12)
@@ -260,7 +242,7 @@ namespace abcsxl.Data
                 Title = "性能优化实战：ASP.NET Core 应用从 0 到 1",
                 Subtitle = "一套完整的性能优化方法论",
                 Content = GetPost5Content(),
-                AuthorId = users[1].Id,
+                AuthorId = users[0].Id,
                 Excerpt = "从数据库优化到多级缓存、从响应压缩到静态文件策略，本文用实测数据带你一步步优化 ASP.NET Core 应用的响应速度。",
                 Status = PostStatus.Published,
                 PublishedAt = baseTime.AddDays(-8)
@@ -276,7 +258,7 @@ namespace abcsxl.Data
                 Title = "事件驱动架构入门与实践：从理论到落地",
                 Subtitle = "从餐馆点餐理解事件驱动",
                 Content = GetPost6Content(),
-                AuthorId = users[2].Id,
+                AuthorId = users[0].Id,
                 Excerpt = "事件驱动架构是微服务解耦的关键。本文用生活化的例子带你理解核心概念，并用 .NET + RabbitMQ 实现完整示例。",
                 Status = PostStatus.Published,
                 PublishedAt = baseTime.AddDays(-5)
@@ -336,7 +318,7 @@ namespace abcsxl.Data
                 Title = "开源项目贡献指南：从 Issue 到 PR 的完整流程",
                 Subtitle = "第一次给开源项目提 PR 该怎么操作",
                 Content = GetPost10Content(),
-                AuthorId = users[1].Id,
+                AuthorId = users[0].Id,
                 Excerpt = "从选择项目、阅读贡献指南、搭建环境、找到 Good First Issue，到提交 PR 并通过 Code Review，一站式开源贡献教程。",
                 Status = PostStatus.Published,
                 PublishedAt = baseTime.AddDays(3)
@@ -379,7 +361,7 @@ namespace abcsxl.Data
                 {
                     Content = "聚合根的设计一直是我在 DDD 落地中最困惑的地方，文章里的订单示例很清晰，终于搞懂了！",
                     PostId = posts[0].Id,
-                    UserId = users[1].Id,
+                    UserId = users[0].Id,
                     Status = CommentStatus.Approved,
                     CreatedAt = posts[0].PublishedAt.Value.AddHours(2)
                 },
@@ -387,7 +369,7 @@ namespace abcsxl.Data
                 {
                     Content = "opencode 的 agent 模式确实好用，配合自定义规则文件可以在团队中统一代码风格。",
                     PostId = posts[1].Id,
-                    UserId = users[2].Id,
+                    UserId = users[0].Id,
                     Status = CommentStatus.Approved,
                     CreatedAt = posts[1].PublishedAt.Value.AddHours(3)
                 },
@@ -403,7 +385,7 @@ namespace abcsxl.Data
                 {
                     Content = "事件驱动架构和消息队列结合起来威力很大，不过运维复杂度也上去了，小项目不建议上。",
                     PostId = posts[5].Id,
-                    UserId = users[1].Id,
+                    UserId = users[0].Id,
                     Status = CommentStatus.Approved,
                     CreatedAt = posts[5].PublishedAt.Value.AddHours(5)
                 },
@@ -411,7 +393,7 @@ namespace abcsxl.Data
                 {
                     Content = "K8s 的健康检查配置太重要了，之前没配导致滚动更新时服务中断，血泪教训。",
                     PostId = posts[6].Id,
-                    UserId = users[2].Id,
+                    UserId = users[0].Id,
                     Status = CommentStatus.Approved,
                     CreatedAt = posts[6].PublishedAt.Value.AddHours(1)
                 }

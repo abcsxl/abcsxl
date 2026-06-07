@@ -4,19 +4,19 @@
   <resheader name="version"><value>2.0</value></resheader>
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
   <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
-  <data name="CategoryCategory" xml:space="preserve"><value>Category</value></data>
-  <data name="CategoryPost" xml:space="preserve"><value>Post</value></data>
-  <data name="CategoryTag" xml:space="preserve"><value>Tag</value></data>
-  <data name="EnterQueryMessage" xml:space="preserve"><value>Please enter keywords above to start searching.</value></data>
-  <data name="NoResultsMessage" xml:space="preserve"><value>No matching results found.</value></data>
-  <data name="PostCountFormat" xml:space="preserve"><value>{0} posts</value></data>
-  <data name="ResultsCount" xml:space="preserve"><value>Found {0} results for "{1}"</value></data>
-  <data name="SearchPlaceholder" xml:space="preserve"><value>Enter keywords...</value></data>
-  <data name="Subtitle" xml:space="preserve"><value>Posts, categories, and tags search results</value></data>
-  <data name="TabAll" xml:space="preserve"><value>All</value></data>
-  <data name="TabCategory" xml:space="preserve"><value>Categories</value></data>
-  <data name="TabPost" xml:space="preserve"><value>Posts</value></data>
-  <data name="TabTag" xml:space="preserve"><value>Tags</value></data>
-  <data name="TitleEmpty" xml:space="preserve"><value>Search Results</value></data>
   <data name="TitleWithQuery" xml:space="preserve"><value>Search: {0}</value></data>
+  <data name="TitleEmpty" xml:space="preserve"><value>Search Results</value></data>
+  <data name="Subtitle" xml:space="preserve"><value>Posts, categories, and tags search results</value></data>
+  <data name="SearchPlaceholder" xml:space="preserve"><value>Enter keywords...</value></data>
+  <data name="ResultsCount" xml:space="preserve"><value>Found {0} results for &quot;{1}&quot;</value></data>
+  <data name="TabAll" xml:space="preserve"><value>All</value></data>
+  <data name="TabPost" xml:space="preserve"><value>Posts</value></data>
+  <data name="TabCategory" xml:space="preserve"><value>Categories</value></data>
+  <data name="TabTag" xml:space="preserve"><value>Tags</value></data>
+  <data name="CategoryPost" xml:space="preserve"><value>Post</value></data>
+  <data name="CategoryCategory" xml:space="preserve"><value>Category</value></data>
+  <data name="CategoryTag" xml:space="preserve"><value>Tag</value></data>
+  <data name="PostCountFormat" xml:space="preserve"><value>{0} posts</value></data>
+  <data name="NoResultsMessage" xml:space="preserve"><value>No matching results found.</value></data>
+  <data name="EnterQueryMessage" xml:space="preserve"><value>Please enter keywords above to start searching.</value></data>
 </root>

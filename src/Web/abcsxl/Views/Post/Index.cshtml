@@ -6,12 +6,12 @@
     var breadcrumb2 = "";
     if (!string.IsNullOrWhiteSpace(Model.SidebarCategories?.CurrentCategory))
     {
-        pageTitle = T["TitleByCategory", Model.SidebarCategories.CurrentCategory].Value;
+        pageTitle = string.Format(T["TitleByCategory"].Value, Model.SidebarCategories.CurrentCategory);
         breadcrumb2 = Model.SidebarCategories.CurrentCategory;
     }
     else if (!string.IsNullOrWhiteSpace(Model.SidebarTags?.CurrentTag))
     {
-        pageTitle = T["TitleByTag", Model.SidebarTags.CurrentTag].Value;
+        pageTitle = string.Format(T["TitleByTag"].Value, Model.SidebarTags.CurrentTag);
         breadcrumb2 = Model.SidebarTags.CurrentTag;
     }
     ViewData["Title"] = pageTitle;

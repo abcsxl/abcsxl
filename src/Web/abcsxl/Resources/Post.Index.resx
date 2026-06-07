@@ -4,15 +4,15 @@
   <resheader name="version"><value>2.0</value></resheader>
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
   <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
-  <data name="BreadcrumbHome" xml:space="preserve"><value>首页</value></data>
-  <data name="BreadcrumbPosts" xml:space="preserve"><value>文章</value></data>
-  <data name="PaginationAriaLabel" xml:space="preserve"><value>分页导航</value></data>
-  <data name="PaginationInfo" xml:space="preserve"><value>显示 {0} - {1} / 共 {2} 篇</value></data>
-  <data name="PaginationNext" xml:space="preserve"><value>下一页</value></data>
-  <data name="PaginationPrevious" xml:space="preserve"><value>上一页</value></data>
-  <data name="PostedBy" xml:space="preserve"><value>作者：{0}</value></data>
-  <data name="Subtitle" xml:space="preserve"><value>所有发布的文章列表</value></data>
   <data name="TitleAll" xml:space="preserve"><value>所有文章</value></data>
   <data name="TitleByCategory" xml:space="preserve"><value>分类：{0}</value></data>
   <data name="TitleByTag" xml:space="preserve"><value>标签：{0}</value></data>
+  <data name="BreadcrumbHome" xml:space="preserve"><value>首页</value></data>
+  <data name="BreadcrumbPosts" xml:space="preserve"><value>文章</value></data>
+  <data name="Subtitle" xml:space="preserve"><value>所有发布的文章列表</value></data>
+  <data name="PostedBy" xml:space="preserve"><value>作者：{0}</value></data>
+  <data name="PaginationInfo" xml:space="preserve"><value>显示 {0} - {1} / 共 {2} 篇</value></data>
+  <data name="PaginationAriaLabel" xml:space="preserve"><value>分页导航</value></data>
+  <data name="PaginationPrevious" xml:space="preserve"><value>上一页</value></data>
+  <data name="PaginationNext" xml:space="preserve"><value>下一页</value></data>
 </root>

@@ -4,19 +4,19 @@
   <resheader name="version"><value>2.0</value></resheader>
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
   <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
-  <data name="BlogDescriptionLabel" xml:space="preserve"><value>博客描述</value></data>
+  <data name="PageTitle" xml:space="preserve"><value>系统设置</value></data>
+  <data name="HeaderTitle" xml:space="preserve"><value>系统设置</value></data>
   <data name="BlogInfoTitle" xml:space="preserve"><value>博客信息</value></data>
   <data name="BlogNameLabel" xml:space="preserve"><value>博客名称</value></data>
-  <data name="CommentModerationLabel" xml:space="preserve"><value>评论需审核</value></data>
-  <data name="CommentSettingsTitle" xml:space="preserve"><value>评论设置</value></data>
-  <data name="EnableCommentsLabel" xml:space="preserve"><value>启用评论</value></data>
-  <data name="HeaderTitle" xml:space="preserve"><value>系统设置</value></data>
-  <data name="HomePageSizeLabel" xml:space="preserve"><value>首页文章数</value></data>
-  <data name="ListPageSizeLabel" xml:space="preserve"><value>列表页文章数</value></data>
-  <data name="PageTitle" xml:space="preserve"><value>系统设置</value></data>
-  <data name="PaginationSettingsTitle" xml:space="preserve"><value>分页设置</value></data>
-  <data name="RecentPostCountLabel" xml:space="preserve"><value>侧边栏最近文章数</value></data>
-  <data name="SaveButton" xml:space="preserve"><value>保存设置</value></data>
+  <data name="BlogDescriptionLabel" xml:space="preserve"><value>博客描述</value></data>
   <data name="SEOKeywordsLabel" xml:space="preserve"><value>SEO 关键词</value></data>
   <data name="SEOKeywordsPlaceholder" xml:space="preserve"><value>用逗号分隔</value></data>
+  <data name="CommentSettingsTitle" xml:space="preserve"><value>评论设置</value></data>
+  <data name="EnableCommentsLabel" xml:space="preserve"><value>启用评论</value></data>
+  <data name="CommentModerationLabel" xml:space="preserve"><value>评论需审核</value></data>
+  <data name="PaginationSettingsTitle" xml:space="preserve"><value>分页设置</value></data>
+  <data name="HomePageSizeLabel" xml:space="preserve"><value>首页文章数</value></data>
+  <data name="ListPageSizeLabel" xml:space="preserve"><value>列表页文章数</value></data>
+  <data name="RecentPostCountLabel" xml:space="preserve"><value>侧边栏最近文章数</value></data>
+  <data name="SaveButton" xml:space="preserve"><value>保存设置</value></data>
 </root>

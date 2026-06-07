@@ -4,10 +4,6 @@
   <resheader name="version"><value>2.0</value></resheader>
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
   <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
-  <data name="HeroSubtitle" xml:space="preserve"><value>分享技术与生活的点滴</value></data>
-  <data name="HeroTitle" xml:space="preserve"><value>启绪拾光</value></data>
-  <data name="MoreButton" xml:space="preserve"><value>查看更多文章 →</value></data>
-  <data name="PageTitle" xml:space="preserve"><value>首页 - abcsxl</value></data>
-  <data name="PostedBy" xml:space="preserve"><value>作者：{0}</value></data>
-  <data name="PostedOn" xml:space="preserve"><value>发布于</value></data>
+  <data name="Heading" xml:space="preserve"><value>分类</value></data>
+  <data name="EmptyMessage" xml:space="preserve"><value>暂无分类</value></data>
 </root>

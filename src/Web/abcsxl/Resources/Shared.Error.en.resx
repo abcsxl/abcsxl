@@ -4,13 +4,13 @@
   <resheader name="version"><value>2.0</value></resheader>
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
   <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="PageTitle" xml:space="preserve"><value>Error</value></data>
+  <data name="Heading" xml:space="preserve"><value>An error occurred.</value></data>
+  <data name="Subheading" xml:space="preserve"><value>An error occurred while processing your request.</value></data>
+  <data name="RequestIdLabel" xml:space="preserve"><value>Request ID:</value></data>
+  <data name="DevModeHeading" xml:space="preserve"><value>Development Mode</value></data>
   <data name="DevModeBody" xml:space="preserve"><value>Switch to</value></data>
+  <data name="DevModeWarning" xml:space="preserve"><value>Production environment should not expose sensitive information</value></data>
   <data name="DevModeBody2" xml:space="preserve"><value>for detailed error information.</value></data>
   <data name="DevModeBody3" xml:space="preserve"><value>See</value></data>
-  <data name="DevModeHeading" xml:space="preserve"><value>Development Mode</value></data>
-  <data name="DevModeWarning" xml:space="preserve"><value>Production environment should not expose sensitive information</value></data>
-  <data name="Heading" xml:space="preserve"><value>An error occurred.</value></data>
-  <data name="PageTitle" xml:space="preserve"><value>Error</value></data>
-  <data name="RequestIdLabel" xml:space="preserve"><value>Request ID:</value></data>
-  <data name="Subheading" xml:space="preserve"><value>An error occurred while processing your request.</value></data>
 </root>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="PageTitle" xml:space="preserve"><value>仪表盘</value></data>
+  <data name="WelcomeHeading" xml:space="preserve"><value>欢迎回来，{0}！</value></data>
+  <data name="WelcomeSubtitle" xml:space="preserve"><value>这里是 abcsxl 后台管理概览</value></data>
+  <data name="HeaderTitle" xml:space="preserve"><value>仪表盘</value></data>
+  <data name="Subtitle" xml:space="preserve"><value>总览你的博客数据</value></data>
+  <data name="TotalPosts" xml:space="preserve"><value>文章总数</value></data>
+  <data name="TotalCategories" xml:space="preserve"><value>分类数</value></data>
+  <data name="TotalTags" xml:space="preserve"><value>标签数</value></data>
+  <data name="TotalUsers" xml:space="preserve"><value>用户数</value></data>
+  <data name="TotalComments" xml:space="preserve"><value>评论数</value></data>
+  <data name="PublishedPosts" xml:space="preserve"><value>已发布文章</value></data>
+  <data name="StatTotalPosts" xml:space="preserve"><value>文章总数</value></data>
+  <data name="StatPublishedPosts" xml:space="preserve"><value>已发布</value></data>
+  <data name="StatDraftPosts" xml:space="preserve"><value>草稿</value></data>
+  <data name="StatTotalViews" xml:space="preserve"><value>总浏览量</value></data>
+  <data name="StatTotalCategories" xml:space="preserve"><value>分类数</value></data>
+  <data name="StatTotalTags" xml:space="preserve"><value>标签数</value></data>
+  <data name="RecentPostsTitle" xml:space="preserve"><value>最近文章</value></data>
+  <data name="RecentPostsEmpty" xml:space="preserve"><value>暂无文章</value></data>
+  <data name="ViewAllButton" xml:space="preserve"><value>查看全部</value></data>
+  <data name="QuickActionsTitle" xml:space="preserve"><value>快捷操作</value></data>
+  <data name="ActionCreatePost" xml:space="preserve"><value>写新文章</value></data>
+  <data name="ActionCreateCategory" xml:space="preserve"><value>新建分类</value></data>
+  <data name="ActionSettings" xml:space="preserve"><value>系统设置</value></data>
+  <data name="RecentCommentsTitle" xml:space="preserve"><value>最近评论</value></data>
+  <data name="RecentCommentsEmpty" xml:space="preserve"><value>暂无评论</value></data>
+  <data name="ManageCommentsButton" xml:space="preserve"><value>管理评论</value></data>
+  <data name="TableHeaderTitle" xml:space="preserve"><value>标题</value></data>
+  <data name="TableHeaderAuthor" xml:space="preserve"><value>作者</value></data>
+  <data name="TableHeaderStatus" xml:space="preserve"><value>状态</value></data>
+  <data name="TableHeaderPublishDate" xml:space="preserve"><value>发布日期</value></data>
+  <data name="TableHeaderActions" xml:space="preserve"><value>操作</value></data>
+  <data name="StatusDraft" xml:space="preserve"><value>草稿</value></data>
+  <data name="StatusPublished" xml:space="preserve"><value>已发布</value></data>
+  <data name="NoPosts" xml:space="preserve"><value>暂无数据</value></data>
+</root>
