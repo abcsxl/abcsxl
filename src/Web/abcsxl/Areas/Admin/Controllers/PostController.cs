@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 using System.Text.RegularExpressions;
 
 namespace abcsxl.Areas.Admin.Controllers
@@ -83,7 +84,7 @@ namespace abcsxl.Areas.Admin.Controllers
                 Categories = await GetCategoriesSelectList(),
                 ExistingTags = await GetExistingTags(),
                 Status = PostStatus.Draft,
-                PublishAt = DateTime.Now
+                PublishAt = DateTime.UtcNow
             };
 
             return View(model);
@@ -123,7 +124,7 @@ namespace abcsxl.Areas.Admin.Controllers
             if (saveType == "publish")
             {
                 model.Status = PostStatus.Published;
-                model.PublishAt = model.PublishAt ?? DateTime.Now;
+                model.PublishAt = model.PublishAt ?? DateTime.UtcNow;
             }
             else
             {
@@ -447,9 +448,8 @@ namespace abcsxl.Areas.Admin.Controllers
 
         private Guid GetCurrentUserId()
         {
-            // 从 Claims 获取当前用户ID
-            var userIdClaim = User.FindFirst("UserId");
-            return userIdClaim != null ? new Guid(userIdClaim.Value) : Guid.NewGuid();
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+            return userIdClaim != null && Guid.TryParse(userIdClaim.Value, out var id) ? id : Guid.Empty;
         }
     }
 }

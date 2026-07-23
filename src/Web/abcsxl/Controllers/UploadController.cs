@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.Formats.Webp;
-using SixLabors.ImageSharp.Processing;
+using SkiaSharp;
 
 namespace abcsxl.Controllers
 {
@@ -43,20 +41,36 @@ namespace abcsxl.Controllers
             var fileName = Guid.NewGuid().ToString() + ".webp";
             var filePath = Path.Combine(uploadsFolder, fileName);
 
-            // Process image with ImageSharp
-            using (var image = await Image.LoadAsync(file.OpenReadStream()))
+            // Process image with SkiaSharp
+            using var input = file.OpenReadStream();
+            using var original = SKBitmap.Decode(input);
+            if (original == null)
             {
-                // Resize if too large (max 1920px width, maintain aspect ratio)
-                if (image.Width > 1920)
-                {
-                    image.Mutate(x => x.Resize(1920, 0));
-                }
+                return BadRequest("Invalid image file.");
+            }
 
-                // Compress and save as WebP
-                await image.SaveAsWebpAsync(filePath, new WebpEncoder
-                {
-                    Quality = 80 // Good quality compression
-                });
+            int width = original.Width;
+            int height = original.Height;
+            if (width > 1920)
+            {
+                float ratio = 1920f / width;
+                width = 1920;
+                height = (int)(height * ratio);
+            }
+
+            SKBitmap? resized = null;
+            if (width != original.Width || height != original.Height)
+            {
+                var info = new SKImageInfo(width, height);
+                resized = original.Resize(info, SKFilterQuality.High);
+            }
+
+            using (resized ?? original)
+            using (var image = SKImage.FromBitmap(resized ?? original))
+            using (var data = image.Encode(SKEncodedImageFormat.Webp, 80))
+            using (var fs = new FileStream(filePath, FileMode.Create, FileAccess.Write))
+            {
+                data.SaveTo(fs);
             }
 
             // Return the URL

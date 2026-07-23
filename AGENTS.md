@@ -3,7 +3,7 @@
 ## 技术栈
 - ASP.NET Core MVC (.NET 10), EF Core 10, SQLite (默认) / PostgreSQL (Docker)
 - Bootstrap 5, jQuery, Vditor, StartBootstrap Clean Blog 主题
-- BCrypt.Net-Next, Markdig, SixLabors.ImageSharp, Cookie 认证
+- BCrypt.Net-Next, Markdig, SkiaSharp, Cookie 认证
 
 ## 常用命令
 ```bash

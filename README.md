@@ -8,9 +8,9 @@
 | 框架 | ASP.NET Core MVC | .NET 10.0 |
 | ORM | Entity Framework Core | 10.0.7 |
 | 数据库 | SQLite (默认) / PostgreSQL (Docker) | - |
-| 密码加密 | BCrypt.Net-Next | 4.1.0 |
-| Markdown 渲染 | Markdig | 1.1.3 |
-| 图片处理 | SixLabors.ImageSharp | 3.1.12 |
+| 密码加密 | BCrypt.Net-Next | 4.2.0 |
+| Markdown 渲染 | Markdig | 1.3.2 |
+| 图片处理 | SkiaSharp | 2.88.9 |
 | 前端 UI | Bootstrap 5 + jQuery | 5.3.x / 3.7.x |
 | Markdown 编辑器 | Vditor | 3.11.2 |
 
@@ -62,7 +62,8 @@ abcsxl/
 │   │   ├── Enums/               # 枚举
 │   │   └── ViewModels/          # 视图模型（按领域分子目录）
 │   ├── Data/                    # EF Core DbContext + SeedData + Migrations
-│   ├── Services/                # 业务服务（Authentication 等）
+│   ├── Services/                # 业务服务（Authentication、Localization 等）
+│   ├── Resources/               # 多语言资源文件（.resx，zh-CN/en-US）
 │   ├── Helpers/                 # 工具类
 │   ├── Extensions/              # 扩展方法
 │   └── wwwroot/                 # 静态资源（libman 管理）
@@ -77,7 +78,9 @@ abcsxl/
 - **前台**：首页文章列表、文章列表（分页+分类/标签筛选）、文章详情、搜索、登录
 - **后台**（`/Admin`）：仪表盘、文章 CRUD、分类层级管理、标签管理、系统设置
 - **API**：`POST /api/Upload/image`（图片上传，自动转 WebP）
-- **认证**：Cookie 认证，BCrypt 密码哈希
+- **API**：`POST /api/Upload/image`（图片上传，自动转 WebP）
+- **认证**：Cookie 认证，BCrypt 密码哈希（`IAuthenticationService` 抽象，支持未来 OIDC 切换）
+- **多语言**：zh-CN（默认）/ en-US，浏览器自动检测，可通过语言切换器或 Cookie 覆盖
 
 ## 常用命令
 
@@ -104,8 +107,6 @@ docker compose up -d
 ## License
 
 本项目为个人博客系统，按原样提供。
-=======
+
 [![Build Status](https://img.shields.io/github/actions/workflow/status/abcsxl/abcsxl/build.yml)](https://github.com/abcsxl/abcsxl/actions)
-![Coverage](https://codecov.io/gh/user/repo/branch/main/graph/badge.svg)
 [![License](https://img.shields.io/badge/license-MIT-blue)](https://opensource.org/licenses/MIT)
-[![GitHub Release](https://img.shields.io/github/v/release/abcsxl/abcsxl)](https://github.com/abcsxl/abcsxl/releases)
