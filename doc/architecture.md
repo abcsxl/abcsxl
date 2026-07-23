@@ -5,16 +5,17 @@
 | 类别 | 技术 | 版本 | 用途 |
 |------|------|------|------|
 | 框架 | ASP.NET Core MVC | .NET 10.0 | Web 框架 |
-| ORM | Entity Framework Core | 10.0.7 | 数据访问 |
+| ORM | Entity Framework Core | 10.0.10 | 数据访问 |
 | 数据库 | SQLite | 3.x | 默认数据库（零配置） |
 | 数据库 | PostgreSQL | 16 | Docker 部署（可切换） |
-| 密码加密 | BCrypt.Net-Next | 4.1.0 | 密码哈希 |
-| Markdown 渲染 | Markdig | 1.1.3 | 服务端 Markdown → HTML |
-| 图片处理 | SixLabors.ImageSharp | 3.1.12 | 上传图片转 WebP |
+| 密码加密 | BCrypt.Net-Next | 4.2.0 | 密码哈希 |
+| Markdown 渲染 | Markdig | 1.3.2 | 服务端 Markdown → HTML |
+| 图片处理 | SkiaSharp | 2.88.9 | 上传图片转 WebP |
 | 前端 UI | Bootstrap 5 + jQuery | 5.3.x / 3.7.x | UI 框架 |
 | Markdown 编辑 | Vditor | 3.11.2 | 后台编辑器 |
 | 前端主题 | StartBootstrap Clean Blog | 6.0.9 | 前台模板 |
-| 认证 | Cookie Authentication | 内置 | 本地认证 |
+| 认证 | Cookie Authentication | 内置 | 本地认证（IAuthenticationService 抽象层） |
+| 多语言 | ASP.NET Core 内置 IStringLocalizer | - | zh-CN 默认 / en-US 支持 |
 | 客户端依赖管理 | libman | - | `wwwroot/lib/` |
 
 ## 架构模式
@@ -29,7 +30,7 @@
                   │
 ┌─────────────────▼───────────────────────────────┐
 │  Service Layer                                  │
-│  Services/ (Authentication)                     │
+│  Services/ (Authentication, Localization)       │
 └─────────────────┬───────────────────────────────┘
                   │
 ┌─────────────────▼───────────────────────────────┐
@@ -97,6 +98,13 @@ src/Web/abcsxl/
 │   ├── PostExtensions.cs
 │   ├── CategoryExtensions.cs
 │   └── TagExtensions.cs
+│
+├── Resources/                     # 多语言资源文件（.resx）
+│   ├── Shared.resx                # 共享资源（zh-CN 默认）
+│   ├── Shared.en.resx             # 英文共享资源
+│   ├── Home.Index.resx
+│   ├── Home.Index.en.resx
+│   └── ...                        # 每个视图一对 .resx 文件
 │
 ├── wwwroot/
 │   ├── uploads/                   # 用户上传图片（WebP）

@@ -34,6 +34,7 @@ namespace abcsxl.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Save(
             string BlogName, string BlogDescription, string SEOKeywords,
             string EnableComments, string CommentModeration,
