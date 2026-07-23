@@ -35,6 +35,8 @@
 - 搜索结果中文章/分类/标签链接传递 Slug 但 Controller 期望 Guid → 搜索跳转 404
 - `Admin/SettingController.Save` 缺少 `[ValidateAntiForgeryToken]`
 - `Admin/PostController.Create` 中 `PublishAt` 初始化使用 `DateTime.Now` 而非 `UtcNow`
+- `Admin/CategoryController.Create` 缺少 `[Bind]` 白名单 → over-posting 风险
+- `Resources/Shared.resx` / `Shared.en.resx` 缺失，`AccountController` 6 个本地化 key 回退为键名显示
 
 ## [1.0.1] - 2026-04-28
 

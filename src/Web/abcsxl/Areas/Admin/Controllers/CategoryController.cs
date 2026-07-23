@@ -58,7 +58,7 @@ namespace abcsxl.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Category category)
+        public async Task<IActionResult> Create([Bind("Name,Description,Slug,Icon,CoverImage,ParentId,Order,IsVisible,ShowInNav")] Category category)
         {
             if (ModelState.IsValid)
             {
